@@ -40,40 +40,40 @@ export const Home = () => {
   return (
     <div className="min-h-screen">
       {/* Hero Section */}
-      <section className="relative pt-20 pb-16 lg:pt-32 lg:pb-24 overflow-hidden bg-bg">
+      <section className="relative pt-12 pb-10 lg:pt-20 lg:pb-16 overflow-hidden bg-bg">
         <div className="absolute inset-0 bg-gradient-to-br from-surface via-bg to-black z-0"></div>
-        <div className="container relative z-10">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+        <div className="container relative z-10 max-w-[1100px]">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-8 items-center">
             
             {/* Lewa kolumna: Tekst */}
-            <div className="text-left space-y-6">
-              <h1 className="text-4xl lg:text-6xl font-extrabold text-text leading-[1.1] tracking-tight">
+            <div className="text-left space-y-4">
+              <h1 className="text-4xl lg:text-5xl font-extrabold text-text leading-[1.05] tracking-tight">
                 Kupujesz auto?<br />
                 <span className="text-primary">Sprawdź je zanim<br />stracisz pieniądze.</span>
               </h1>
-              <p className="text-lg lg:text-xl text-muted max-w-md font-light">
+              <p className="text-base lg:text-lg text-muted max-w-md font-light leading-snug">
                 Wykrywam ukryte wady, zanim staną się Twoim problemem.
               </p>
               
-              <div className="flex flex-col sm:flex-row gap-4 pt-6">
-                <button onClick={handleConsultationClick} className="btn-primary text-lg px-8 py-4">
+              <div className="flex flex-col sm:flex-row gap-3 pt-4">
+                <button onClick={handleConsultationClick} className="btn-primary text-base px-6 py-3 w-full sm:w-auto">
                   Sprawdź to auto
                 </button>
-                <Link to="/pomoc-w-zakupie" className="btn-secondary text-lg px-8 py-4 text-center">
-                  Zobacz przykładowy raport
+                <Link to="/pomoc-w-zakupie" className="btn-secondary text-base px-6 py-3 text-center w-full sm:w-auto">
+                  Przykładowy raport
                 </Link>
               </div>
             </div>
             
             {/* Prawa kolumna: Placeholder */}
-            <div className="relative flex justify-center lg:justify-end mt-12 lg:mt-0">
-              <div className="relative w-full max-w-[450px]">
-                {/* Żółta ramka z tyłu */}
-                <div className="absolute inset-0 border-2 border-primary rounded-xl translate-x-6 translate-y-6 opacity-40 pointer-events-none"></div>
+            <div className="relative flex justify-center lg:justify-end mt-10 lg:mt-0">
+              <div className="relative w-full max-w-[480px]">
+                {/* Żółta ramka bliżej zdjęcia */}
+                <div className="absolute inset-0 border-2 border-primary rounded-xl translate-x-3 translate-y-3 opacity-50 pointer-events-none"></div>
                 <img 
                   src="https://placehold.co/600x800/1a1a1a/FFD200.png?text=Twoje+Zdjecie+Tutaj" 
                   alt="Ekspert AutoTest" 
-                  className="relative z-10 w-full h-auto rounded-xl shadow-[0_20px_50px_rgba(0,0,0,0.7)] object-cover"
+                  className="relative z-10 w-full h-auto rounded-xl shadow-2xl object-cover"
                 />
               </div>
             </div>
