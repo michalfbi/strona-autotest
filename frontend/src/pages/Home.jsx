@@ -71,7 +71,7 @@ export const Home = () => {
                 {/* Żółta ramka z tyłu */}
                 <div className="absolute inset-0 border-2 border-primary rounded-xl translate-x-6 translate-y-6 opacity-40 pointer-events-none"></div>
                 <img 
-                  src="https://placehold.co/600x800/1a1a1a/FFD200?text=Miejsce+na+Zdjecie" 
+                  src={heroMan} 
                   alt="Ekspert AutoTest" 
                   className="relative z-10 w-full h-auto rounded-xl shadow-[0_20px_50px_rgba(0,0,0,0.7)] object-cover"
                 />
