@@ -1,3 +1,4 @@
+import heroMan from '../assets/images/hero-man.png';
 import React from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { 
