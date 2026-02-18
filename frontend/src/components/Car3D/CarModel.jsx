@@ -5,7 +5,8 @@ import * as THREE from 'three';
 
 export function CarModel() {
   const group = useRef();
-  const { scene } = useGLTF('/models/car.glb');
+  // Używamy stabilnego linku zewnętrznego, aby uniknąć problemów z 404 na Netlify
+  const { scene } = useGLTF('https://vazxmixjsiawhamofees.supabase.co/storage/v1/object/public/models/porsche-911-991/model.gltf');
 
   useFrame((state) => {
     if (!group.current) return;
@@ -19,8 +20,8 @@ export function CarModel() {
     <primitive 
       ref={group} 
       object={scene} 
-      scale={0.7} 
-      position={[0, -0.6, 0]} 
+      scale={0.6} 
+      position={[0, -0.8, 0]} 
       rotation={[0, Math.PI, 0]}
     />
   );
