@@ -1,8 +1,8 @@
 import React from 'react';
 import { Navbar } from './Navbar';
 import { Footer } from './Footer';
-import { CommandPalette } from '../UI/CommandPalette';
-import { MobileDock } from '../UI/MobileDock';
+import { CommandPalette } from '../ui/CommandPalette';
+import { MobileDock } from '../ui/MobileDock';
 
 export const Layout = ({ children }) => {
   return (

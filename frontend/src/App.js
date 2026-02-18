@@ -12,7 +12,7 @@ import { About } from "./pages/About";
 import { Pricing } from "./pages/Pricing";
 import { Contact } from "./pages/Contact";
 import { CarPreparation } from "./pages/CarPreparation";
-import { CallPopup } from "./components/UI/CallPopup";
+import { CallPopup } from "./components/ui/CallPopup";
 
 function App() {
   return (
