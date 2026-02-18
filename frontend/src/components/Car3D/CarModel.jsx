@@ -6,7 +6,7 @@ import * as THREE from 'three';
 export function CarModel() {
   const group = useRef();
   // Używamy bezpiecznego, ogólnodostępnego linku do modelu
-  const { scene } = useGLTF('https://raw.githubusercontent.com/pmndrs/drei-assets/master/models/porsche.glb');
+  const { scene } = useGLTF('https://vazxmixjsiawhamofees.supabase.co/storage/v1/object/public/models/porsche-911/model.gltf');
 
   useFrame((state) => {
     if (group.current) {
@@ -19,4 +19,4 @@ export function CarModel() {
   return <primitive ref={group} object={scene} scale={0.6} position={[0, -0.6, 0]} />;
 }
 
-useGLTF.preload('https://raw.githubusercontent.com/pmndrs/drei-assets/master/models/porsche.glb');
+useGLTF.preload('https://vazxmixjsiawhamofees.supabase.co/storage/v1/object/public/models/porsche-911/model.gltf');
