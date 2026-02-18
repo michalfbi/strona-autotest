@@ -40,41 +40,90 @@ export const Home = () => {
   return (
     <div className="min-h-screen">
       {/* Hero Section */}
-      <section className="relative pt-12 pb-10 lg:pt-20 lg:pb-16 overflow-hidden bg-bg">
-        <div className="absolute inset-0 bg-gradient-to-br from-surface via-bg to-black z-0"></div>
-        <div className="container relative z-10 max-w-[1100px]">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-8 items-center">
+      <section className="relative pt-20 pb-16 lg:pt-28 lg:pb-24 overflow-hidden bg-[#050505] border-b border-white/5">
+        {/* Techniczne tło - siatka */}
+        <div className="absolute inset-0 bg-[linear-gradient(to_right,#ffffff05_1px,transparent_1px),linear-gradient(to_bottom,#ffffff05_1px,transparent_1px)] bg-[size:32px_32px] z-0"></div>
+        
+        {/* Rozmyte światła (Glow) */}
+        <div className="absolute top-0 left-1/4 w-[500px] h-[500px] bg-primary/10 rounded-full blur-[120px] -translate-y-1/2 z-0"></div>
+        <div className="absolute bottom-0 right-1/4 w-[400px] h-[400px] bg-primary/5 rounded-full blur-[100px] translate-y-1/2 z-0"></div>
+
+        <div className="container relative z-10 max-w-[1200px]">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-16 items-center">
             
-            {/* Lewa kolumna: Tekst */}
-            <div className="text-left space-y-4">
-              <h1 className="text-4xl lg:text-5xl font-extrabold text-text leading-[1.05] tracking-tight">
+            {/* Lewa kolumna: Tekst z kaskadowymi animacjami */}
+            <div className="text-left space-y-6">
+              
+              <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 border border-primary/20 text-primary text-sm font-semibold tracking-wide animate-in fade-in slide-in-from-bottom-8 duration-700">
+                <Zap className="w-4 h-4 fill-current" />
+                <span>Profesjonalna Diagnostyka</span>
+              </div>
+              
+              <h1 className="text-5xl lg:text-7xl font-extrabold text-white leading-[1.05] tracking-tighter animate-in fade-in slide-in-from-bottom-8 duration-700 delay-150 fill-mode-both">
                 Kupujesz auto?<br />
-                <span className="text-primary">Sprawdź je zanim<br />stracisz pieniądze.</span>
+                <span className="bg-clip-text text-transparent bg-gradient-to-r from-primary to-yellow-100 drop-shadow-lg">
+                  Sprawdź je zanim
+                </span><br />
+                stracisz pieniądze.
               </h1>
-              <p className="text-base lg:text-lg text-muted max-w-md font-light leading-snug">
-                Wykrywam ukryte wady, zanim staną się Twoim problemem.
+              
+              <p className="text-lg lg:text-xl text-gray-400 max-w-lg font-light leading-relaxed animate-in fade-in slide-in-from-bottom-8 duration-700 delay-300 fill-mode-both">
+                Wykorzystujemy sprzęt klasy dealerskiej i wiedzę ekspercką, aby wykryć ukryte wady, zanim staną się Twoim problemem.
               </p>
               
-              <div className="flex flex-col sm:flex-row gap-3 pt-4">
-                <button onClick={handleConsultationClick} className="btn-primary text-base px-6 py-3 w-full sm:w-auto">
-                  Sprawdź to auto
+              <div className="flex flex-col sm:flex-row gap-4 pt-4 animate-in fade-in slide-in-from-bottom-8 duration-700 delay-500 fill-mode-both">
+                <button onClick={handleConsultationClick} className="group relative px-8 py-4 bg-primary text-black font-extrabold text-lg rounded-lg overflow-hidden transition-all duration-300 hover:scale-[1.02] hover:shadow-[0_0_30px_rgba(255,210,0,0.3)]">
+                  <span className="relative z-10 flex items-center justify-center gap-2">
+                    Sprawdź to auto
+                    <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+                  </span>
                 </button>
-                <Link to="/pomoc-w-zakupie" className="btn-secondary text-base px-6 py-3 text-center w-full sm:w-auto">
+                <Link to="/pomoc-w-zakupie" className="px-8 py-4 bg-white/5 hover:bg-white/10 border border-white/10 text-white font-medium text-lg rounded-lg transition-all text-center backdrop-blur-sm hover:border-primary/50">
                   Przykładowy raport
                 </Link>
               </div>
+              
+              {/* Element budujący zaufanie (Social Proof) */}
+              <div className="pt-8 flex flex-col sm:flex-row items-start sm:items-center gap-4 sm:gap-6 border-t border-white/10 animate-in fade-in duration-1000 delay-700 fill-mode-both">
+                <div className="flex -space-x-3">
+                  <div className="w-10 h-10 rounded-full bg-gray-800 border-2 border-[#050505] flex items-center justify-center z-20"><UserCheck className="w-5 h-5 text-gray-400"/></div>
+                  <div className="w-10 h-10 rounded-full bg-gray-700 border-2 border-[#050505] flex items-center justify-center z-10"><Shield className="w-5 h-5 text-gray-300"/></div>
+                  <div className="w-10 h-10 rounded-full bg-primary border-2 border-[#050505] flex items-center justify-center text-black font-bold text-xs z-0">+1k</div>
+                </div>
+                <div className="text-sm text-gray-400">
+                  <div className="flex items-center gap-1 text-primary mb-1">
+                    <Star className="w-4 h-4 fill-current" /><Star className="w-4 h-4 fill-current" /><Star className="w-4 h-4 fill-current" /><Star className="w-4 h-4 fill-current" /><Star className="w-4 h-4 fill-current" />
+                  </div>
+                  Zaufali nam klienci w całej Polsce
+                </div>
+              </div>
+
             </div>
             
-            {/* Prawa kolumna: Placeholder */}
-            <div className="relative flex justify-center lg:justify-end mt-10 lg:mt-0">
-              <div className="relative w-full max-w-[480px]">
-                {/* Żółta ramka bliżej zdjęcia */}
-                <div className="absolute inset-0 border-2 border-primary rounded-xl translate-x-3 translate-y-3 opacity-50 pointer-events-none"></div>
-                <img 
-                  src="https://placehold.co/600x800/1a1a1a/FFD200.png?text=Twoje+Zdjecie+Tutaj" 
-                  alt="Ekspert AutoTest" 
-                  className="relative z-10 w-full h-auto rounded-xl shadow-2xl object-cover"
-                />
+            {/* Prawa kolumna: Prestiżowy wygląd zdjęcia */}
+            <div className="relative flex justify-center lg:justify-end mt-12 lg:mt-0 animate-in fade-in zoom-in-95 duration-1000 delay-300 fill-mode-both">
+              <div className="relative w-full max-w-[480px] group">
+                
+                {/* Ostre techniczne ramki ("Celowniki") */}
+                <div className="absolute -top-3 -left-3 w-8 h-8 border-t-2 border-l-2 border-primary z-20 transition-transform group-hover:-translate-x-1 group-hover:-translate-y-1"></div>
+                <div className="absolute -bottom-3 -right-3 w-8 h-8 border-b-2 border-r-2 border-primary z-20 transition-transform group-hover:translate-x-1 group-hover:translate-y-1"></div>
+
+                {/* Główny kontener zdjęcia z Glassmorphismem */}
+                <div className="relative z-10 rounded-xl overflow-hidden bg-[#111] border border-white/10 shadow-[0_20px_50px_rgba(0,0,0,0.8)]">
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent z-10 pointer-events-none"></div>
+                  
+                  {/* Efekt Skanera CRT na zdjęciu (Scanlines) */}
+                  <div className="absolute inset-0 bg-[linear-gradient(transparent_50%,rgba(0,0,0,0.15)_50%)] bg-[length:100%_4px] z-20 pointer-events-none"></div>
+                  
+                  <img 
+                    src="https://placehold.co/600x800/1a1a1a/FFD200.png?text=Miejsce+na+Zdjecie" 
+                    alt="Ekspert AutoTest" 
+                    className="w-full h-auto object-cover opacity-90 group-hover:opacity-100 transition-opacity duration-700"
+                  />
+                </div>
+                
+                {/* Tło Glass za zdjęciem dla głębi */}
+                <div className="absolute inset-0 border border-primary/30 rounded-xl translate-x-4 translate-y-4 backdrop-blur-sm z-0"></div>
               </div>
             </div>
 
