@@ -24,7 +24,35 @@ import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '..
 export const Home = () => {
   const navigate = useNavigate();
   
-  const handleConsultationClick = () => {
+  
+  const [rotation, setRotation] = useState([0, 0, 0]);
+  const containerRef = useRef();
+
+  useEffect(() => {
+    const handleMouseMove = (event) => {
+      if (containerRef.current) {
+        const { left, top, width, height } = containerRef.current.getBoundingClientRect();
+        const centerX = left + width / 2;
+        const centerY = top + height / 2;
+        
+        const mouseX = event.clientX - centerX;
+        const mouseY = event.clientY - centerY;
+
+        // Skalowanie ruchów kursora na rotację modelu
+        const rotateY = -mouseX * 0.0005; // Obrót lewo-prawo
+        const rotateX = -mouseY * 0.0005; // Obrót góra-dół
+        
+        setRotation([rotateX, rotateY, 0]);
+      }
+    };
+
+    document.addEventListener('mousemove', handleMouseMove);
+    return () => {
+      document.removeEventListener('mousemove', handleMouseMove);
+    };
+  }, []);
+
+const handleConsultationClick = () => {
     navigate('/kontakt');
   };
 
@@ -124,26 +152,19 @@ export const Home = () => {
             
             {/* Prawa kolumna */}
             {/* WYŚRODKOWANA (lg:justify-center zamiast lg:justify-end), żeby "przytuliła" się do tekstu */}
-            <div className="relative flex justify-center lg:justify-center mt-12 lg:mt-0 animate-in fade-in zoom-in-95 duration-1000 delay-300 fill-mode-both">
-              <div className="relative w-full max-w-[420px] group">
-                
-                {/* Ostre techniczne ramki ("Celowniki") */}
-                <div className="absolute -top-3 -left-3 w-8 h-8 border-t-2 border-l-2 border-primary z-20 transition-transform group-hover:-translate-x-1 group-hover:-translate-y-1"></div>
-                <div className="absolute -bottom-3 -right-3 w-8 h-8 border-b-2 border-r-2 border-primary z-20 transition-transform group-hover:translate-x-1 group-hover:translate-y-1"></div>
+            
+            {/* Prawa kolumna: Interaktywny Model 3D Samochodu */}
+            <div ref={containerRef} className="relative flex justify-center lg:justify-center mt-12 lg:mt-0 h-[400px] lg:h-[500px] bg-white/5 rounded-xl border border-white/10 shadow-[0_20px_50px_rgba(0,0,0,0.8)] animate-in fade-in zoom-in-95 duration-1000 delay-300 fill-mode-both cursor-grab active:cursor-grabbing">
+              <Canvas camera={{ position: [0, 0, 3], fov: 75 }}>
+                <ambientLight intensity={0.5} />
+                <spotLight position={[10, 10, 10]} angle={0.15} penumbra={1} />
+                <pointLight position={[-10, -10, -10]} />
+                <Environment preset="city" /> {/* Realistyczne oświetlenie */}
+                <CarModel rotation={rotation} position={[0, -0.5, 0]} /> {/* Model samochodu */}
+                {/* <OrbitControls enableZoom={false} enablePan={false} enableRotate={true} /> */} {/* Opcjonalne sterowanie */}
+              </Canvas>
+            </div>
 
-                <div className="relative z-10 rounded-xl overflow-hidden bg-[#111] border border-white/10 shadow-[0_20px_50px_rgba(0,0,0,0.8)]">
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent z-10 pointer-events-none"></div>
-                  <div className="absolute inset-0 bg-[linear-gradient(transparent_50%,rgba(0,0,0,0.15)_50%)] bg-[length:100%_4px] z-20 pointer-events-none"></div>
-                  
-                  <img 
-                    src="https://placehold.co/600x800/1a1a1a/FFD200.png?text=Twoje+Zdjecie+Tutaj" 
-                    alt="Ekspert AutoTest" 
-                    className="w-full h-auto object-cover opacity-90 group-hover:opacity-100 transition-opacity duration-700"
-                  />
-                </div>
-                
-                <div className="absolute inset-0 border border-primary/30 rounded-xl translate-x-4 translate-y-4 backdrop-blur-sm z-0"></div>
-              </div>
             </div>
 
           </div>
