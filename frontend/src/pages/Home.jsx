@@ -56,7 +56,7 @@ export const Home = () => {
               
               <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 border border-primary/20 text-primary text-sm font-semibold tracking-wide animate-in fade-in slide-in-from-bottom-8 duration-700">
                 <Zap className="w-4 h-4 fill-current" />
-                <span>Profesjonalna Diagnostyka</span>
+                <span>Kompleksowa Diagnostyka Przedzakupowa</span>
               </div>
               
               <h1 className="text-5xl lg:text-7xl font-extrabold text-white leading-[1.05] tracking-tighter animate-in fade-in slide-in-from-bottom-8 duration-700 delay-150 fill-mode-both">
@@ -68,23 +68,43 @@ export const Home = () => {
               </h1>
               
               <p className="text-lg lg:text-xl text-gray-400 max-w-lg font-light leading-relaxed animate-in fade-in slide-in-from-bottom-8 duration-700 delay-300 fill-mode-both">
-                Wykorzystujemy sprzęt klasy dealerskiej i wiedzę ekspercką, aby wykryć ukryte wady, zanim staną się Twoim problemem.
+                Wykorzystujemy sprzęt klasy dealerskiej i wiedzę ekspercką, aby wykryć ukryte wady, zanim staną się Twoim problemem. Nie kupuj "skarbonki bez dna" – postaw na twarde fakty i transparentność.
               </p>
+
+              {/* Gęsta lista korzyści (Checklista) */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-2 pb-2 animate-in fade-in slide-in-from-bottom-8 duration-700 delay-400 fill-mode-both">
+                <div className="flex items-center gap-3 text-gray-300 bg-white/5 p-3.5 rounded-lg border border-white/5 hover:border-primary/30 transition-colors">
+                  <CheckCircle className="w-5 h-5 text-primary shrink-0" />
+                  <span className="text-sm font-medium">Diagnostyka komputerowa OBD</span>
+                </div>
+                <div className="flex items-center gap-3 text-gray-300 bg-white/5 p-3.5 rounded-lg border border-white/5 hover:border-primary/30 transition-colors">
+                  <CheckCircle className="w-5 h-5 text-primary shrink-0" />
+                  <span className="text-sm font-medium">Pomiary grubości lakieru</span>
+                </div>
+                <div className="flex items-center gap-3 text-gray-300 bg-white/5 p-3.5 rounded-lg border border-white/5 hover:border-primary/30 transition-colors">
+                  <CheckCircle className="w-5 h-5 text-primary shrink-0" />
+                  <span className="text-sm font-medium">Weryfikacja historii (VIN)</span>
+                </div>
+                <div className="flex items-center gap-3 text-gray-300 bg-white/5 p-3.5 rounded-lg border border-white/5 hover:border-primary/30 transition-colors">
+                  <CheckCircle className="w-5 h-5 text-primary shrink-0" />
+                  <span className="text-sm font-medium">Ocena stanu mechanicznego</span>
+                </div>
+              </div>
               
-              <div className="flex flex-col sm:flex-row gap-4 pt-4 animate-in fade-in slide-in-from-bottom-8 duration-700 delay-500 fill-mode-both">
-                <button onClick={handleConsultationClick} className="group relative px-8 py-4 bg-primary text-black font-extrabold text-lg rounded-lg overflow-hidden transition-all duration-300 hover:scale-[1.02] hover:shadow-[0_0_30px_rgba(255,210,0,0.3)]">
+              <div className="flex flex-col sm:flex-row gap-4 pt-2 animate-in fade-in slide-in-from-bottom-8 duration-700 delay-500 fill-mode-both">
+                <button onClick={handleConsultationClick} className="group relative px-8 py-4 bg-primary text-black font-extrabold text-lg rounded-lg overflow-hidden transition-all duration-300 hover:scale-[1.02] hover:shadow-[0_0_30px_rgba(255,210,0,0.3)] w-full sm:w-auto">
                   <span className="relative z-10 flex items-center justify-center gap-2">
                     Sprawdź to auto
                     <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
                   </span>
                 </button>
-                <Link to="/pomoc-w-zakupie" className="px-8 py-4 bg-white/5 hover:bg-white/10 border border-white/10 text-white font-medium text-lg rounded-lg transition-all text-center backdrop-blur-sm hover:border-primary/50">
+                <Link to="/pomoc-w-zakupie" className="px-8 py-4 bg-white/5 hover:bg-white/10 border border-white/10 text-white font-medium text-lg rounded-lg transition-all text-center backdrop-blur-sm hover:border-primary/50 w-full sm:w-auto">
                   Przykładowy raport
                 </Link>
               </div>
               
               {/* Element budujący zaufanie (Social Proof) */}
-              <div className="pt-8 flex flex-col sm:flex-row items-start sm:items-center gap-4 sm:gap-6 border-t border-white/10 animate-in fade-in duration-1000 delay-700 fill-mode-both">
+              <div className="pt-6 flex flex-col sm:flex-row items-start sm:items-center gap-4 sm:gap-6 border-t border-white/10 animate-in fade-in duration-1000 delay-700 fill-mode-both">
                 <div className="flex -space-x-3">
                   <div className="w-10 h-10 rounded-full bg-gray-800 border-2 border-[#050505] flex items-center justify-center z-20"><UserCheck className="w-5 h-5 text-gray-400"/></div>
                   <div className="w-10 h-10 rounded-full bg-gray-700 border-2 border-[#050505] flex items-center justify-center z-10"><Shield className="w-5 h-5 text-gray-300"/></div>
@@ -116,7 +136,7 @@ export const Home = () => {
                   <div className="absolute inset-0 bg-[linear-gradient(transparent_50%,rgba(0,0,0,0.15)_50%)] bg-[length:100%_4px] z-20 pointer-events-none"></div>
                   
                   <img 
-                    src="https://placehold.co/600x800/1a1a1a/FFD200.png?text=Miejsce+na+Zdjecie" 
+                    src="https://placehold.co/600x800/1a1a1a/FFD200.png?text=Twoje+Zdjecie+Tutaj" 
                     alt="Ekspert AutoTest" 
                     className="w-full h-auto object-cover opacity-90 group-hover:opacity-100 transition-opacity duration-700"
                   />
