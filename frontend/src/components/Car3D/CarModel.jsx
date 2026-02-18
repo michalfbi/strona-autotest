@@ -5,24 +5,18 @@ import * as THREE from 'three';
 
 export function CarModel() {
   const group = useRef();
-  // Używamy stabilnego linku zewnętrznego, aby uniknąć problemów z 404 na Netlify
-  const { scene } = useGLTF('https://vazxmixjsiawhamofees.supabase.co/storage/v1/object/public/models/porsche-911-991/model.gltf');
+  // Używamy bezpiecznego, ogólnodostępnego linku do modelu
+  const { scene } = useGLTF('https://raw.githubusercontent.com/pmndrs/drei-assets/master/models/porsche.glb');
 
   useFrame((state) => {
-    if (!group.current) return;
-    const targetRotationY = (state.mouse.x * Math.PI) / 6;
-    const targetRotationX = (state.mouse.y * Math.PI) / 12;
-    group.current.rotation.y = THREE.MathUtils.lerp(group.current.rotation.y, targetRotationY + Math.PI, 0.1);
-    group.current.rotation.x = THREE.MathUtils.lerp(group.current.rotation.x, targetRotationX, 0.1);
+    if (group.current) {
+      // Auto reaguje na myszkę
+      group.current.rotation.y = THREE.MathUtils.lerp(group.current.rotation.y, (state.mouse.x * Math.PI) / 6 + Math.PI, 0.1);
+      group.current.rotation.x = THREE.MathUtils.lerp(group.current.rotation.x, (state.mouse.y * Math.PI) / 12, 0.1);
+    }
   });
 
-  return (
-    <primitive 
-      ref={group} 
-      object={scene} 
-      scale={0.6} 
-      position={[0, -0.8, 0]} 
-      rotation={[0, Math.PI, 0]}
-    />
-  );
+  return <primitive ref={group} object={scene} scale={0.6} position={[0, -0.6, 0]} />;
 }
+
+useGLTF.preload('https://raw.githubusercontent.com/pmndrs/drei-assets/master/models/porsche.glb');
