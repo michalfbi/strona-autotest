@@ -1,6 +1,6 @@
 import React, { Suspense } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { ArrowRight, CheckCircle, Zap, Star, Shield, Search, FileText, Gauge } from "lucide-react";
+import { ArrowRight, CheckCircle, Zap, Star, Shield, Search, FileText, Gauge, Loader2 } from "lucide-react";
 import { Canvas } from "@react-three/fiber";
 import { Environment, ContactShadows, Stage } from "@react-three/drei";
 import { CarModel } from "../components/Car3D/CarModel";
@@ -24,6 +24,7 @@ export const Home = () => {
 
         <div className="container relative z-10 max-w-[1100px] mx-auto px-6">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-8 items-center">
+            
             <div className="text-left space-y-8 animate-in fade-in slide-in-from-left-8 duration-1000">
               <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 border border-primary/20 text-primary text-xs font-bold uppercase tracking-widest">
                 <Zap className="w-3 h-3 fill-current" />
@@ -32,7 +33,7 @@ export const Home = () => {
               
               <h1 className="text-5xl lg:text-[72px] font-extrabold leading-[1] tracking-tighter">
                 Kupujesz auto?<br />
-                <span className="text-primary drop-shadow-[0_0_15px_rgba(255,210,0,0.3)]">Sprawdź je zanim</span><br />
+                <span className="text-primary">Sprawdź je zanim</span><br />
                 stracisz pieniądze.
               </h1>
               
@@ -43,7 +44,7 @@ export const Home = () => {
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 {checklist.map((item, idx) => (
                   <div key={idx} className="flex items-center gap-3 bg-white/5 p-4 rounded-xl border border-white/5 hover:border-primary/30 transition-all group backdrop-blur-md">
-                    <item.icon className="w-5 h-5 text-primary shrink-0 transition-transform group-hover:scale-110" />
+                    <item.icon className="w-5 h-5 text-primary shrink-0" />
                     <span className="text-sm font-medium text-gray-300">{item.title}</span>
                   </div>
                 ))}
@@ -54,28 +55,15 @@ export const Home = () => {
                   Rezerwuj termin
                   <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
                 </button>
-                <Link to="/pomoc-w-zakupie" className="px-8 py-4 bg-white/5 border border-white/10 hover:bg-white/10 text-white font-bold text-lg rounded-xl transition-all text-center backdrop-blur-sm">
+                <Link to="/pomoc-w-zakupie" className="px-8 py-4 bg-white/5 border border-white/10 text-white font-bold text-lg rounded-xl transition-all text-center backdrop-blur-sm">
                   Przykładowy raport
                 </Link>
               </div>
-
-              <div className="pt-8 flex items-center gap-6 border-t border-white/10">
-                <div className="flex -space-x-3">
-                  <div className="w-10 h-10 rounded-full bg-gray-800 border-2 border-[#050505] flex items-center justify-center text-xs font-bold">AT</div>
-                  <div className="w-10 h-10 rounded-full bg-primary border-2 border-[#050505] flex items-center justify-center text-black font-black text-[10px]">+1k</div>
-                </div>
-                <div className="text-[11px] text-gray-500 uppercase tracking-widest leading-tight">
-                  <div className="flex text-primary gap-0.5 mb-1">
-                    {[...Array(5)].map((_, i) => <Star key={i} className="w-3 h-3 fill-current" />)}
-                  </div>
-                  Zaufali nam klienci w całej Polsce
-                </div>
-              </div>
             </div>
             
-            <div className="relative h-[550px] lg:h-[650px] bg-gradient-to-b from-white/5 to-transparent rounded-[40px] border border-white/10 shadow-2xl overflow-hidden cursor-grab active:cursor-grabbing animate-in zoom-in-95 duration-1000 delay-300">
+            <div className="relative h-[500px] lg:h-[600px] bg-gradient-to-b from-white/5 to-transparent rounded-[40px] border border-white/10 shadow-2xl overflow-hidden cursor-grab active:cursor-grabbing">
                <Canvas shadows camera={{ position: [0, 2, 5], fov: 40 }}>
-                <Suspense fallback={null}>
+                <Suspense fallback={<Loader2 className="w-10 h-10 animate-spin text-primary" />}>
                   <Stage environment="city" intensity={0.5} contactShadow={false}>
                     <CarModel />
                   </Stage>
@@ -85,12 +73,10 @@ export const Home = () => {
               
               <div className="absolute top-8 left-8 flex items-center gap-3">
                 <div className="w-2 h-2 bg-primary animate-ping rounded-full"></div>
-                <span className="text-[10px] font-mono text-primary/80 uppercase tracking-widest">Live 3D Diagnostic active</span>
+                <span className="text-[10px] font-mono text-primary/80 uppercase tracking-widest">Live 3D Rendering active</span>
               </div>
-              
-              <div className="absolute top-6 left-6 w-8 h-8 border-t border-l border-primary/30 rounded-tl-xl"></div>
-              <div className="absolute bottom-6 right-6 w-8 h-8 border-b border-r border-primary/30 rounded-br-xl"></div>
             </div>
+
           </div>
         </div>
       </section>
