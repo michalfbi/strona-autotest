@@ -5,12 +5,10 @@ import * as THREE from 'three';
 
 export function CarModel() {
   const group = useRef();
-  // Używamy bezpiecznego, ogólnodostępnego linku do modelu
   const { scene } = useGLTF('https://vazxmixjsiawhamofees.supabase.co/storage/v1/object/public/models/porsche-911/model.gltf');
 
   useFrame((state) => {
     if (group.current) {
-      // Auto reaguje na myszkę
       group.current.rotation.y = THREE.MathUtils.lerp(group.current.rotation.y, (state.pointer.x * Math.PI) / 6 + Math.PI, 0.1);
       group.current.rotation.x = THREE.MathUtils.lerp(group.current.rotation.x, (state.pointer.y * Math.PI) / 12, 0.1);
     }
