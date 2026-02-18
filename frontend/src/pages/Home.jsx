@@ -48,10 +48,11 @@ export const Home = () => {
         <div className="absolute top-0 left-1/4 w-[500px] h-[500px] bg-primary/10 rounded-full blur-[120px] -translate-y-1/2 z-0"></div>
         <div className="absolute bottom-0 right-1/4 w-[400px] h-[400px] bg-primary/5 rounded-full blur-[100px] translate-y-1/2 z-0"></div>
 
-        <div className="container relative z-10 max-w-[1200px]">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-16 items-center">
+        {/* ZMNIEJSZONY KONTENER (z 1200px na 1050px) ZBLIŻA KOLUMNY DO SIEBIE */}
+        <div className="container relative z-10 max-w-[1050px]">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-10 items-center">
             
-            {/* Lewa kolumna: Tekst z kaskadowymi animacjami */}
+            {/* Lewa kolumna: Tekst */}
             <div className="text-left space-y-6">
               
               <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 border border-primary/20 text-primary text-sm font-semibold tracking-wide animate-in fade-in slide-in-from-bottom-8 duration-700">
@@ -59,23 +60,24 @@ export const Home = () => {
                 <span>Kompleksowa Diagnostyka Przedzakupowa</span>
               </div>
               
-              <h1 className="text-5xl lg:text-7xl font-extrabold text-white leading-[1.05] tracking-tighter animate-in fade-in slide-in-from-bottom-8 duration-700 delay-150 fill-mode-both">
+              <h1 className="text-5xl lg:text-6xl font-extrabold text-white leading-[1.1] tracking-tighter animate-in fade-in slide-in-from-bottom-8 duration-700 delay-150 fill-mode-both">
                 Kupujesz auto?<br />
-                <span className="bg-clip-text text-transparent bg-gradient-to-r from-primary to-yellow-100 drop-shadow-lg">
+                {/* NAPRAWIONY TEKST - PEWNY ŻÓŁTY KOLOR */}
+                <span className="text-primary drop-shadow-sm">
                   Sprawdź je zanim
                 </span><br />
                 stracisz pieniądze.
               </h1>
               
-              <p className="text-lg lg:text-xl text-gray-400 max-w-lg font-light leading-relaxed animate-in fade-in slide-in-from-bottom-8 duration-700 delay-300 fill-mode-both">
-                Wykorzystujemy sprzęt klasy dealerskiej i wiedzę ekspercką, aby wykryć ukryte wady, zanim staną się Twoim problemem. Nie kupuj "skarbonki bez dna" – postaw na twarde fakty i transparentność.
+              <p className="text-lg text-gray-400 max-w-md font-light leading-relaxed animate-in fade-in slide-in-from-bottom-8 duration-700 delay-300 fill-mode-both">
+                Wykorzystujemy sprzęt klasy dealerskiej i wiedzę ekspercką, aby wykryć ukryte wady. Nie kupuj "skarbonki bez dna" – postaw na twarde fakty i transparentność.
               </p>
 
-              {/* Gęsta lista korzyści (Checklista) */}
+              {/* Checklista */}
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-2 pb-2 animate-in fade-in slide-in-from-bottom-8 duration-700 delay-400 fill-mode-both">
                 <div className="flex items-center gap-3 text-gray-300 bg-white/5 p-3.5 rounded-lg border border-white/5 hover:border-primary/30 transition-colors">
                   <CheckCircle className="w-5 h-5 text-primary shrink-0" />
-                  <span className="text-sm font-medium">Diagnostyka komputerowa OBD</span>
+                  <span className="text-sm font-medium">Diagnostyka komputerowa</span>
                 </div>
                 <div className="flex items-center gap-3 text-gray-300 bg-white/5 p-3.5 rounded-lg border border-white/5 hover:border-primary/30 transition-colors">
                   <CheckCircle className="w-5 h-5 text-primary shrink-0" />
@@ -87,7 +89,7 @@ export const Home = () => {
                 </div>
                 <div className="flex items-center gap-3 text-gray-300 bg-white/5 p-3.5 rounded-lg border border-white/5 hover:border-primary/30 transition-colors">
                   <CheckCircle className="w-5 h-5 text-primary shrink-0" />
-                  <span className="text-sm font-medium">Ocena stanu mechanicznego</span>
+                  <span className="text-sm font-medium">Ocena mechaniczna</span>
                 </div>
               </div>
               
@@ -103,7 +105,7 @@ export const Home = () => {
                 </Link>
               </div>
               
-              {/* Element budujący zaufanie (Social Proof) */}
+              {/* Element budujący zaufanie */}
               <div className="pt-6 flex flex-col sm:flex-row items-start sm:items-center gap-4 sm:gap-6 border-t border-white/10 animate-in fade-in duration-1000 delay-700 fill-mode-both">
                 <div className="flex -space-x-3">
                   <div className="w-10 h-10 rounded-full bg-gray-800 border-2 border-[#050505] flex items-center justify-center z-20"><UserCheck className="w-5 h-5 text-gray-400"/></div>
@@ -120,19 +122,17 @@ export const Home = () => {
 
             </div>
             
-            {/* Prawa kolumna: Prestiżowy wygląd zdjęcia */}
-            <div className="relative flex justify-center lg:justify-end mt-12 lg:mt-0 animate-in fade-in zoom-in-95 duration-1000 delay-300 fill-mode-both">
-              <div className="relative w-full max-w-[480px] group">
+            {/* Prawa kolumna */}
+            {/* WYŚRODKOWANA (lg:justify-center zamiast lg:justify-end), żeby "przytuliła" się do tekstu */}
+            <div className="relative flex justify-center lg:justify-center mt-12 lg:mt-0 animate-in fade-in zoom-in-95 duration-1000 delay-300 fill-mode-both">
+              <div className="relative w-full max-w-[420px] group">
                 
                 {/* Ostre techniczne ramki ("Celowniki") */}
                 <div className="absolute -top-3 -left-3 w-8 h-8 border-t-2 border-l-2 border-primary z-20 transition-transform group-hover:-translate-x-1 group-hover:-translate-y-1"></div>
                 <div className="absolute -bottom-3 -right-3 w-8 h-8 border-b-2 border-r-2 border-primary z-20 transition-transform group-hover:translate-x-1 group-hover:translate-y-1"></div>
 
-                {/* Główny kontener zdjęcia z Glassmorphismem */}
                 <div className="relative z-10 rounded-xl overflow-hidden bg-[#111] border border-white/10 shadow-[0_20px_50px_rgba(0,0,0,0.8)]">
                   <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent z-10 pointer-events-none"></div>
-                  
-                  {/* Efekt Skanera CRT na zdjęciu (Scanlines) */}
                   <div className="absolute inset-0 bg-[linear-gradient(transparent_50%,rgba(0,0,0,0.15)_50%)] bg-[length:100%_4px] z-20 pointer-events-none"></div>
                   
                   <img 
@@ -142,7 +142,6 @@ export const Home = () => {
                   />
                 </div>
                 
-                {/* Tło Glass za zdjęciem dla głębi */}
                 <div className="absolute inset-0 border border-primary/30 rounded-xl translate-x-4 translate-y-4 backdrop-blur-sm z-0"></div>
               </div>
             </div>
