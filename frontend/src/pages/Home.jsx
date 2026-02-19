@@ -250,8 +250,7 @@ const ScannerWidget = () => {
         .scanner-widget {
           position: relative;
           width: 100%;
-          height: 100%;
-          min-height: 500px;
+          aspect-ratio: 16 / 9; /* Przywrócono sztywne, kinowe proporcje */
           background: radial-gradient(900px 500px at 25% 20%, rgba(245,196,0,.14), transparent 55%),
                       radial-gradient(800px 500px at 75% 80%, rgba(255,221,87,.06), transparent 60%),
                       linear-gradient(180deg, rgba(255,255,255,.03), transparent 20%),
@@ -264,11 +263,6 @@ const ScannerWidget = () => {
           perspective: 1200px;
           --tiltX: 0deg;
           --tiltY: 0deg;
-        }
-        @media (min-width: 1024px) {
-          .scanner-widget {
-            min-height: 680px;
-          }
         }
         .scanner-grid {
           position: absolute; inset: 0;
@@ -453,7 +447,7 @@ const ScannerWidget = () => {
               <div className="mono text-[10px] tracking-[.16em] uppercase text-white/60">Cycle: <span className="text-white" id="cycle">01</span></div>
             </div>
           </div>
-          <div className="progress-wrap relative left-0 right-0 bottom-0 mt-4">
+          <div className="progress-wrap absolute left-[18px] right-[18px] bottom-[14px]">
             <div className="progress">
               <div id="progressBar"></div>
             </div>
@@ -481,13 +475,15 @@ export const Home = () => {
       {/* ZAWARTOŚĆ STRONY */}
       <div className="relative z-10">
         
-        {/* 1. SEKCJA HERO Z NOWYM SKANEREM - POWIĘKSZONY KONTENER */}
-        <section className="pt-24 pb-16 lg:pt-32 lg:pb-24 border-b border-white/5">
+        {/* 1. SEKCJA HERO */}
+        {/* pt-20 pozwala sekcji "wejść" wyżej, tuż pod header */}
+        <section className="pt-20 lg:pt-24 pb-16 lg:pb-24 border-b border-white/5">
           <div className="container max-w-[1500px] mx-auto px-4 sm:px-6">
-            {/* items-stretch pozwala prawej kolumnie zrównać się wysokością z lewą */}
-            <div className="grid grid-cols-1 lg:grid-cols-[1fr_1.7fr] gap-8 lg:gap-12 items-stretch">
+            
+            {/* items-start zamiast items-stretch, dzięki czemu sekcje naturalnie wędrują do góry */}
+            <div className="grid grid-cols-1 lg:grid-cols-[1fr_1.6fr] gap-8 lg:gap-12 items-center">
               
-              <div className="text-left space-y-8 animate-in fade-in slide-in-from-left-8 duration-1000 flex flex-col justify-center py-10">
+              <div className="text-left space-y-8 animate-in fade-in slide-in-from-left-8 duration-1000">
                 <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-[#FFD200]/10 border border-[#FFD200]/20 text-[#FFD200] text-xs font-bold uppercase tracking-widest">
                   <Zap className="w-3 h-3 fill-current" />
                   <span>Modernistyczna Diagnostyka Premium</span>
@@ -525,9 +521,17 @@ export const Home = () => {
                 </div>
               </div>
               
-              {/* KONTENER ZE SKANEREM - ROZCIĄGNIĘTY W PIONIE I POZIOMIE */}
-              <div className="w-full h-full flex justify-center items-stretch lg:py-4">
+              {/* KONTENER ZE SKANEREM I TEKSTEM POD SPODEM */}
+              <div className="w-full flex flex-col justify-center items-center lg:mt-6">
                 <ScannerWidget />
+                
+                {/* Nowy tekst z "diodą" pod spodem */}
+                <div className="mt-8 flex items-center justify-center">
+                  <div className="inline-flex items-center gap-3 px-6 py-2.5 rounded-full bg-white/5 border border-white/10 backdrop-blur-md">
+                    <span className="w-2.5 h-2.5 rounded-full bg-[#FFD200] animate-pulse shadow-[0_0_12px_#FFD200]"></span>
+                    <span className="text-xs md:text-sm font-mono text-gray-300 tracking-[0.15em] uppercase">Interaktywny podgląd inspekcji technicznej</span>
+                  </div>
+                </div>
               </div>
 
             </div>
