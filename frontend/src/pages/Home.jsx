@@ -524,17 +524,16 @@ export const Home = () => {
               <div className="text-left space-y-8 animate-in fade-in slide-in-from-left-8 duration-1000 flex flex-col justify-center pt-4 lg:pt-4">
                 <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-[#FFD200]/10 border border-[#FFD200]/20 text-[#FFD200] text-xs font-bold uppercase tracking-widest">
                   <Zap className="w-3 h-3 fill-current" />
-                  <span>Modernistyczna Diagnostyka Premium</span>
+                  <span>Diagnostyka pojazdów przed zakupem</span>
                 </div>
                 
                 <h1 className="text-5xl xl:text-[72px] font-extrabold leading-[1] tracking-tighter text-white">
-                  Kupujesz auto?<br />
-                  <span className="text-[#FFD200]">Sprawdź je zanim</span><br />
-                  stracisz pieniądze.
-                </h1>
+              <span className="text-primary">Kupujesz auto?</span><br />
+              Sprawdzimy je przed zakupem.
+            </h1>
                 
                 <p className="text-lg text-gray-400 max-w-lg font-light leading-relaxed">
-                  Zintegrowany system wirtualnej inspekcji technicznej. Wykrywamy to, co handlarz próbuje ukryć przed zakupem.
+                  Bądź pewny swojego zakupu. Wykrywamy to, co handlarz próbuje ukryć przed zakupem.
                 </p>
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -566,7 +565,7 @@ export const Home = () => {
                 <div className="mt-8 flex items-center justify-center">
                   <div className="inline-flex items-center gap-3 px-6 py-2.5 rounded-full bg-white/5 border border-white/10 backdrop-blur-md">
                     <span className="w-2.5 h-2.5 rounded-full bg-[#FFD200] animate-pulse shadow-[0_0_12px_#FFD200]"></span>
-                    <span className="text-xs md:text-sm font-mono text-gray-300 tracking-[0.15em] uppercase">Interaktywny podgląd inspekcji technicznej</span>
+                    <span className="text-xs md:text-sm font-mono text-gray-300 tracking-[0.15em] uppercase">Zaufaj najlepszym diagnostom w regionie</span>
                   </div>
                 </div>
               </div>
