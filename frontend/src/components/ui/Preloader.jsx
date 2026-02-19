@@ -6,46 +6,46 @@ export const Preloader = () => {
   const [stage, setStage] = useState('loading'); 
 
   useEffect(() => {
-    // 1. Obliczamy dokładną szerokość paska przewijania
     const scrollbarWidth = window.innerWidth - document.documentElement.clientWidth;
     
-    // 2. Tworzymy i wstrzykujemy bezwzględny styl CSS na czas ładowania
     const styleEl = document.createElement('style');
     styleEl.id = 'preloader-scroll-fix';
-    // Używamy !important i blokujemy animację (transition: none) dla paddingu, 
-    // żeby zabić jakikolwiek efekt "pływania" nagłówka.
+    // Poprawiony CSS: celuje STRICTLY w header/nav, aby nie zepsuć animacji preloadera!
     styleEl.innerHTML = `
       body { 
         overflow: hidden !important; 
         padding-right: ${scrollbarWidth}px !important; 
       }
-      header, nav, .fixed, .sticky, [style*="position: fixed"] { 
+      header, nav { 
         padding-right: ${scrollbarWidth}px !important; 
-        transition: padding 0s !important; 
+        /* Używamy precyzyjnych właściwości zamiast ogólnego 'transition' */
+        transition-property: padding !important; 
+        transition-duration: 0s !important; 
       }
     `;
     document.head.appendChild(styleEl);
 
+    // IDEALNY BALANS: Logo wisi przez 600ms zanim zacznie znikać
     const timer1 = setTimeout(() => {
       setStage('fading-content');
-    }, 400); 
+    }, 600); 
 
+    // KURTYNA WRACA DO GRY: Płynnie rusza po 800ms
     const timer2 = setTimeout(() => {
       setStage('lifting-curtain');
-    }, 500);
+    }, 800);
 
+    // Całość zamyka się po 2500ms (800ms czekania + 1600ms pięknej animacji + 100ms buforu)
     const timer3 = setTimeout(() => {
       setIsVisible(false);
-      // 3. Delikatnie usuwamy styl po odjechaniu kurtyny
       const existingStyle = document.getElementById('preloader-scroll-fix');
       if (existingStyle) existingStyle.remove();
-    }, 2200); 
+    }, 2500); 
 
     return () => {
       clearTimeout(timer1);
       clearTimeout(timer2);
       clearTimeout(timer3);
-      // Zabezpieczenie czyszczące
       const existingStyle = document.getElementById('preloader-scroll-fix');
       if (existingStyle) existingStyle.remove();
     };
