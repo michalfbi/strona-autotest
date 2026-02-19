@@ -9,21 +9,21 @@ export const Preloader = () => {
     // Zablokuj scrollowanie
     document.body.style.overflow = 'hidden';
 
-    // JESZCZE SZYBSZY START: Logo zaczyna znikać po 500ms
+    // BARDZO SZYBKI START: Logo blaknie już po 400ms
     const timer1 = setTimeout(() => {
       setStage('fading-content');
-    }, 500); 
+    }, 400); 
 
-    // KURTYNA W GÓRĘ: Dokładnie 0.2s szybciej niż poprzednio (rusza po 650ms)
+    // KURTYNA OD RAZU W GÓRĘ: Tło jedzie w górę zaledwie 100ms później (po 500ms)
     const timer2 = setTimeout(() => {
       setStage('lifting-curtain');
-    }, 650);
+    }, 500);
 
-    // Całość kończy się po 2350ms (650ms startu + 1600ms animacji + 100ms buforu)
+    // Całość kończy się po ok. 2.2 sekundy (500ms opóźnienia + 1600ms animacji + 100ms buforu)
     const timer3 = setTimeout(() => {
       setIsVisible(false);
       document.body.style.overflow = 'auto';
-    }, 2350); 
+    }, 2200); 
 
     return () => {
       clearTimeout(timer1);
@@ -50,9 +50,9 @@ export const Preloader = () => {
         style={{ transform: 'translate(-50%, -50%)' }}
       ></div>
 
-      {/* Kontener z zawartością - płynne, łagodne zanikanie trwające 400ms */}
+      {/* Kontener z zawartością - płynne, łagodne zanikanie trwające 300ms */}
       <div 
-        className={`relative z-10 flex flex-col items-center transition-all duration-400 ease-out ${
+        className={`relative z-10 flex flex-col items-center transition-all duration-300 ease-out ${
           stage !== 'loading' ? 'opacity-0 scale-95 blur-sm' : 'opacity-100 scale-100 blur-0'
         }`}
       >
