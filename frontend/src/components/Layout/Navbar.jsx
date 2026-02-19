@@ -42,7 +42,7 @@ export const Navbar = () => {
     <header 
       className={`fixed top-0 w-full z-[100] transition-all duration-500 ease-out ${
         isScrolled 
-          ? 'bg-[#050505]/80 backdrop-blur-xl border-b border-white/10 py-3 shadow-[0_10px_30px_rgba(0,0,0,0.5)]' 
+          ? 'bg-[#050505]/90 backdrop-blur-xl py-3 shadow-[0_15px_40px_rgba(0,0,0,0.8)]' 
           : 'bg-gradient-to-b from-black/80 to-transparent py-5 lg:py-6'
       }`}
     >
