@@ -6,39 +6,32 @@ export const Preloader = () => {
   const [stage, setStage] = useState('loading'); 
 
   useEffect(() => {
-    const scrollbarWidth = window.innerWidth - document.documentElement.clientWidth;
-    
+    // ROZWIĄZANIE OSTATECZNE: Nowoczesny CSS 'scrollbar-gutter'
+    // Rezerwuje miejsce na scrollbar na stałe. ZERO przeskakiwania headera i strony!
     const styleEl = document.createElement('style');
-    styleEl.id = 'preloader-scroll-fix';
-    // Poprawiony CSS: celuje STRICTLY w header/nav, aby nie zepsuć animacji preloadera!
+    styleEl.id = 'preloader-anti-jump';
     styleEl.innerHTML = `
-      body { 
-        overflow: hidden !important; 
-        padding-right: ${scrollbarWidth}px !important; 
+      html {
+        scrollbar-gutter: stable !important;
       }
-      header, nav { 
-        padding-right: ${scrollbarWidth}px !important; 
-        /* Używamy precyzyjnych właściwości zamiast ogólnego 'transition' */
-        transition-property: padding !important; 
-        transition-duration: 0s !important; 
+      body {
+        overflow: hidden !important;
       }
     `;
     document.head.appendChild(styleEl);
 
-    // IDEALNY BALANS: Logo wisi przez 600ms zanim zacznie znikać
     const timer1 = setTimeout(() => {
       setStage('fading-content');
     }, 600); 
 
-    // KURTYNA WRACA DO GRY: Płynnie rusza po 800ms
     const timer2 = setTimeout(() => {
       setStage('lifting-curtain');
     }, 800);
 
-    // Całość zamyka się po 2500ms (800ms czekania + 1600ms pięknej animacji + 100ms buforu)
     const timer3 = setTimeout(() => {
       setIsVisible(false);
-      const existingStyle = document.getElementById('preloader-scroll-fix');
+      // Sprzątanie po zakończeniu animacji
+      const existingStyle = document.getElementById('preloader-anti-jump');
       if (existingStyle) existingStyle.remove();
     }, 2500); 
 
@@ -46,7 +39,7 @@ export const Preloader = () => {
       clearTimeout(timer1);
       clearTimeout(timer2);
       clearTimeout(timer3);
-      const existingStyle = document.getElementById('preloader-scroll-fix');
+      const existingStyle = document.getElementById('preloader-anti-jump');
       if (existingStyle) existingStyle.remove();
     };
   }, []);
@@ -61,11 +54,13 @@ export const Preloader = () => {
         transform: stage === 'lifting-curtain' ? 'translateY(-100%)' : 'translateY(0)'
       }}
     >
+      {/* Tło z poświatą */}
       <div 
         className="absolute top-1/2 left-1/2 w-96 h-96 bg-[#FFD200]/10 rounded-full blur-[100px] pointer-events-none"
         style={{ transform: 'translate(-50%, -50%)' }}
       ></div>
 
+      {/* Kontener z zawartością */}
       <div 
         className={`relative z-10 flex flex-col items-center transition-all duration-300 ease-out ${
           stage !== 'loading' ? 'opacity-0 scale-95 blur-sm' : 'opacity-100 scale-100 blur-0'
