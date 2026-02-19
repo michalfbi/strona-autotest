@@ -1,7 +1,7 @@
 import { HomeSEOSections } from '../components/HomeSEOSections';
 import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { ArrowRight, CheckCircle, Zap, Shield, Search, FileText, Gauge, UserCheck, FileCheck, Clock, MapPin, DollarSign , Link2} from "lucide-react";
+import { ArrowRight, CheckCircle, Zap, Shield, Search, FileText, Gauge, UserCheck, FileCheck, Clock, MapPin, DollarSign } from "lucide-react";
 import { mockData } from "../mockData";
 
 const iconMap = {
@@ -516,47 +516,168 @@ export const Home = () => {
 
       <div className="relative z-10">
         
-        <section className="py-24 relative overflow-hidden bg-surface/20 border-y border-glass-border">
-      <div className="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none z-0">
-        <div className="absolute top-1/2 left-1/4 -translate-y-1/2 w-96 h-96 bg-primary/10 rounded-full blur-[100px]"></div>
-        <div className="absolute top-1/2 right-1/4 -translate-y-1/2 w-96 h-96 bg-yellow-500/5 rounded-full blur-[120px]"></div>
-      </div>
-      <div className="container relative z-10 max-w-[1000px] mx-auto">
-        <div className="glass p-8 md:p-14 rounded-3xl border border-primary/20 bg-gradient-to-br from-surface/90 to-bg shadow-[0_0_40px_rgba(255,210,0,0.1)] text-center relative overflow-hidden group hover:border-primary/40 transition-colors duration-500">
-          <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-primary to-transparent opacity-50"></div>
-          <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-primary/10 mb-6 border border-primary/20 shadow-[0_0_20px_rgba(255,210,0,0.1)] group-hover:scale-110 transition-transform duration-500">
-            <Search className="w-8 h-8 text-primary" />
-          </div>
-          <h2 className="display-md text-text mb-4">
-            Znalazłeś <span className="text-primary">ciekawe ogłoszenie</span>?
-          </h2>
-          <p className="body-lg text-muted mb-10 max-w-2xl mx-auto">
-            Nie ryzykuj wycieczki na drugi koniec Polski po "igłę". Wklej link z OLX, Otomoto lub Facebooka, a my <strong className="text-gray-200">całkowicie za darmo</strong> ocenimy, czy auto jest warte zachodu.
-          </p>
-          <form className="max-w-3xl mx-auto flex flex-col md:flex-row gap-4" onSubmit={(e) => { e.preventDefault(); alert('Dziękujemy! Ocenimy to ogłoszenie i wrócimy z odpowiedzią.'); }}>
-            <div className="relative flex-grow">
-              <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
-                <Link2 className="h-5 w-5 text-muted" />
+        <section className="pt-20 pb-16 lg:pt-24 lg:pb-24 border-b border-white/5">
+          <div className="container max-w-[1500px] mx-auto px-4 sm:px-6">
+            
+            <div className="grid grid-cols-1 lg:grid-cols-[1fr_1.6fr] gap-8 lg:gap-12 items-start">
+              
+              <div className="text-left space-y-8 animate-in fade-in slide-in-from-left-8 duration-1000 flex flex-col justify-center pt-4 lg:pt-4">
+                <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-[#FFD200]/10 border border-[#FFD200]/20 text-[#FFD200] text-xs font-bold uppercase tracking-widest">
+                  <Zap className="w-3 h-3 fill-current" />
+                  <span>Diagnostyka pojazdów przed zakupem</span>
+                </div>
+                
+                <h1 className="text-5xl xl:text-[72px] font-extrabold leading-[1] tracking-tighter text-white">
+                <span className="text-primary">Kupujesz auto?</span><br />
+                Sprawdzimy je przed zakupem.
+              </h1>
+                
+                <p className="text-lg text-gray-400 max-w-lg font-light leading-relaxed">
+                  Bądź pewny swojego zakupu. Wykrywamy to, co handlarz próbuje ukryć przed zakupem.
+                </p>
+
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  {[
+                    { t: "Diagnostyka OBD", i: Search },
+                    { t: "Pomiar lakieru", i: Gauge },
+                    { t: "Weryfikacja VIN", i: FileText },
+                    { t: "Ocena mechaniczna", i: Shield }
+                  ].map((item, idx) => (
+                    <div key={idx} className="flex items-center gap-3 bg-white/5 p-4 rounded-xl border border-white/5 backdrop-blur-md">
+                      <item.i className="w-5 h-5 text-[#FFD200] shrink-0" />
+                      <span className="text-sm font-medium text-gray-300">{item.t}</span>
+                    </div>
+                  ))}
+                </div>
+                
+                <div className="flex flex-col sm:flex-row gap-4 pt-4">
+                  <button onClick={handleConsultationClick} className="group px-8 py-4 bg-[#FFD200] text-black font-black text-lg rounded-xl hover:shadow-[0_0_40px_rgba(255,210,0,0.3)] transition-all flex items-center justify-center gap-3">
+                    Rezerwuj termin
+                    <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+                  </button>
+                </div>
               </div>
-              <input 
-                type="url" 
-                required
-                placeholder="Wklej link do ogłoszenia (Otomoto, OLX...)" 
-                className="w-full h-full min-h-[60px] bg-black/50 border-2 border-white/10 text-text rounded-xl pl-12 pr-4 py-4 focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-all placeholder:text-gray-500 text-base md:text-lg"
-              />
+              
+              {/* DODANO lg:-mt-6 ABY PODCIĄGNĄĆ CAŁY PRAWY BLOK POD HEADER */}
+              <div className="w-full flex flex-col justify-center items-center mt-8 lg:-mt-6">
+                <div className="hidden lg:block w-full">
+              <ScannerWidget />
             </div>
-            <button type="submit" className="btn-primary py-4 px-8 rounded-xl whitespace-nowrap text-lg shadow-[0_0_20px_rgba(255,210,0,0.2)] hover:shadow-[0_0_30px_rgba(255,210,0,0.4)] transition-all hover:-translate-y-1 flex items-center justify-center">
-              Sprawdź za darmo
-            </button>
-          </form>
-          <div className="mt-10 flex flex-wrap justify-center gap-4 md:gap-8 text-sm text-gray-400 font-medium">
-            <div className="flex items-center bg-white/5 px-4 py-2 rounded-full border border-white/5"><CheckCircle className="w-4 h-4 text-primary mr-2" /> Wstępna ocena w 15 min</div>
-            <div className="flex items-center bg-white/5 px-4 py-2 rounded-full border border-white/5"><CheckCircle className="w-4 h-4 text-primary mr-2" /> Oszczędność czasu i paliwa</div>
-            <div className="flex items-center bg-white/5 px-4 py-2 rounded-full border border-white/5"><CheckCircle className="w-4 h-4 text-primary mr-2" /> 100% niezobowiązująco</div>
+                
+                <div className="mt-8 flex items-center justify-center">
+                  <div className="inline-flex items-center gap-3 px-6 py-2.5 rounded-full bg-white/5 border border-white/10 backdrop-blur-md">
+                    <span className="w-2.5 h-2.5 rounded-full bg-[#FFD200] animate-pulse shadow-[0_0_12px_#FFD200]"></span>
+                    <span className="text-xs md:text-sm font-mono text-gray-300 tracking-[0.15em] uppercase">Zaufaj najlepszym diagnostom w regionie</span>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+          </div>
+        </section>
+
+        <section className="py-24 relative overflow-hidden bg-surface/30 border-y border-glass-border">
+  {/* Subtelny glow w tle */}
+  <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-primary/5 rounded-full blur-[120px] pointer-events-none"></div>
+
+  <div className="container relative z-10 max-w-[1200px] mx-auto">
+    <div className="text-center mb-16">
+      <div className="inline-block px-4 py-1.5 mb-4 text-xs font-bold tracking-widest text-primary uppercase bg-primary/10 border border-primary/20 rounded-full backdrop-blur-md">
+        Przewaga konkurencyjna
+      </div>
+      <h2 className="display-md text-text mb-6">
+        Dlaczego <span className="text-primary">Autotest</span>?
+      </h2>
+      <p className="body-lg max-w-2xl mx-auto text-muted">
+        Nie jesteśmy zwykłym rzeczoznawcą. Jesteśmy Twoim osobistym doradcą, negocjatorem i tarczą przed oszustami. Zobacz, co zyskujesz wybierając ekspertów.
+      </p>
+    </div>
+
+    {/* Bento Grid Layout */}
+    <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+      
+      {/* BOX 1: Niezależność (Szeroki) */}
+      <div className="md:col-span-2 glass p-8 md:p-10 relative overflow-hidden group hover:border-primary/40 transition-all duration-500 hover:-translate-y-1">
+        <div className="absolute top-0 right-0 w-64 h-64 bg-primary/10 rounded-full blur-[80px] -mr-20 -mt-20 transition-opacity group-hover:bg-primary/20"></div>
+        <UserCheck className="w-12 h-12 text-primary mb-6 relative z-10" />
+        <h3 className="h2 text-text mb-4 relative z-10">100% Niezależni. Gramy do Twojej bramki.</h3>
+        <p className="body-lg text-muted mb-6 relative z-10 max-w-xl">
+          Wielu "ekspertów" współpracuje z komisami za prowizję od sprzedaży. My działamy <strong className="text-gray-200">wyłącznie na Twoje zlecenie</strong>. Naszym celem nie jest to, żebyś po prostu kupił auto – naszym celem jest to, żebyś nie kupił skarbonki bez dna.
+        </p>
+        <div className="flex flex-col sm:flex-row gap-4 relative z-10">
+          <div className="flex items-center text-sm text-gray-300 bg-white/5 px-4 py-2 rounded-lg border border-white/5">
+            <CheckCircle className="w-4 h-4 text-primary mr-2" /> Zero ukrytych prowizji
+          </div>
+          <div className="flex items-center text-sm text-gray-300 bg-white/5 px-4 py-2 rounded-lg border border-white/5">
+            <CheckCircle className="w-4 h-4 text-primary mr-2" /> Surowa i obiektywna ocena
           </div>
         </div>
       </div>
-    </section>
+
+      {/* BOX 2: Raport (Wąski, wysoki) */}
+      <div className="glass p-8 relative overflow-hidden group hover:border-primary/40 transition-all duration-500 hover:-translate-y-1 flex flex-col">
+        <FileCheck className="w-12 h-12 text-primary mb-6" />
+        <h3 className="h3 text-text mb-4">Eksperckie raporty</h3>
+        <p className="body-md text-muted mb-6 flex-grow">
+          Otrzymujesz raport PDF z dziesiątkami zdjęć, wynikami z komputera diagnostycznego i pomiarami lakieru. Konkretne fakty, zero gdybania.
+        </p>
+        <div className="pt-6 border-t border-white/10 mt-auto">
+          <div className="text-xs text-primary font-semibold uppercase tracking-wider mb-3">Weryfikujemy m.in:</div>
+          <div className="flex flex-wrap gap-2">
+            <span className="px-2 py-1 bg-black/50 border border-white/10 rounded text-xs text-gray-300">Korekty wtrysków</span>
+            <span className="px-2 py-1 bg-black/50 border border-white/10 rounded text-xs text-gray-300">Stan DPF/EGR</span>
+            <span className="px-2 py-1 bg-black/50 border border-white/10 rounded text-xs text-gray-300">Bezwypadkowość</span>
+          </div>
+        </div>
+      </div>
+
+      {/* BOX 3: Oszczędność (Wąski) */}
+      <div className="glass p-8 relative overflow-hidden group hover:border-primary/40 transition-all duration-500 hover:-translate-y-1">
+        <DollarSign className="w-12 h-12 text-primary mb-6" />
+        <h3 className="h3 text-text mb-4">Usługa, która się zwraca</h3>
+        <p className="body-md text-muted mb-0">
+          Dzięki wykrytym usterkom zyskujesz twarde argumenty. Średnio negocjujemy dla klientów <strong className="text-primary font-bold">od 7% do 15% zniżki</strong>. Koszt inspekcji nierzadko zwraca się w całości przy negocjacjach.
+        </p>
+      </div>
+
+      {/* BOX 4: Zasięg (Szeroki) */}
+      <div className="md:col-span-2 glass p-8 relative overflow-hidden group hover:border-primary/40 transition-all duration-500 hover:-translate-y-1 flex flex-col justify-center">
+        <div className="absolute bottom-0 right-0 w-full h-1/2 bg-gradient-to-t from-primary/5 to-transparent pointer-events-none"></div>
+        <div className="flex flex-col md:flex-row gap-8 items-center relative z-10">
+          <div className="flex-1">
+            <MapPin className="w-12 h-12 text-primary mb-6" />
+            <h3 className="h3 text-text mb-4">Cała Polska. Bez wymówek.</h3>
+            <p className="body-md text-muted">
+              Nie trać czasu wolnego i pieniędzy na paliwo, by jechać na drugi koniec kraju po "igłę", która okazuje się powypadkowym ulepem. Nasi inspektorzy dojadą za Ciebie na miejsce oględzin w dowolnym województwie.
+            </p>
+          </div>
+          <div className="w-full md:w-auto flex flex-row md:flex-col gap-3 justify-center shrink-0">
+            <div className="bg-black/40 px-6 py-4 rounded-xl border border-white/5 text-center flex-1 shadow-inner">
+              <div className="text-3xl font-black text-primary mb-1">24h</div>
+              <div className="text-[10px] text-gray-400 font-bold uppercase tracking-widest">Czas reakcji</div>
+            </div>
+            <div className="bg-black/40 px-6 py-4 rounded-xl border border-white/5 text-center flex-1 shadow-inner">
+              <div className="text-3xl font-black text-primary mb-1">16</div>
+              <div className="text-[10px] text-gray-400 font-bold uppercase tracking-widest">Województw</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+        <section className="py-24 border-t border-white/5 relative">
+          <div className="absolute inset-0 bg-[#FFD200]/5"></div>
+          <div className="container relative z-10 max-w-[800px] mx-auto px-6 text-center">
+            <h2 className="text-4xl md:text-5xl font-bold mb-6 text-white">Znalazłeś ogłoszenie?</h2>
+            <p className="text-xl text-gray-400 mb-10">Nie ryzykuj. Prześlij nam link, a my całkowicie za darmo ocenimy, czy warto w ogóle jechać na miejsce.</p>
+            <button onClick={handleConsultationClick} className="px-10 py-5 bg-[#FFD200] text-black font-black text-xl rounded-2xl hover:scale-105 hover:shadow-[0_0_50px_rgba(255,210,0,0.3)] transition-all">
+              Skontaktuj się z ekspertem
+            </button>
+          </div>
+        </section>
 
       </div>
       <HomeSEOSections />
