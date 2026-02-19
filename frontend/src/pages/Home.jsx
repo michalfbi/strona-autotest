@@ -70,6 +70,7 @@ const ScannerWidget = () => {
     let hitSet = new Set();
     const baseSpeed = 0.34;
     let animFrame;
+    let envRot = 0; // Zmienna do płynnego obracania środowiskiem świetlnym
 
     const clamp = (v, a, b) => Math.max(a, Math.min(b, v));
     const pad = (n, len = 3) => { const s = String(n); return s.length >= len ? s : "0".repeat(len - s.length) + s; };
@@ -199,6 +200,13 @@ const ScannerWidget = () => {
     }
 
     function tick() {
+      // Płynny, ciągły obrót mapy HDRI (świateł wokół modelu)
+      envRot += 0.005;
+      const mv = document.getElementById('car3d');
+      if (mv) {
+        mv.setAttribute('environment-rotation', `0 ${envRot}rad 0`);
+      }
+
       const t = progress / 100;
       const speed = baseSpeed * (0.78 + 0.22 * Math.sin(t * Math.PI));
       if (!isPaused) {
@@ -372,16 +380,21 @@ const ScannerWidget = () => {
         <div className="scanlines"></div>
         <div className="noise"></div>
 
-        {/* CAR STAGE ZE ZMODYFIKOWANYM RENDEROWANIEM (HDRI, ACES, CIENIE) */}
+        {/* CAR STAGE ZE ZMODYFIKOWANYM RENDEROWANIEM (HDRI, ACES, CIENIE I FILTRY) */}
         <div className="car-stage" aria-hidden="true">
           <model-viewer
             id="car3d"
             src="/r8.glb"
-            style={{ width: '100%', height: '100%', background: 'transparent' }}
-            exposure="1.25"
+            style={{ 
+              width: '100%', 
+              height: '100%', 
+              background: 'transparent',
+              filter: 'contrast(1.15) saturate(1.2) brightness(1.1) drop-shadow(0 20px 30px rgba(0,0,0,0.5))'
+            }}
+            exposure="1.4"
             tone-mapping="aces"
-            shadow-intensity="2.2"
-            shadow-softness="0.8"
+            shadow-intensity="3"
+            shadow-softness="0.5"
             environment-image="https://modelviewer.dev/shared-assets/environments/aircraft_workshop_01_1k.hdr"
             interaction-prompt="none"
             camera-orbit="90deg 75deg 5.5m"
