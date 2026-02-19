@@ -9,21 +9,21 @@ export const Preloader = () => {
     // Zablokuj scrollowanie
     document.body.style.overflow = 'hidden';
 
-    // IDEALNY CZAS EKSPOZYCJI: Logo jest w pełni widoczne przez 800ms
+    // LEKKO PRZYSPIESZONY START: Logo zaczyna znikać po 700ms
     const timer1 = setTimeout(() => {
       setStage('fading-content');
-    }, 800); 
+    }, 700); 
 
-    // START KURTYNY: Gdy logo łagodnie znika (po 1100ms), tło jedzie w górę
+    // SZYBSZA KURTYNA: Rusza już po 850ms (prawie natychmiast jak logo zacznie blaknąć)
     const timer2 = setTimeout(() => {
       setStage('lifting-curtain');
-    }, 1100);
+    }, 850);
 
-    // Całość kończy się po 2800ms (1100ms czekania + 1600ms animacji + 100ms buforu)
+    // Całość kończy się po 2550ms (850ms czekania + 1600ms animacji + 100ms buforu)
     const timer3 = setTimeout(() => {
       setIsVisible(false);
       document.body.style.overflow = 'auto';
-    }, 2800); 
+    }, 2550); 
 
     return () => {
       clearTimeout(timer1);
