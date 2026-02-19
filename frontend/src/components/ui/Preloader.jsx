@@ -9,12 +9,13 @@ export const Preloader = () => {
     // Zapobiegaj przewijaniu w trakcie ładowania
     document.body.style.overflow = 'hidden';
 
-    const duration = 500; // 0.5 sekundy czasu trwania
+    // WYDŁUŻONY CZAS: 1.2 sekundy ekspozycji logo przed startem animacji wyjścia
+    const duration = 1200; 
 
     const finishTimer = setTimeout(() => {
       setIsFading(true);
       document.body.style.overflow = 'auto'; // Przywróć przewijanie
-      // Wydłużamy czas na zamknięcie, aby animacja (800ms) mogła w pełni wybrzmieć
+      // 800ms na to, aby animacja zdążyła płynnie dojść do końca
       setTimeout(() => setIsVisible(false), 800); 
     }, duration);
 
@@ -36,7 +37,7 @@ export const Preloader = () => {
       <div className={`absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-[#FFD200]/10 rounded-full blur-[100px] pointer-events-none transition-transform duration-[800ms] ${isFading ? 'scale-50 opacity-0' : 'scale-100 opacity-100'}`}></div>
 
       {/* Główny kontener zawartości - efekt "odlatywania" do przodu w kierunku użytkownika */}
-      <div className={`relative z-10 flex flex-col items-center transition-all duration-[600ms] ease-in ${isFading ? 'scale-150 opacity-0 translate-y-10' : 'scale-100 opacity-100 translate-y-0'}`}>
+      <div className={`relative z-10 flex flex-col items-center transition-all duration-[800ms] ease-in ${isFading ? 'scale-[2.0] opacity-0 translate-y-10' : 'scale-100 opacity-100 translate-y-0'}`}>
         
         {/* Obracające się eleganckie ringi i tarcza */}
         <div className="relative w-32 h-32 flex items-center justify-center mb-8">
