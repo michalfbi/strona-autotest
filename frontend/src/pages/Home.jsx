@@ -12,7 +12,6 @@ const iconMap = {
 
 const ScannerWidget = () => {
   useEffect(() => {
-    // 1. Ładowanie wymaganych skryptów (Model Viewer i FontAwesome)
     if (!document.querySelector('script[src*="model-viewer"]')) {
       const script = document.createElement('script');
       script.type = 'module';
@@ -26,7 +25,6 @@ const ScannerWidget = () => {
       document.head.appendChild(link);
     }
 
-    // 2. Logika Skanera (przeniesiona z Vanilla JS)
     const defects = [
       {
         id: "hood", pct: 28, hotId: "hot-hood",
@@ -252,13 +250,13 @@ const ScannerWidget = () => {
         .scanner-widget {
           position: relative;
           width: 100%;
-          aspect-ratio: 16 / 10;
+          aspect-ratio: 16 / 9;
           background: radial-gradient(900px 500px at 25% 20%, rgba(245,196,0,.14), transparent 55%),
                       radial-gradient(800px 500px at 75% 80%, rgba(255,221,87,.06), transparent 60%),
                       linear-gradient(180deg, rgba(255,255,255,.03), transparent 20%),
                       #07070A;
           border: 1px solid rgba(255,255,255,.10);
-          border-radius: 18px;
+          border-radius: 24px;
           overflow: hidden;
           box-shadow: 0 30px 80px rgba(0,0,0,.78);
           isolation: isolate;
@@ -286,7 +284,10 @@ const ScannerWidget = () => {
         .car-stage {
           position: absolute; left: 50%; top: 54%;
           transform: translate(-50%, -50%) rotateX(var(--tiltX)) rotateY(var(--tiltY));
-          transform-style: preserve-3d; width: min(1050px, 95%); height: 64%; z-index: 10;
+          transform-style: preserve-3d; 
+          width: 98%; 
+          height: 80%; 
+          z-index: 10;
           transition: transform .35s ease; will-change: transform;
         }
         .scanner-widget.is-paused .car-stage { transform: translate(-50%, -50%) rotateX(var(--tiltX)) rotateY(var(--tiltY)) scale(1.02); }
@@ -344,7 +345,7 @@ const ScannerWidget = () => {
         <div className="noise"></div>
 
         {/* TOP HUD */}
-        <div className="absolute top-0 left-0 right-0 z-40 p-4 flex items-start justify-between">
+        <div className="absolute top-0 left-0 right-0 z-40 p-4 md:p-6 flex flex-col md:flex-row items-start justify-between gap-4">
           <div className="flex flex-col gap-2">
             <div className="inline-flex items-center gap-2 w-fit px-3 py-1 rounded-full bg-[#0C0D10]/70 border border-white/10 shadow-[0_0_38px_rgba(245,196,0,.10)]">
               <span className="inline-flex items-center justify-center w-5 h-5 rounded-full bg-[#F5C400] text-black font-extrabold">⚡</span>
@@ -354,7 +355,7 @@ const ScannerWidget = () => {
               <div>
                 <div className="mono text-[10px] tracking-[.22em] uppercase text-[#9AA3B2]">Vehicle model</div>
                 <div className="text-[#EDEFF4] font-semibold text-sm tracking-tight">
-                  AUDI A5 SPORTBACK <span className="text-white/25">//</span> TFSI QUATTRO
+                  AUDI R8 COUPE <span className="text-white/25">//</span> V10 PERFORMANCE
                 </div>
               </div>
             </div>
@@ -431,8 +432,8 @@ const ScannerWidget = () => {
         <div className="connector" id="connector"></div>
 
         {/* BOTTOM BAR + PROGRESS */}
-        <div className="absolute left-0 right-0 bottom-0 z-35 p-4">
-          <div className="flex items-center justify-between gap-3">
+        <div className="absolute left-0 right-0 bottom-0 z-35 p-4 md:p-6">
+          <div className="flex items-center justify-between gap-3 mb-2">
             <div className="hud-chip hidden sm:inline-flex">
               <div className="flex items-center gap-2 mono text-[10px] tracking-[.16em] uppercase text-white/60">
                 <span className="inline-flex w-2.5 h-2.5 rounded-full bg-[#22C55E] shadow-[0_0_12px_rgba(34,197,94,.35)]"></span>
@@ -442,11 +443,11 @@ const ScannerWidget = () => {
             <div className="hud-chip">
               <div className="mono text-[10px] tracking-[.16em] uppercase text-white/60">Scanning: <span className="text-white" id="speedLabel">AUTO</span></div>
             </div>
-            <div className="hud-chip">
+            <div className="hud-chip hidden sm:inline-flex">
               <div className="mono text-[10px] tracking-[.16em] uppercase text-white/60">Cycle: <span className="text-white" id="cycle">01</span></div>
             </div>
           </div>
-          <div className="progress-wrap">
+          <div className="progress-wrap relative left-0 right-0 bottom-0 mt-4">
             <div className="progress">
               <div id="progressBar"></div>
             </div>
@@ -474,10 +475,10 @@ export const Home = () => {
       {/* ZAWARTOŚĆ STRONY */}
       <div className="relative z-10">
         
-        {/* 1. SEKCJA HERO Z NOWYM SKANEREM */}
+        {/* 1. SEKCJA HERO Z NOWYM SKANEREM - POWIĘKSZONY KONTENER */}
         <section className="pt-24 pb-16 lg:pt-32 lg:pb-24 border-b border-white/5">
-          <div className="container max-w-[1200px] mx-auto px-6">
-            <div className="grid grid-cols-1 lg:grid-cols-[1fr_1.2fr] gap-12 items-center">
+          <div className="container max-w-[1500px] mx-auto px-4 sm:px-6">
+            <div className="grid grid-cols-1 lg:grid-cols-[1fr_1.7fr] gap-8 lg:gap-12 items-center">
               
               <div className="text-left space-y-8 animate-in fade-in slide-in-from-left-8 duration-1000">
                 <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-[#FFD200]/10 border border-[#FFD200]/20 text-[#FFD200] text-xs font-bold uppercase tracking-widest">
@@ -485,7 +486,7 @@ export const Home = () => {
                   <span>Modernistyczna Diagnostyka Premium</span>
                 </div>
                 
-                <h1 className="text-5xl lg:text-[72px] font-extrabold leading-[1] tracking-tighter text-white">
+                <h1 className="text-5xl xl:text-[72px] font-extrabold leading-[1] tracking-tighter text-white">
                   Kupujesz auto?<br />
                   <span className="text-[#FFD200]">Sprawdź je zanim</span><br />
                   stracisz pieniądze.
@@ -528,7 +529,7 @@ export const Home = () => {
 
         {/* 2. SEKCJA DLACZEGO MY */}
         <section className="py-20 lg:py-32">
-          <div className="container max-w-[1100px] mx-auto px-6">
+          <div className="container max-w-[1200px] mx-auto px-6">
             <div className="text-center mb-16">
               <h2 className="text-4xl md:text-5xl font-bold mb-6 text-white">Dlaczego <span className="text-[#FFD200]">Autotest?</span></h2>
               <p className="text-lg text-gray-400 max-w-2xl mx-auto">Poznaj powody, dla których setki klientów zaufały nam przy zakupie wymarzonego pojazdu.</p>
