@@ -1,9 +1,6 @@
-import React, { Suspense } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import React from "react";
+import { useNavigate } from "react-router-dom";
 import { ArrowRight, CheckCircle, Zap, Shield, Search, FileText, Gauge, UserCheck, FileCheck, Clock, MapPin } from "lucide-react";
-import { Canvas } from "@react-three/fiber";
-import { Environment, ContactShadows, Center } from "@react-three/drei";
-import { CarModel } from "../components/Car3D/CarModel";
 import { mockData } from "../mockData";
 
 const iconMap = {
@@ -12,6 +9,51 @@ const iconMap = {
   Clock: Clock,
   MapPin: MapPin,
 };
+
+// Stylizowany komponent Pseudo-Car (CSS)
+const PseudoCar = () => (
+  <div className="relative w-full h-full flex items-center justify-center perspective-[1200px]">
+    {/* Kontener z animacją lewitacji */}
+    <div className="relative w-[280px] h-[160px] animate-[float_6s_ease-in-out_infinite] transform-style-3d rotate-x-[20deg] rotate-z-[-20deg]">
+      
+      {/* Podwozie (Cień) */}
+      <div className="absolute bottom-[-40px] left-1/2 -translate-x-1/2 w-[90%] h-[40px] bg-black/40 blur-xl rounded-full"></div>
+
+      {/* Główna bryła (Żółta) */}
+      <div className="absolute inset-0 bg-[#FFD200] rounded-xl shadow-[inset_0_0_20px_rgba(0,0,0,0.2)] transform-style-3d border border-white/10">
+        {/* Przód */}
+        <div className="absolute top-0 right-0 w-[40px] h-full bg-[#e6bd00] rounded-r-xl origin-left rotate-y-[-90deg] flex flex-col justify-between p-2">
+            <div className="w-full h-4 bg-white/80 rounded-sm shadow-[0_0_10px_white]"></div>
+            <div className="w-full h-4 bg-white/80 rounded-sm shadow-[0_0_10px_white]"></div>
+        </div>
+        {/* Góra */}
+        <div className="absolute top-0 left-0 w-full h-full bg-[#ffdb4d] origin-bottom rotate-x-[90deg] rounded-t-xl"></div>
+      </div>
+
+      {/* Kabina (Czarna) */}
+      <div className="absolute top-[-40px] left-[20px] w-[180px] h-[60px] bg-[#222222] rounded-lg transform-style-3d border border-white/5 shadow-lg">
+        {/* Szyba boczna */}
+        <div className="absolute inset-2 bg-black/60 rounded-sm border border-white/10"></div>
+        {/* Szyba przednia */}
+        <div className="absolute top-0 right-0 w-[30px] h-full bg-[#111] origin-left rotate-y-[-90deg] rounded-r-lg border-r border-white/10"></div>
+      </div>
+
+      {/* Ozdobne linie */}
+      <div className="absolute bottom-2 left-4 right-12 h-2 bg-black/20 rounded-full"></div>
+    </div>
+
+    {/* Dodatkowe style dla efektów 3D w CSS */}
+    <style jsx>{`
+      .transform-style-3d {
+        transform-style: preserve-3d;
+      }
+      @keyframes float {
+        0%, 100% { transform: translateY(0px) rotateX(20deg) rotateZ(-20deg); }
+        50% { transform: translateY(-20px) rotateX(22deg) rotateZ(-18deg); }
+      }
+    `}</style>
+  </div>
+);
 
 export const Home = () => {
   const navigate = useNavigate();
@@ -22,13 +64,8 @@ export const Home = () => {
       
       {/* TŁO DLA CAŁEJ STRONY (SIATKA I GLOW) */}
       <div className="fixed inset-0 z-0 pointer-events-none overflow-hidden bg-[#050505]">
-        {/* Siatka */}
         <div className="absolute inset-0 bg-[linear-gradient(to_right,rgba(255,255,255,0.03)_1px,transparent_1px),linear-gradient(to_bottom,rgba(255,255,255,0.03)_1px,transparent_1px)] bg-[size:32px_32px]"></div>
-        
-        {/* Górny żółty gradient (Glow) */}
         <div className="absolute top-0 left-1/4 w-[800px] h-[800px] bg-[#FFD200] opacity-15 rounded-full blur-[150px] -translate-y-1/2"></div>
-        
-        {/* Dolny żółty gradient (Glow) */}
         <div className="absolute bottom-0 right-0 w-[600px] h-[600px] bg-[#FFD200] opacity-10 rounded-full blur-[150px] translate-x-1/4 translate-y-1/4"></div>
       </div>
 
@@ -52,8 +89,9 @@ export const Home = () => {
                   stracisz pieniądze.
                 </h1>
                 
+                {/* USUNIĘTO "3D" Z TEKSTU PONIŻEJ */}
                 <p className="text-lg text-gray-400 max-w-lg font-light leading-relaxed">
-                  Zintegrowany system skanowania 3D i inspekcji technicznej. Wykrywamy to, co sprzedawca próbuje ukryć.
+                  Zintegrowany system skanowania i inspekcji technicznej. Wykrywamy to, co sprzedawca próbuje ukryć.
                 </p>
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -78,21 +116,10 @@ export const Home = () => {
                 </div>
               </div>
               
-              <div className="relative h-[500px] lg:h-[600px] bg-gradient-to-b from-white/5 to-transparent rounded-[40px] border border-white/10 shadow-2xl overflow-hidden cursor-grab active:cursor-grabbing">
-                <Canvas shadows camera={{ position: [0, 2, 5], fov: 40 }}>
-                  <Suspense fallback={null}>
-                    <Environment preset="city" />
-                    <Center>
-                      <CarModel />
-                    </Center>
-                    <ContactShadows position={[0, -0.62, 0]} opacity={0.6} scale={10} blur={2.5} far={1} />
-                  </Suspense>
-                </Canvas>
-                
-                <div className="absolute top-8 left-8 flex items-center gap-3 pointer-events-none">
-                  <div className="w-2 h-2 bg-[#FFD200] animate-ping rounded-full"></div>
-                  <span className="text-[10px] font-mono text-[#FFD200]/80 uppercase tracking-widest">Live 3D Rendering active</span>
-                </div>
+              {/* KONTENER Z NOWYM PSEUDO-SAMOCHODEM CSS */}
+              <div className="relative h-[500px] lg:h-[600px] bg-gradient-to-b from-white/5 to-transparent rounded-[40px] border border-white/10 shadow-2xl overflow-hidden">
+                <PseudoCar />
+                {/* USUNIĘTO ETYKIETĘ "LIVE 3D RENDERING" */}
               </div>
 
             </div>
