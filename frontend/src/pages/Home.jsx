@@ -347,28 +347,38 @@ const ScannerWidget = () => {
       `}</style>
 
       {/* PANELE INFORMACYJNE WYCIĄGNIĘTE NAD SKANER */}
-      <div className="flex flex-col md:flex-row items-start md:items-end justify-between w-full mb-4 z-20 gap-4">
+      <div className="flex flex-col xl:flex-row items-start xl:items-end justify-between w-full mb-4 z-20 gap-6">
         
-        {/* LEWA STRONA: Wizytówka audytora + Model/Badge */}
-        <div className="flex flex-col gap-4">
+        {/* LEWA STRONA: Nowa Wizytówka audytora (Glassmorphism) + Model/Badge */}
+        <div className="flex flex-col gap-5 w-full xl:w-auto">
           
           {/* Nowa sekcja: Profil/Wizytówka */}
-          <div className="flex items-center gap-4 px-4 py-3 rounded-2xl bg-[#0C0D10]/80 border border-white/10 shadow-[0_10px_30px_-10px_rgba(0,0,0,0.5)] backdrop-blur-xl w-fit">
-            <div className="relative w-12 h-12 rounded-full overflow-hidden border-2 border-[#FFD200]/50 shrink-0">
+          <div className="flex items-start gap-4 p-5 rounded-3xl bg-white/5 border border-white/10 shadow-[0_8px_32px_0_rgba(255,255,255,0.02)] backdrop-blur-2xl w-full max-w-[520px] relative overflow-hidden group transition-all hover:bg-white/10">
+            {/* Subtelny glow w tle karty */}
+            <div className="absolute -top-10 -right-10 w-32 h-32 bg-[#FFD200]/10 rounded-full blur-3xl group-hover:bg-[#FFD200]/20 transition-colors duration-500"></div>
+            
+            <div className="relative w-14 h-14 md:w-16 md:h-16 rounded-full overflow-hidden border-2 border-[#FFD200]/60 shrink-0 shadow-[0_0_15px_rgba(245,196,0,0.3)] mt-1">
               <img src="https://ui-avatars.com/api/?name=Adam+Pakuła&background=111&color=FFD200&size=150" alt="Adam Pakuła" className="w-full h-full object-cover" />
             </div>
-            <div className="flex flex-col pr-4">
-              <span className="text-white font-bold text-sm md:text-base tracking-wide">Adam Pakuła</span>
-              <span className="text-[#9AA3B2] text-xs md:text-sm">Doświadczony audytor, mechanik i profesjonalista</span>
+            
+            <div className="flex flex-col relative z-10">
+              <div className="flex items-center gap-2 mb-0.5">
+                <span className="text-white font-bold text-base md:text-lg tracking-wide">Adam Pakuła</span>
+                <CheckCircle className="w-4 h-4 text-[#FFD200]" />
+              </div>
+              <span className="text-[#FFD200] font-semibold text-[11px] md:text-xs uppercase tracking-wider mb-2">Główny Audytor & Ekspert</span>
+              <p className="text-gray-300 text-xs md:text-sm leading-relaxed italic">
+                "Zweryfikowałem ponad 1200 aut na rynku. Chronię moich klientów przed ukrytymi wadami i zakupem skarbonki bez dna. Twoje bezpieczeństwo to mój priorytet."
+              </p>
             </div>
           </div>
 
           <div className="flex flex-col gap-2">
-            <div className="inline-flex items-center gap-2 w-fit px-3 py-1 rounded-full bg-[#0C0D10]/70 border border-white/10 shadow-[0_0_38px_rgba(245,196,0,.10)]">
+            <div className="inline-flex items-center gap-2 w-fit px-3 py-1 rounded-full bg-[#0C0D10]/70 border border-white/10 shadow-[0_0_38px_rgba(245,196,0,.10)] backdrop-blur-md">
               <span className="inline-flex items-center justify-center w-5 h-5 rounded-full bg-[#F5C400] text-black font-extrabold">⚡</span>
               <span className="mono text-[10px] tracking-[.22em] uppercase text-[#F5C400]">Diagnostyka lakiernicza</span>
             </div>
-            <div className="flex items-center gap-4 px-5 py-3 rounded-2xl bg-[#0C0D10]/90 border border-white/10 shadow-lg backdrop-blur-xl w-fit">
+            <div className="flex items-center gap-4 px-5 py-3 rounded-2xl bg-[#0C0D10]/80 border border-white/10 shadow-lg backdrop-blur-xl w-fit">
               <div>
                 <div className="mono text-[10px] tracking-[.22em] uppercase text-[#9AA3B2] mb-1">Vehicle model</div>
                 <div className="text-[#EDEFF4] font-semibold text-sm md:text-base tracking-tight">
@@ -380,7 +390,7 @@ const ScannerWidget = () => {
         </div>
 
         {/* PRAWA STRONA: Wycena z zamrożoną szerokością */}
-        <div className="flex items-center justify-end gap-5 px-6 py-4 rounded-2xl bg-[#0C0D10]/90 border border-[#FFD200]/20 shadow-[0_15px_40px_-10px_rgba(245,196,0,0.2)] backdrop-blur-xl min-w-[280px] sm:min-w-[340px]">
+        <div className="flex items-center justify-end gap-5 px-6 py-4 rounded-2xl bg-[#0C0D10]/80 border border-[#FFD200]/20 shadow-[0_15px_40px_-10px_rgba(245,196,0,0.2)] backdrop-blur-xl w-full xl:w-auto xl:min-w-[340px]">
           <div className="hidden sm:flex w-12 h-12 rounded-full bg-[#FFD200]/10 items-center justify-center border border-[#FFD200]/20 shrink-0">
             <DollarSign className="w-6 h-6 text-[#FFD200]" />
           </div>
@@ -546,10 +556,10 @@ export const Home = () => {
                 </div>
               </div>
               
-              <div className="w-full flex flex-col justify-center items-start mt-8 lg:mt-16">
+              <div className="w-full flex flex-col justify-center items-center mt-8 lg:mt-16">
                 <ScannerWidget />
                 
-                <div className="mt-8 flex w-full justify-center">
+                <div className="mt-8 flex items-center justify-center">
                   <div className="inline-flex items-center gap-3 px-6 py-2.5 rounded-full bg-white/5 border border-white/10 backdrop-blur-md">
                     <span className="w-2.5 h-2.5 rounded-full bg-[#FFD200] animate-pulse shadow-[0_0_12px_#FFD200]"></span>
                     <span className="text-xs md:text-sm font-mono text-gray-300 tracking-[0.15em] uppercase">Interaktywny podgląd inspekcji technicznej</span>
