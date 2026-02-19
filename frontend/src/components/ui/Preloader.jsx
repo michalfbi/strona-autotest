@@ -9,14 +9,15 @@ export const Preloader = () => {
     // Zapobiegaj przewijaniu w trakcie ładowania
     document.body.style.overflow = 'hidden';
 
-    // WYDŁUŻONY CZAS: 1.2 sekundy ekspozycji logo przed startem animacji wyjścia
+    // Czas stania w miejscu zanim ZACZNIE się animacja odlotu (1.2s)
     const duration = 1200; 
 
     const finishTimer = setTimeout(() => {
       setIsFading(true);
       document.body.style.overflow = 'auto'; // Przywróć przewijanie
-      // 800ms na to, aby animacja zdążyła płynnie dojść do końca
-      setTimeout(() => setIsVisible(false), 800); 
+      
+      // WYDŁUŻAMY CZAS SAMEJ ANIMACJI - teraz "odlot" trwa pełne 1.5 sekundy (1500ms)
+      setTimeout(() => setIsVisible(false), 1500); 
     }, duration);
 
     return () => {
@@ -29,15 +30,15 @@ export const Preloader = () => {
 
   return (
     <div 
-      className={`fixed inset-0 z-[9999] bg-[#050505] flex flex-col items-center justify-center transition-all duration-[800ms] ease-[cubic-bezier(0.7,0,0.3,1)] origin-center ${
-        isFading ? 'opacity-0 scale-[1.15] -translate-y-12 blur-md pointer-events-none' : 'opacity-100 scale-100 translate-y-0 blur-0'
+      className={`fixed inset-0 z-[9999] bg-[#050505] flex flex-col items-center justify-center transition-all duration-[1500ms] ease-in-out origin-center ${
+        isFading ? 'opacity-0 scale-110 blur-xl pointer-events-none' : 'opacity-100 scale-100 blur-0'
       }`}
     >
-      {/* Tło z poświatą - maleje i znika */}
-      <div className={`absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-[#FFD200]/10 rounded-full blur-[100px] pointer-events-none transition-transform duration-[800ms] ${isFading ? 'scale-50 opacity-0' : 'scale-100 opacity-100'}`}></div>
+      {/* Tło z poświatą - znika wolniej */}
+      <div className={`absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-[#FFD200]/10 rounded-full blur-[100px] pointer-events-none transition-transform duration-[1500ms] ${isFading ? 'scale-[0.2] opacity-0' : 'scale-100 opacity-100'}`}></div>
 
-      {/* Główny kontener zawartości - efekt "odlatywania" do przodu w kierunku użytkownika */}
-      <div className={`relative z-10 flex flex-col items-center transition-all duration-[800ms] ease-in ${isFading ? 'scale-[2.0] opacity-0 translate-y-10' : 'scale-100 opacity-100 translate-y-0'}`}>
+      {/* Główny kontener zawartości - dużo większe przybliżenie (scale-[4.0]) i dłuższy czas trwania (1500ms) */}
+      <div className={`relative z-10 flex flex-col items-center transition-all duration-[1500ms] ease-in-out ${isFading ? 'scale-[4.0] opacity-0' : 'scale-100 opacity-100'}`}>
         
         {/* Obracające się eleganckie ringi i tarcza */}
         <div className="relative w-32 h-32 flex items-center justify-center mb-8">
