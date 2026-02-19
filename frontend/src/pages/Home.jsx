@@ -668,16 +668,54 @@ export const Home = () => {
   </div>
 </section>
 
-        <section className="py-24 border-t border-white/5 relative">
-          <div className="absolute inset-0 bg-[#FFD200]/5"></div>
-          <div className="container relative z-10 max-w-[800px] mx-auto px-6 text-center">
-            <h2 className="text-4xl md:text-5xl font-bold mb-6 text-white">Znalazłeś ogłoszenie?</h2>
-            <p className="text-xl text-gray-400 mb-10">Nie ryzykuj. Prześlij nam link, a my całkowicie za darmo ocenimy, czy warto w ogóle jechać na miejsce.</p>
-            <button onClick={handleConsultationClick} className="px-10 py-5 bg-[#FFD200] text-black font-black text-xl rounded-2xl hover:scale-105 hover:shadow-[0_0_50px_rgba(255,210,0,0.3)] transition-all">
-              Skontaktuj się z ekspertem
-            </button>
+      {/* NOWA SEKCJA: LEAD MAGNET */}
+      <section className="py-24 relative overflow-hidden bg-surface/20 border-y border-glass-border">
+        <div className="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none z-0">
+          <div className="absolute top-1/2 left-1/4 -translate-y-1/2 w-96 h-96 bg-primary/10 rounded-full blur-[100px]"></div>
+          <div className="absolute top-1/2 right-1/4 -translate-y-1/2 w-96 h-96 bg-yellow-500/5 rounded-full blur-[120px]"></div>
+        </div>
+
+        <div className="container relative z-10 max-w-[1000px] mx-auto">
+          <div className="glass p-8 md:p-14 rounded-3xl border border-primary/20 bg-gradient-to-br from-surface/90 to-bg shadow-[0_0_40px_rgba(255,210,0,0.1)] text-center relative overflow-hidden group hover:border-primary/40 transition-colors duration-500">
+            <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-primary to-transparent opacity-50"></div>
+
+            <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-primary/10 mb-6 border border-primary/20 shadow-[0_0_20px_rgba(255,210,0,0.1)] group-hover:scale-110 transition-transform duration-500">
+              <Search className="w-8 h-8 text-primary" />
+            </div>
+
+            <h2 className="display-md text-text mb-4">
+              Znalazłeś <span className="text-primary">ciekawe ogłoszenie</span>?
+            </h2>
+            
+            <p className="body-lg text-muted mb-10 max-w-2xl mx-auto">
+              Nie ryzykuj wycieczki na drugi koniec Polski po "igłę". Wklej link z OLX, Otomoto lub Facebooka, a my <strong className="text-gray-200">całkowicie za darmo</strong> ocenimy, czy auto jest warte zachodu.
+            </p>
+
+            <form className="max-w-3xl mx-auto flex flex-col md:flex-row gap-4" onSubmit={(e) => { e.preventDefault(); alert('Dziękujemy! Ocenimy to ogłoszenie i wrócimy z odpowiedzią.'); }}>
+              <div className="relative flex-grow">
+                <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                  <Link2 className="h-5 w-5 text-muted" />
+                </div>
+                <input 
+                  type="url" 
+                  required
+                  placeholder="Wklej link do ogłoszenia (Otomoto, OLX...)" 
+                  className="w-full h-full min-h-[60px] bg-black/50 border-2 border-white/10 text-text rounded-xl pl-12 pr-4 py-4 focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-all placeholder:text-gray-500 text-base md:text-lg"
+                />
+              </div>
+              <button type="submit" className="btn-primary py-4 px-8 rounded-xl whitespace-nowrap text-lg shadow-[0_0_20px_rgba(255,210,0,0.2)] hover:shadow-[0_0_30px_rgba(255,210,0,0.4)] transition-all hover:-translate-y-1 flex items-center justify-center">
+                Sprawdź za darmo
+              </button>
+            </form>
+
+            <div className="mt-10 flex flex-wrap justify-center gap-4 md:gap-8 text-sm text-gray-400 font-medium">
+              <div className="flex items-center bg-white/5 px-4 py-2 rounded-full border border-white/5"><CheckCircle className="w-4 h-4 text-primary mr-2" /> Wstępna ocena w 15 min</div>
+              <div className="flex items-center bg-white/5 px-4 py-2 rounded-full border border-white/5"><CheckCircle className="w-4 h-4 text-primary mr-2" /> Oszczędność czasu i paliwa</div>
+              <div className="flex items-center bg-white/5 px-4 py-2 rounded-full border border-white/5"><CheckCircle className="w-4 h-4 text-primary mr-2" /> 100% niezobowiązująco</div>
+            </div>
           </div>
-        </section>
+        </div>
+      </section>
 
       </div>
       <HomeSEOSections />
