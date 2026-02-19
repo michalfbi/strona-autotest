@@ -6,20 +6,20 @@ export const Preloader = () => {
   const [isFading, setIsFading] = useState(false);
 
   useEffect(() => {
-    // Zablokuj scrollowanie
+    // Zablokuj scrollowanie w czasie loadingu
     document.body.style.overflow = 'hidden';
 
-    // 1 sekunda ekspozycji logo przed startem animacji
+    // 1 sekunda statycznej, eleganckiej ekspozycji
     const delayBeforeFade = 1000; 
     
-    // 2.5 sekundy (2500ms) potężnego, powolnego zooma i blaknięcia
-    const animationDuration = 2500; 
+    // 1.2 sekundy (1200ms) na bardzo płynne i powolne przenikanie
+    const animationDuration = 1200; 
 
     const timer = setTimeout(() => {
       setIsFading(true);
-      document.body.style.overflow = 'auto'; // Przywróć przewijanie w tle
+      document.body.style.overflow = 'auto'; // Przywróć przewijanie
       
-      // Dopiero po pełnych 2.5s usuwamy całkowicie komponent
+      // Dopiero gdy animacja w pełni się zakończy, usuwamy komponent
       setTimeout(() => setIsVisible(false), animationDuration); 
     }, delayBeforeFade);
 
@@ -35,27 +35,21 @@ export const Preloader = () => {
     <div 
       className="fixed inset-0 z-[9999] bg-[#050505] flex flex-col items-center justify-center overflow-hidden"
       style={{
-        transition: 'all 2500ms cubic-bezier(0.4, 0, 0.2, 1)',
+        // Główne tło znika niezwykle gładko
+        transition: 'opacity 1200ms cubic-bezier(0.4, 0, 0.2, 1)',
         opacity: isFading ? 0 : 1,
         pointerEvents: isFading ? 'none' : 'auto'
       }}
     >
-      {/* Tło z poświatą - powoli wygasa i maleje */}
-      <div 
-        className="absolute top-1/2 left-1/2 w-96 h-96 bg-[#FFD200]/15 rounded-full blur-[100px] pointer-events-none"
-        style={{
-          transition: 'all 2500ms ease-out',
-          transform: isFading ? 'translate(-50%, -50%) scale(0.1)' : 'translate(-50%, -50%) scale(1)',
-          opacity: isFading ? 0 : 1
-        }}
-      ></div>
+      {/* Subtelna poświata w tle */}
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-[#FFD200]/10 rounded-full blur-[100px] pointer-events-none"></div>
 
-      {/* Główny kontener - leci wprost na użytkownika (ogromny scale) */}
+      {/* Główny kontener - delikatnie, z dużą gracją unosi się w górę podczas zanikania */}
       <div 
         className="relative z-10 flex flex-col items-center"
         style={{
-          transition: 'all 2500ms cubic-bezier(0.5, 0, 0.1, 1)',
-          transform: isFading ? 'scale(15) translateY(10px)' : 'scale(1) translateY(0)',
+          transition: 'all 1200ms cubic-bezier(0.33, 1, 0.68, 1)',
+          transform: isFading ? 'translateY(-30px)' : 'translateY(0)',
           opacity: isFading ? 0 : 1
         }}
       >
