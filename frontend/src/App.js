@@ -13,10 +13,12 @@ import { Pricing } from "./pages/Pricing";
 import { Contact } from "./pages/Contact";
 import { CarPreparation } from "./pages/CarPreparation";
 import { CallPopup } from "./components/ui/CallPopup";
+import { Preloader } from "./components/ui/Preloader";
 
 function App() {
   return (
     <div className="App">
+      <Preloader />
       <BrowserRouter>
         <Layout>
           <Routes>
