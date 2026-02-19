@@ -390,13 +390,13 @@ const ScannerWidget = () => {
 
           {/* Prawa strona: Wycena */}
           <div className="flex items-center justify-between md:justify-end gap-5 px-8 py-4 rounded-2xl bg-[#0C0D10]/90 border border-[#FFD200]/20 shadow-[0_15px_40px_-10px_rgba(245,196,0,0.2)] backdrop-blur-xl w-full md:w-auto md:min-w-[360px] h-full">
-            <div className="hidden sm:flex w-12 h-12 rounded-full bg-[#FFD200]/10 items-center justify-center border border-[#FFD200]/20 shrink-0">
-              <DollarSign className="w-6 h-6 text-[#FFD200]" />
+            <div className="hidden xl:flex w-10 h-10 rounded-full bg-[#FFD200]/10 items-center justify-center border border-[#FFD200]/20 shrink-0">
+              <DollarSign className="w-5 h-5 text-[#FFD200]" />
             </div>
             <div className="text-right flex flex-col items-end justify-center w-full md:w-auto">
-              <div className="mono text-[11px] tracking-[.22em] uppercase text-[#9AA3B2] mb-1.5">Wycena uszkodzeń</div>
-              <div className="mono text-3xl md:text-4xl font-black text-[#FFD200] leading-none transition-colors duration-300" id="total">0 PLN</div>
-              <div className="mono text-[10px] tracking-[.18em] uppercase text-white/40 mt-2 transition-colors duration-300 w-[240px] text-right" id="status">INITIALIZING...</div>
+              <div className="mono text-[10px] tracking-[.2em] uppercase text-[#9AA3B2] mb-1">Wycena uszkodzeń</div>
+              <div className="mono text-2xl xl:text-3xl font-black text-[#FFD200] leading-none transition-colors duration-300" id="total">0 PLN</div>
+              <div className="mono text-[9px] tracking-[.15em] uppercase text-white/40 mt-1.5 transition-colors duration-300 w-full text-right" id="status">INITIALIZING...</div>
             </div>
           </div>
           
@@ -558,7 +558,8 @@ export const Home = () => {
                 </div>
               </div>
               
-              <div className="w-full flex flex-col justify-center items-center mt-8 lg:mt-8">
+              {/* ZLIKWIDOWANO lg:mt-16 ABY SKANER PODCIĄGNĄŁ SIĘ WYŻEJ DO HEADERA */}
+              <div className="w-full flex flex-col justify-center items-center mt-8 lg:mt-0">
                 <ScannerWidget />
                 
                 <div className="mt-8 flex items-center justify-center">
