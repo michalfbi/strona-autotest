@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { ArrowRight, CheckCircle, Zap, Shield, Search, FileText, Gauge, UserCheck, FileCheck, Clock, MapPin } from "lucide-react";
+import { ArrowRight, CheckCircle, Zap, Shield, Search, FileText, Gauge, UserCheck, FileCheck, Clock, MapPin, DollarSign } from "lucide-react";
 import { mockData } from "../mockData";
 
 const iconMap = {
@@ -245,7 +245,7 @@ const ScannerWidget = () => {
   }, []);
 
   return (
-    <>
+    <div className="w-full flex flex-col">
       <style>{`
         .scanner-widget {
           position: relative;
@@ -339,14 +339,29 @@ const ScannerWidget = () => {
         .progress > div { height: 100%; width: 0%; background: linear-gradient(90deg, rgba(245,196,0,.2), rgba(245,196,0,.95), rgba(245,196,0,.35)); box-shadow: 0 0 18px rgba(245,196,0,.25); border-radius: 999px; }
       `}</style>
 
+      {/* PANEL WYCENY WYCIĄGNIĘTY NAD SKANER */}
+      <div className="flex justify-end w-full mb-4 z-20">
+        <div className="flex items-center gap-5 px-6 py-4 rounded-2xl bg-[#0C0D10]/90 border border-[#FFD200]/20 shadow-[0_15px_40px_-10px_rgba(245,196,0,0.2)] backdrop-blur-xl">
+          <div className="hidden sm:flex w-12 h-12 rounded-full bg-[#FFD200]/10 items-center justify-center border border-[#FFD200]/20">
+            <DollarSign className="w-6 h-6 text-[#FFD200]" />
+          </div>
+          <div className="text-right">
+            <div className="mono text-[11px] tracking-[.22em] uppercase text-[#9AA3B2] mb-1.5">Wycena uszkodzeń</div>
+            <div className="mono text-3xl md:text-4xl font-black text-[#FFD200] leading-none" id="total">0 PLN</div>
+            <div className="mono text-[10px] tracking-[.18em] uppercase text-white/40 mt-2" id="status">INITIALIZING...</div>
+          </div>
+        </div>
+      </div>
+
+      {/* GŁÓWNY WIDŻET SKANERA */}
       <div className="scanner-widget" id="widget">
         <div className="scanner-grid"></div>
         <div className="scanlines"></div>
         <div className="noise"></div>
 
-        {/* TOP HUD */}
-        <div className="absolute top-0 left-0 right-0 z-40 p-4 md:p-6 flex flex-col md:flex-row items-start justify-between gap-4">
-          <div className="flex flex-col gap-2">
+        {/* TOP HUD (TYLKO LEWA STRONA) */}
+        <div className="absolute top-0 left-0 right-0 z-40 p-4 md:p-6 flex flex-col items-start gap-4 pointer-events-none">
+          <div className="flex flex-col gap-2 pointer-events-auto">
             <div className="inline-flex items-center gap-2 w-fit px-3 py-1 rounded-full bg-[#0C0D10]/70 border border-white/10 shadow-[0_0_38px_rgba(245,196,0,.10)]">
               <span className="inline-flex items-center justify-center w-5 h-5 rounded-full bg-[#F5C400] text-black font-extrabold">⚡</span>
               <span className="mono text-[10px] tracking-[.22em] uppercase text-[#F5C400]">Diagnostyka lakiernicza</span>
@@ -358,14 +373,6 @@ const ScannerWidget = () => {
                   AUDI R8 COUPE <span className="text-white/25">//</span> V10 PERFORMANCE
                 </div>
               </div>
-            </div>
-          </div>
-
-          <div className="hud-chip">
-            <div className="text-right">
-              <div className="mono text-[10px] tracking-[.22em] uppercase text-[#9AA3B2]">Wycena uszkodzeń</div>
-              <div className="mono text-2xl font-extrabold text-[#F5C400]" id="total">0 PLN</div>
-              <div className="mono text-[10px] tracking-[.18em] uppercase text-white/40" id="status">INITIALIZING...</div>
             </div>
           </div>
         </div>
@@ -454,7 +461,7 @@ const ScannerWidget = () => {
           </div>
         </div>
       </div>
-    </>
+    </div>
   );
 };
 
