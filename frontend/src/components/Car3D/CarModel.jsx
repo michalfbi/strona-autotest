@@ -1,19 +1,23 @@
 import React, { useRef } from 'react';
+import { useGLTF } from '@react-three/drei';
 import { useFrame } from '@react-three/fiber';
+import * as THREE from 'three';
 
 export function CarModel() {
-  const meshRef = useRef();
+  const group = useRef();
+  // Niezawodny link do darmowego modelu Porsche
+  const { scene } = useGLTF('https://vazxmixjsiawhamofees.supabase.co/storage/v1/object/public/models/porsche-911/model.gltf');
 
-  useFrame((state, delta) => {
-    if (meshRef.current) {
-      meshRef.current.rotation.y += delta * 0.5;
+  useFrame((state) => {
+    if (group.current) {
+      // Używamy state.pointer zamiast przestarzałego state.mouse
+      group.current.rotation.y = THREE.MathUtils.lerp(group.current.rotation.y, (state.pointer.x * Math.PI) / 6 + Math.PI, 0.1);
+      group.current.rotation.x = THREE.MathUtils.lerp(group.current.rotation.x, (state.pointer.y * Math.PI) / 12, 0.1);
     }
   });
 
-  return (
-    <mesh ref={meshRef} position={[0, -0.6, 0]}>
-      <boxGeometry args={[3, 1, 1.5]} />
-      <meshStandardMaterial color="#FFD200" roughness={0.3} metalness={0.7} />
-    </mesh>
-  );
+  return <primitive ref={group} object={scene} scale={1.2} position={[0, -0.6, 0]} />;
 }
+
+// Preload modelu, żeby ładował się błyskawicznie
+useGLTF.preload('https://vazxmixjsiawhamofees.supabase.co/storage/v1/object/public/models/porsche-911/model.gltf');
