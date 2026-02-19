@@ -14,17 +14,16 @@ export const Preloader = () => {
       setStage('fading-content');
     }, 1000); 
 
-    // Etap 2: Logo znika. Po 300ms czarne tło zaczyna powoli odjeżdżać do góry
+    // Etap 2: Po 1.5 sekundy (gdy logo w pełni zniknie), kurtyna zaczyna powoli odjeżdżać do góry
     const timer2 = setTimeout(() => {
       setStage('lifting-curtain');
-    }, 1300);
+    }, 1500);
 
-    // Etap 3: Koniec 2-sekundowej, dostojnej animacji kurtyny, czyścimy DOM
-    // 1300ms + 2000ms animacji + 100ms marginesu bezpieczeństwa = 3400ms
+    // Etap 3: Całkowity czas to 1500ms (czekanie) + 3000ms (bardzo wolna kurtyna) + 100ms marginesu = 4600ms
     const timer3 = setTimeout(() => {
       setIsVisible(false);
       document.body.style.overflow = 'auto';
-    }, 3400); 
+    }, 4600); 
 
     return () => {
       clearTimeout(timer1);
@@ -38,13 +37,18 @@ export const Preloader = () => {
 
   return (
     <div 
-      // Wydłużony czas do 2000ms (2 sekundy) dla kinowej, powolnej kurtyny
-      className={`fixed inset-0 z-[9999] flex flex-col items-center justify-center bg-[#050505] transition-transform duration-[2000ms] ease-[cubic-bezier(0.76,0,0.24,1)] ${
-        stage === 'lifting-curtain' ? '-translate-y-full' : 'translate-y-0'
-      }`}
+      className="fixed inset-0 z-[9999] flex flex-col items-center justify-center bg-[#050505]"
+      style={{
+        // TWARDE STYLE: Wymuszamy dokładnie 3 sekundy (3000ms) bardzo płynnego ruchu
+        transition: 'transform 3000ms cubic-bezier(0.76, 0, 0.24, 1)',
+        transform: stage === 'lifting-curtain' ? 'translateY(-100%)' : 'translateY(0)'
+      }}
     >
       {/* Tło z poświatą */}
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-[#FFD200]/10 rounded-full blur-[100px] pointer-events-none"></div>
+      <div 
+        className="absolute top-1/2 left-1/2 w-96 h-96 bg-[#FFD200]/10 rounded-full blur-[100px] pointer-events-none"
+        style={{ transform: 'translate(-50%, -50%)' }}
+      ></div>
 
       {/* Kontener z zawartością - elegancko znika przed podniesieniem kurtyny */}
       <div 
