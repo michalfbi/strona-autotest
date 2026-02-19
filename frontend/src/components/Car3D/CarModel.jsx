@@ -12,7 +12,7 @@ export function CarModel() {
   });
   return (
     <group ref={group} position={[0, -0.2, 0]} scale={1.2}>
-      <mesh position={[0, 0.3, 0]}><boxGeometry args={[2.8, 0.5, 1.2]} /><meshStandardMaterial color="#FFD200" roughness={0.2} metalness={0.6} /></mesh>
+      <mesh position={[0, 0.3, 0]}><boxGeometry args={[2.8, 0.5, 1.2]} /><meshStandardMaterial color="#000000" roughness={0.2} metalness={0.6} /></mesh>
       <mesh position={[-0.2, 0.7, 0]}><boxGeometry args={[1.4, 0.35, 1.0]} /><meshStandardMaterial color="#222222" roughness={0.1} metalness={0.9} /></mesh>
       <mesh position={[1.4, 0.35, 0.4]}><boxGeometry args={[0.05, 0.15, 0.2]} /><meshStandardMaterial color="#ffffff" emissive="#ffffff" emissiveIntensity={2} /></mesh>
       <mesh position={[1.4, 0.35, -0.4]}><boxGeometry args={[0.05, 0.15, 0.2]} /><meshStandardMaterial color="#ffffff" emissive="#ffffff" emissiveIntensity={2} /></mesh>
