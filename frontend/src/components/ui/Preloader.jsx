@@ -3,28 +3,32 @@ import { ShieldCheck } from 'lucide-react';
 
 export const Preloader = () => {
   const [isVisible, setIsVisible] = useState(true);
-  const [isFading, setIsFading] = useState(false);
+  const [stage, setStage] = useState('loading'); // 'loading', 'fading-content', 'lifting-curtain'
 
   useEffect(() => {
-    // Zablokuj scrollowanie w czasie loadingu
+    // Zablokuj scrollowanie
     document.body.style.overflow = 'hidden';
 
-    // 1 sekunda statycznej, eleganckiej ekspozycji
-    const delayBeforeFade = 1000; 
-    
-    // 1.2 sekundy (1200ms) na bardzo płynne i powolne przenikanie
-    const animationDuration = 1200; 
+    // Etap 1: Ekspozycja logo przez 1 sekundę
+    const timer1 = setTimeout(() => {
+      setStage('fading-content');
+    }, 1000); 
 
-    const timer = setTimeout(() => {
-      setIsFading(true);
-      document.body.style.overflow = 'auto'; // Przywróć przewijanie
-      
-      // Dopiero gdy animacja w pełni się zakończy, usuwamy komponent
-      setTimeout(() => setIsVisible(false), animationDuration); 
-    }, delayBeforeFade);
+    // Etap 2: Logo znika. Po 300ms czarne tło "odjeżdża" do góry
+    const timer2 = setTimeout(() => {
+      setStage('lifting-curtain');
+    }, 1300);
+
+    // Etap 3: Koniec 1.2-sekundowej animacji kurtyny, czyścimy DOM
+    const timer3 = setTimeout(() => {
+      setIsVisible(false);
+      document.body.style.overflow = 'auto';
+    }, 2500); 
 
     return () => {
-      clearTimeout(timer);
+      clearTimeout(timer1);
+      clearTimeout(timer2);
+      clearTimeout(timer3);
       document.body.style.overflow = 'auto';
     };
   }, []);
@@ -33,25 +37,19 @@ export const Preloader = () => {
 
   return (
     <div 
-      className="fixed inset-0 z-[9999] bg-[#050505] flex flex-col items-center justify-center overflow-hidden"
-      style={{
-        // Główne tło znika niezwykle gładko
-        transition: 'opacity 1200ms cubic-bezier(0.4, 0, 0.2, 1)',
-        opacity: isFading ? 0 : 1,
-        pointerEvents: isFading ? 'none' : 'auto'
-      }}
+      // cubic-bezier(0.76, 0, 0.24, 1) to krzywa przyspieszenia znana z urządzeń Apple - wolny start, bardzo szybki środek, miękkie lądowanie
+      className={`fixed inset-0 z-[9999] flex flex-col items-center justify-center bg-[#050505] transition-transform duration-[1200ms] ease-[cubic-bezier(0.76,0,0.24,1)] ${
+        stage === 'lifting-curtain' ? '-translate-y-full' : 'translate-y-0'
+      }`}
     >
-      {/* Subtelna poświata w tle */}
+      {/* Tło z poświatą */}
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-[#FFD200]/10 rounded-full blur-[100px] pointer-events-none"></div>
 
-      {/* Główny kontener - delikatnie, z dużą gracją unosi się w górę podczas zanikania */}
+      {/* Kontener z zawartością - elegancko znika i lekko się rozmywa zanim kurtyna ruszy */}
       <div 
-        className="relative z-10 flex flex-col items-center"
-        style={{
-          transition: 'all 1200ms cubic-bezier(0.33, 1, 0.68, 1)',
-          transform: isFading ? 'translateY(-30px)' : 'translateY(0)',
-          opacity: isFading ? 0 : 1
-        }}
+        className={`relative z-10 flex flex-col items-center transition-all duration-500 ease-out ${
+          stage !== 'loading' ? 'opacity-0 scale-95 blur-sm' : 'opacity-100 scale-100 blur-0'
+        }`}
       >
         
         {/* Obracające się eleganckie ringi i tarcza */}
