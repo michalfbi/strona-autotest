@@ -6,53 +6,35 @@ export const Preloader = () => {
   const [stage, setStage] = useState('loading'); 
 
   useEffect(() => {
-    // 1. Obliczamy szerokość paska
-    const scrollbarWidth = window.innerWidth - document.documentElement.clientWidth;
+    // 1. ZAMRAŻAMY SCROLLOWANIE BEZ CHOWANIA PASKA
+    // Dzięki temu szerokość ekranu jest identyczna przed, w trakcie i po animacji.
+    const originalStyle = window.getComputedStyle(document.body).overflow;
     
-    // 2. Blokujemy przeskok na poziomie globalnym CSS
-    const styleEl = document.createElement('style');
-    styleEl.id = 'preloader-final-fix';
-    styleEl.innerHTML = `
-      html { 
-        overflow: hidden !important; 
-        /* Wymuszamy, aby strona zawsze zajmowała 100% szerokości minus pasek */
-        width: 100vw !important;
-      }
-      body { 
-        position: fixed !important;
-        overflow-y: scroll !important;
-        width: 100% !important;
-      }
-      /* Zamrażamy nagłówek w miejscu */
-      header, nav {
-        position: fixed !important;
-        width: 100% !important;
-        left: 0 !important;
-        right: 0 !important;
-      }
-    `;
-    document.head.appendChild(styleEl);
+    // Blokujemy możliwość przewijania, ale nie usuwamy fizycznie paska
+    document.body.style.position = 'fixed';
+    document.body.style.width = '100%';
+    document.body.style.top = `-${window.scrollY}px`;
+    document.body.style.overflowY = 'scroll';
 
     const timer1 = setTimeout(() => setStage('fading-content'), 600); 
     const timer2 = setTimeout(() => setStage('lifting-curtain'), 800);
 
     const timer3 = setTimeout(() => {
       setIsVisible(false);
-      // 3. Przywracamy wolność stronie
-      const fix = document.getElementById('preloader-final-fix');
-      if (fix) fix.remove();
-      document.documentElement.style.overflow = '';
+      
+      // 2. PRZYWRACAMY WOLNOŚĆ STRONIE
+      const scrollY = document.body.style.top;
       document.body.style.position = '';
       document.body.style.width = '';
-      document.body.style.overflowY = '';
+      document.body.style.top = '';
+      document.body.style.overflowY = originalStyle;
+      window.scrollTo(0, parseInt(scrollY || '0') * -1);
     }, 2500); 
 
     return () => {
       clearTimeout(timer1);
       clearTimeout(timer2);
       clearTimeout(timer3);
-      const fix = document.getElementById('preloader-final-fix');
-      if (fix) fix.remove();
     };
   }, []);
 
