@@ -346,62 +346,55 @@ const ScannerWidget = () => {
         .progress > div { height: 100%; width: 0%; background: linear-gradient(90deg, rgba(245,196,0,.2), rgba(245,196,0,.95), rgba(245,196,0,.35)); box-shadow: 0 0 18px rgba(245,196,0,.25); border-radius: 999px; }
       `}</style>
 
-      {/* PANELE INFORMACYJNE WYCIĄGNIĘTE NAD SKANER */}
-      <div className="flex flex-col xl:flex-row items-start xl:items-end justify-between w-full mb-4 z-20 gap-6">
+      {/* PANELE INFORMACYJNE WYCIĄGNIĘTE NAD SKANER (JEDEN SZEROKI RZĄD) */}
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 w-full mb-4 z-20 items-stretch">
         
-        {/* LEWA STRONA: Nowa Wizytówka audytora (Glassmorphism) + Model/Badge */}
-        <div className="flex flex-col gap-5 w-full xl:w-auto">
-          
-          {/* Nowa sekcja: Profil/Wizytówka */}
-          <div className="flex items-start gap-4 p-5 rounded-3xl bg-white/5 border border-white/10 shadow-[0_8px_32px_0_rgba(255,255,255,0.02)] backdrop-blur-2xl w-full max-w-[520px] relative overflow-hidden group transition-all hover:bg-white/10">
-            {/* Subtelny glow w tle karty */}
-            <div className="absolute -top-10 -right-10 w-32 h-32 bg-[#FFD200]/10 rounded-full blur-3xl group-hover:bg-[#FFD200]/20 transition-colors duration-500"></div>
-            
-            <div className="relative w-14 h-14 md:w-16 md:h-16 rounded-full overflow-hidden border-2 border-[#FFD200]/60 shrink-0 shadow-[0_0_15px_rgba(245,196,0,0.3)] mt-1">
-              <img src="https://ui-avatars.com/api/?name=Adam+Pakuła&background=111&color=FFD200&size=150" alt="Adam Pakuła" className="w-full h-full object-cover" />
-            </div>
-            
-            <div className="flex flex-col relative z-10">
-              <div className="flex items-center gap-2 mb-0.5">
-                <span className="text-white font-bold text-base md:text-lg tracking-wide">Adam Pakuła</span>
-                <CheckCircle className="w-4 h-4 text-[#FFD200]" />
-              </div>
-              <span className="text-[#FFD200] font-semibold text-[11px] md:text-xs uppercase tracking-wider mb-2">Główny Audytor & Ekspert</span>
-              <p className="text-gray-300 text-xs md:text-sm leading-relaxed italic">
-                "Zweryfikowałem ponad 1200 aut na rynku. Chronię moich klientów przed ukrytymi wadami i zakupem skarbonki bez dna. Twoje bezpieczeństwo to mój priorytet."
-              </p>
-            </div>
+        {/* 1. Wizytówka audytora */}
+        <div className="flex items-center gap-4 px-5 py-3 rounded-2xl bg-[#0C0D10]/80 border border-white/10 shadow-[0_8px_32px_0_rgba(255,255,255,0.02)] backdrop-blur-2xl relative overflow-hidden group">
+          <div className="absolute -top-10 -right-10 w-24 h-24 bg-[#FFD200]/10 rounded-full blur-2xl group-hover:bg-[#FFD200]/20 transition-colors duration-500"></div>
+          <div className="relative w-12 h-12 rounded-full overflow-hidden border border-[#FFD200]/60 shrink-0 shadow-[0_0_10px_rgba(245,196,0,0.2)]">
+            <img src="https://ui-avatars.com/api/?name=Adam+Pakuła&background=111&color=FFD200&size=150" alt="Adam Pakuła" className="w-full h-full object-cover" />
           </div>
-
-          <div className="flex flex-col gap-2">
-            <div className="inline-flex items-center gap-2 w-fit px-3 py-1 rounded-full bg-[#0C0D10]/70 border border-white/10 shadow-[0_0_38px_rgba(245,196,0,.10)] backdrop-blur-md">
-              <span className="inline-flex items-center justify-center w-5 h-5 rounded-full bg-[#F5C400] text-black font-extrabold">⚡</span>
-              <span className="mono text-[10px] tracking-[.22em] uppercase text-[#F5C400]">Diagnostyka lakiernicza</span>
+          <div className="flex flex-col relative z-10 justify-center">
+            <div className="flex items-center gap-1.5 mb-0.5">
+              <span className="text-white font-bold text-sm tracking-wide">Adam Pakuła</span>
+              <CheckCircle className="w-3.5 h-3.5 text-[#FFD200]" />
             </div>
-            <div className="flex items-center gap-4 px-5 py-3 rounded-2xl bg-[#0C0D10]/80 border border-white/10 shadow-lg backdrop-blur-xl w-fit">
-              <div>
-                <div className="mono text-[10px] tracking-[.22em] uppercase text-[#9AA3B2] mb-1">Vehicle model</div>
-                <div className="text-[#EDEFF4] font-semibold text-sm md:text-base tracking-tight">
-                  AUDI R8 COUPE <span className="text-white/25">//</span> V10 PERFORMANCE
-                </div>
-              </div>
+            <span className="text-[#FFD200] font-semibold text-[10px] uppercase tracking-wider mb-1">Główny Audytor</span>
+            <p className="text-gray-400 text-[10px] leading-snug italic line-clamp-2">
+              "Chronię klientów przed ukrytymi wadami i kosztami."
+            </p>
+          </div>
+        </div>
+
+        {/* 2. Model i Badge */}
+        <div className="flex flex-col justify-center px-6 py-3 rounded-2xl bg-[#0C0D10]/80 border border-white/10 shadow-lg backdrop-blur-xl relative overflow-hidden">
+          <div className="inline-flex items-center gap-2 w-fit px-2.5 py-1 mb-2 rounded-full bg-black/50 border border-white/5">
+            <span className="inline-flex items-center justify-center w-4 h-4 rounded-full bg-[#F5C400] text-black font-extrabold text-[8px]">⚡</span>
+            <span className="mono text-[9px] tracking-[.15em] uppercase text-[#F5C400]">Diagnostyka lakiernicza</span>
+          </div>
+          <div>
+            <div className="mono text-[10px] tracking-[.2em] uppercase text-[#9AA3B2] mb-0.5">Vehicle model</div>
+            <div className="text-[#EDEFF4] font-semibold text-sm tracking-tight truncate">
+              AUDI R8 COUPE <span className="text-white/25">//</span> V10
             </div>
           </div>
         </div>
 
-        {/* PRAWA STRONA: Wycena z zamrożoną szerokością */}
-        <div className="flex items-center justify-end gap-5 px-6 py-4 rounded-2xl bg-[#0C0D10]/80 border border-[#FFD200]/20 shadow-[0_15px_40px_-10px_rgba(245,196,0,0.2)] backdrop-blur-xl w-full xl:w-auto xl:min-w-[340px]">
-          <div className="hidden sm:flex w-12 h-12 rounded-full bg-[#FFD200]/10 items-center justify-center border border-[#FFD200]/20 shrink-0">
-            <DollarSign className="w-6 h-6 text-[#FFD200]" />
+        {/* 3. Wycena */}
+        <div className="flex items-center justify-between lg:justify-end gap-4 px-6 py-3 rounded-2xl bg-[#0C0D10]/90 border border-[#FFD200]/20 shadow-[0_15px_40px_-10px_rgba(245,196,0,0.2)] backdrop-blur-xl">
+          <div className="hidden xl:flex w-10 h-10 rounded-full bg-[#FFD200]/10 items-center justify-center border border-[#FFD200]/20 shrink-0">
+            <DollarSign className="w-5 h-5 text-[#FFD200]" />
           </div>
-          <div className="text-right flex flex-col items-end">
-            <div className="mono text-[11px] tracking-[.22em] uppercase text-[#9AA3B2] mb-1.5">Wycena uszkodzeń</div>
-            <div className="mono text-3xl md:text-4xl font-black text-[#FFD200] leading-none transition-colors duration-300" id="total">0 PLN</div>
-            <div className="mono text-[10px] tracking-[.18em] uppercase text-white/40 mt-2 transition-colors duration-300 w-[240px] text-right" id="status">INITIALIZING...</div>
+          <div className="text-right flex flex-col items-end justify-center w-full lg:w-auto">
+            <div className="mono text-[10px] tracking-[.2em] uppercase text-[#9AA3B2] mb-1">Wycena uszkodzeń</div>
+            <div className="mono text-2xl xl:text-3xl font-black text-[#FFD200] leading-none transition-colors duration-300" id="total">0 PLN</div>
+            <div className="mono text-[9px] tracking-[.15em] uppercase text-white/40 mt-1.5 transition-colors duration-300 w-full text-right" id="status">INITIALIZING...</div>
           </div>
         </div>
       </div>
 
+      {/* GŁÓWNY WIDŻET SKANERA */}
       <div className="scanner-widget" id="widget">
         <div className="scanner-grid"></div>
         <div className="scanlines"></div>
