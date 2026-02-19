@@ -6,22 +6,25 @@ export const Preloader = () => {
   const [isFading, setIsFading] = useState(false);
 
   useEffect(() => {
-    // Zapobiegaj przewijaniu w trakcie ładowania
+    // Zablokuj scrollowanie
     document.body.style.overflow = 'hidden';
 
-    // Czas stania w miejscu zanim ZACZNIE się animacja odlotu (1.2s)
-    const duration = 1200; 
+    // 1 sekunda ekspozycji logo przed startem animacji
+    const delayBeforeFade = 1000; 
+    
+    // 2.5 sekundy (2500ms) potężnego, powolnego zooma i blaknięcia
+    const animationDuration = 2500; 
 
-    const finishTimer = setTimeout(() => {
+    const timer = setTimeout(() => {
       setIsFading(true);
-      document.body.style.overflow = 'auto'; // Przywróć przewijanie
+      document.body.style.overflow = 'auto'; // Przywróć przewijanie w tle
       
-      // WYDŁUŻAMY CZAS SAMEJ ANIMACJI - teraz "odlot" trwa pełne 1.5 sekundy (1500ms)
-      setTimeout(() => setIsVisible(false), 1500); 
-    }, duration);
+      // Dopiero po pełnych 2.5s usuwamy całkowicie komponent
+      setTimeout(() => setIsVisible(false), animationDuration); 
+    }, delayBeforeFade);
 
     return () => {
-      clearTimeout(finishTimer);
+      clearTimeout(timer);
       document.body.style.overflow = 'auto';
     };
   }, []);
@@ -30,15 +33,32 @@ export const Preloader = () => {
 
   return (
     <div 
-      className={`fixed inset-0 z-[9999] bg-[#050505] flex flex-col items-center justify-center transition-all duration-[1500ms] ease-in-out origin-center ${
-        isFading ? 'opacity-0 scale-110 blur-xl pointer-events-none' : 'opacity-100 scale-100 blur-0'
-      }`}
+      className="fixed inset-0 z-[9999] bg-[#050505] flex flex-col items-center justify-center overflow-hidden"
+      style={{
+        transition: 'all 2500ms cubic-bezier(0.4, 0, 0.2, 1)',
+        opacity: isFading ? 0 : 1,
+        pointerEvents: isFading ? 'none' : 'auto'
+      }}
     >
-      {/* Tło z poświatą - znika wolniej */}
-      <div className={`absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-[#FFD200]/10 rounded-full blur-[100px] pointer-events-none transition-transform duration-[1500ms] ${isFading ? 'scale-[0.2] opacity-0' : 'scale-100 opacity-100'}`}></div>
+      {/* Tło z poświatą - powoli wygasa i maleje */}
+      <div 
+        className="absolute top-1/2 left-1/2 w-96 h-96 bg-[#FFD200]/15 rounded-full blur-[100px] pointer-events-none"
+        style={{
+          transition: 'all 2500ms ease-out',
+          transform: isFading ? 'translate(-50%, -50%) scale(0.1)' : 'translate(-50%, -50%) scale(1)',
+          opacity: isFading ? 0 : 1
+        }}
+      ></div>
 
-      {/* Główny kontener zawartości - dużo większe przybliżenie (scale-[4.0]) i dłuższy czas trwania (1500ms) */}
-      <div className={`relative z-10 flex flex-col items-center transition-all duration-[1500ms] ease-in-out ${isFading ? 'scale-[4.0] opacity-0' : 'scale-100 opacity-100'}`}>
+      {/* Główny kontener - leci wprost na użytkownika (ogromny scale) */}
+      <div 
+        className="relative z-10 flex flex-col items-center"
+        style={{
+          transition: 'all 2500ms cubic-bezier(0.5, 0, 0.1, 1)',
+          transform: isFading ? 'scale(15) translateY(10px)' : 'scale(1) translateY(0)',
+          opacity: isFading ? 0 : 1
+        }}
+      >
         
         {/* Obracające się eleganckie ringi i tarcza */}
         <div className="relative w-32 h-32 flex items-center justify-center mb-8">
