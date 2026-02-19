@@ -373,7 +373,7 @@ const ScannerWidget = () => {
         <div className="car-stage" aria-hidden="true">
           <model-viewer
             id="car3d"
-            src="https://vazxmixjsiawhamofees.supabase.co/storage/v1/object/public/models/porsche-911/model.gltf"
+            src="/r8.glb"
             style={{ width: '100%', height: '100%', background: 'transparent' }}
             exposure="1.12"
             shadow-intensity="0.65"
