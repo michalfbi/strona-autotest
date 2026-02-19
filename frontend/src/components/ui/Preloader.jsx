@@ -9,21 +9,21 @@ export const Preloader = () => {
     // Zablokuj scrollowanie
     document.body.style.overflow = 'hidden';
 
-    // Etap 1: Logo pokazuje się tylko na krótki moment (600ms) i od razu blednie
+    // BŁYSKAWICZNY START: Logo znika już po 300ms
     const timer1 = setTimeout(() => {
       setStage('fading-content');
-    }, 600); 
+    }, 300); 
 
-    // Etap 2: Kurtyna rusza do góry bez zbędnego czekania (po 900ms)
+    // KURTYNA RUSZA NATYCHMIAST: Po 400ms od załadowania strony tło jedzie w górę
     const timer2 = setTimeout(() => {
       setStage('lifting-curtain');
-    }, 900);
+    }, 400);
 
-    // Etap 3: 900ms + 1800ms samej animacji = 2700ms (z małym marginesem 2800ms czyścimy kod)
+    // Całość kończy się po ok. 2 sekundach (400ms opóźnienia + 1600ms animacji kurtyny)
     const timer3 = setTimeout(() => {
       setIsVisible(false);
       document.body.style.overflow = 'auto';
-    }, 2800); 
+    }, 2100); 
 
     return () => {
       clearTimeout(timer1);
@@ -39,8 +39,8 @@ export const Preloader = () => {
     <div 
       className="fixed inset-0 z-[9999] flex flex-col items-center justify-center bg-[#050505]"
       style={{
-        // Optymalny czas animacji kurtyny (1800ms) zachowujący kinowy efekt bez usypiania widza
-        transition: 'transform 1800ms cubic-bezier(0.76, 0, 0.24, 1)',
+        // Kinowa krzywa przyspieszenia pozostaje, czas to dynamiczne 1600ms
+        transition: 'transform 1600ms cubic-bezier(0.76, 0, 0.24, 1)',
         transform: stage === 'lifting-curtain' ? 'translateY(-100%)' : 'translateY(0)'
       }}
     >
@@ -50,9 +50,9 @@ export const Preloader = () => {
         style={{ transform: 'translate(-50%, -50%)' }}
       ></div>
 
-      {/* Kontener z zawartością - znika i rozmywa się szybciej (400ms) */}
+      {/* Kontener z zawartością - znika jeszcze szybciej (300ms) aby zrobić miejsce kurtynie */}
       <div 
-        className={`relative z-10 flex flex-col items-center transition-all duration-400 ease-out ${
+        className={`relative z-10 flex flex-col items-center transition-all duration-300 ease-out ${
           stage !== 'loading' ? 'opacity-0 scale-95 blur-sm' : 'opacity-100 scale-100 blur-0'
         }`}
       >
