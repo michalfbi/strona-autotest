@@ -357,15 +357,15 @@ const ScannerWidget = () => {
           </div>
         </div>
 
-        {/* PRAWA STRONA: Wycena */}
-        <div className="flex items-center gap-5 px-6 py-4 rounded-2xl bg-[#0C0D10]/90 border border-[#FFD200]/20 shadow-[0_15px_40px_-10px_rgba(245,196,0,0.2)] backdrop-blur-xl">
-          <div className="hidden sm:flex w-12 h-12 rounded-full bg-[#FFD200]/10 items-center justify-center border border-[#FFD200]/20">
+        {/* PRAWA STRONA: Wycena z zamrożoną szerokością zapobiegającą skakaniu układu */}
+        <div className="flex items-center justify-end gap-5 px-6 py-4 rounded-2xl bg-[#0C0D10]/90 border border-[#FFD200]/20 shadow-[0_15px_40px_-10px_rgba(245,196,0,0.2)] backdrop-blur-xl min-w-[280px] sm:min-w-[340px]">
+          <div className="hidden sm:flex w-12 h-12 rounded-full bg-[#FFD200]/10 items-center justify-center border border-[#FFD200]/20 shrink-0">
             <DollarSign className="w-6 h-6 text-[#FFD200]" />
           </div>
-          <div className="text-right">
+          <div className="text-right flex flex-col items-end">
             <div className="mono text-[11px] tracking-[.22em] uppercase text-[#9AA3B2] mb-1.5">Wycena uszkodzeń</div>
-            <div className="mono text-3xl md:text-4xl font-black text-[#FFD200] leading-none" id="total">0 PLN</div>
-            <div className="mono text-[10px] tracking-[.18em] uppercase text-white/40 mt-2" id="status">INITIALIZING...</div>
+            <div className="mono text-3xl md:text-4xl font-black text-[#FFD200] leading-none transition-colors duration-300" id="total">0 PLN</div>
+            <div className="mono text-[10px] tracking-[.18em] uppercase text-white/40 mt-2 transition-colors duration-300 w-[240px] text-right" id="status">INITIALIZING...</div>
           </div>
         </div>
       </div>
