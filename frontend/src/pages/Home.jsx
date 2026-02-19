@@ -560,7 +560,9 @@ export const Home = () => {
               
               {/* DODANO lg:-mt-6 ABY PODCIĄGNĄĆ CAŁY PRAWY BLOK POD HEADER */}
               <div className="w-full flex flex-col justify-center items-center mt-8 lg:-mt-6">
-                <ScannerWidget />
+                <div className="hidden lg:block w-full">
+              <ScannerWidget />
+            </div>
                 
                 <div className="mt-8 flex items-center justify-center">
                   <div className="inline-flex items-center gap-3 px-6 py-2.5 rounded-full bg-white/5 border border-white/10 backdrop-blur-md">
