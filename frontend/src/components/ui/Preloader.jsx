@@ -3,27 +3,27 @@ import { ShieldCheck } from 'lucide-react';
 
 export const Preloader = () => {
   const [isVisible, setIsVisible] = useState(true);
-  const [stage, setStage] = useState('loading'); // 'loading', 'fading-content', 'lifting-curtain'
+  const [stage, setStage] = useState('loading'); 
 
   useEffect(() => {
     // Zablokuj scrollowanie
     document.body.style.overflow = 'hidden';
 
-    // Etap 1: Ekspozycja logo przez 1 sekundę
+    // Etap 1: Logo pokazuje się tylko na krótki moment (600ms) i od razu blednie
     const timer1 = setTimeout(() => {
       setStage('fading-content');
-    }, 1000); 
+    }, 600); 
 
-    // Etap 2: Po 1.5 sekundy (gdy logo w pełni zniknie), kurtyna zaczyna powoli odjeżdżać do góry
+    // Etap 2: Kurtyna rusza do góry bez zbędnego czekania (po 900ms)
     const timer2 = setTimeout(() => {
       setStage('lifting-curtain');
-    }, 1500);
+    }, 900);
 
-    // Etap 3: Całkowity czas to 1500ms (czekanie) + 3000ms (bardzo wolna kurtyna) + 100ms marginesu = 4600ms
+    // Etap 3: 900ms + 1800ms samej animacji = 2700ms (z małym marginesem 2800ms czyścimy kod)
     const timer3 = setTimeout(() => {
       setIsVisible(false);
       document.body.style.overflow = 'auto';
-    }, 4600); 
+    }, 2800); 
 
     return () => {
       clearTimeout(timer1);
@@ -39,8 +39,8 @@ export const Preloader = () => {
     <div 
       className="fixed inset-0 z-[9999] flex flex-col items-center justify-center bg-[#050505]"
       style={{
-        // TWARDE STYLE: Wymuszamy dokładnie 3 sekundy (3000ms) bardzo płynnego ruchu
-        transition: 'transform 3000ms cubic-bezier(0.76, 0, 0.24, 1)',
+        // Optymalny czas animacji kurtyny (1800ms) zachowujący kinowy efekt bez usypiania widza
+        transition: 'transform 1800ms cubic-bezier(0.76, 0, 0.24, 1)',
         transform: stage === 'lifting-curtain' ? 'translateY(-100%)' : 'translateY(0)'
       }}
     >
@@ -50,9 +50,9 @@ export const Preloader = () => {
         style={{ transform: 'translate(-50%, -50%)' }}
       ></div>
 
-      {/* Kontener z zawartością - elegancko znika przed podniesieniem kurtyny */}
+      {/* Kontener z zawartością - znika i rozmywa się szybciej (400ms) */}
       <div 
-        className={`relative z-10 flex flex-col items-center transition-all duration-500 ease-out ${
+        className={`relative z-10 flex flex-col items-center transition-all duration-400 ease-out ${
           stage !== 'loading' ? 'opacity-0 scale-95 blur-sm' : 'opacity-100 scale-100 blur-0'
         }`}
       >
