@@ -1,3 +1,4 @@
+import { HomeSEOSections } from '../components/HomeSEOSections';
 import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { ArrowRight, CheckCircle, Zap, Shield, Search, FileText, Gauge, UserCheck, FileCheck, Clock, MapPin, DollarSign } from "lucide-react";
@@ -610,6 +611,7 @@ export const Home = () => {
         </section>
 
       </div>
+      <HomeSEOSections />
     </div>
   );
 };
