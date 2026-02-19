@@ -70,7 +70,7 @@ const ScannerWidget = () => {
     let hitSet = new Set();
     const baseSpeed = 0.34;
     let animFrame;
-    let envRot = 0; // Zmienna do płynnego obracania środowiskiem świetlnym
+    let envRot = 0; 
 
     const clamp = (v, a, b) => Math.max(a, Math.min(b, v));
     const pad = (n, len = 3) => { const s = String(n); return s.length >= len ? s : "0".repeat(len - s.length) + s; };
@@ -200,7 +200,6 @@ const ScannerWidget = () => {
     }
 
     function tick() {
-      // Płynny, ciągły obrót mapy HDRI (świateł wokół modelu)
       envRot += 0.005;
       const mv = document.getElementById('car3d');
       if (mv) {
@@ -347,22 +346,40 @@ const ScannerWidget = () => {
         .progress > div { height: 100%; width: 0%; background: linear-gradient(90deg, rgba(245,196,0,.2), rgba(245,196,0,.95), rgba(245,196,0,.35)); box-shadow: 0 0 18px rgba(245,196,0,.25); border-radius: 999px; }
       `}</style>
 
+      {/* PANELE INFORMACYJNE WYCIĄGNIĘTE NAD SKANER */}
       <div className="flex flex-col md:flex-row items-start md:items-end justify-between w-full mb-4 z-20 gap-4">
-        <div className="flex flex-col gap-2">
-          <div className="inline-flex items-center gap-2 w-fit px-3 py-1 rounded-full bg-[#0C0D10]/70 border border-white/10 shadow-[0_0_38px_rgba(245,196,0,.10)]">
-            <span className="inline-flex items-center justify-center w-5 h-5 rounded-full bg-[#F5C400] text-black font-extrabold">⚡</span>
-            <span className="mono text-[10px] tracking-[.22em] uppercase text-[#F5C400]">Diagnostyka lakiernicza</span>
+        
+        {/* LEWA STRONA: Wizytówka audytora + Model/Badge */}
+        <div className="flex flex-col gap-4">
+          
+          {/* Nowa sekcja: Profil/Wizytówka */}
+          <div className="flex items-center gap-4 px-4 py-3 rounded-2xl bg-[#0C0D10]/80 border border-white/10 shadow-[0_10px_30px_-10px_rgba(0,0,0,0.5)] backdrop-blur-xl w-fit">
+            <div className="relative w-12 h-12 rounded-full overflow-hidden border-2 border-[#FFD200]/50 shrink-0">
+              <img src="https://ui-avatars.com/api/?name=Adam+Pakuła&background=111&color=FFD200&size=150" alt="Adam Pakuła" className="w-full h-full object-cover" />
+            </div>
+            <div className="flex flex-col pr-4">
+              <span className="text-white font-bold text-sm md:text-base tracking-wide">Adam Pakuła</span>
+              <span className="text-[#9AA3B2] text-xs md:text-sm">Doświadczony audytor, mechanik i profesjonalista</span>
+            </div>
           </div>
-          <div className="flex items-center gap-4 px-5 py-3 rounded-2xl bg-[#0C0D10]/90 border border-white/10 shadow-lg backdrop-blur-xl">
-            <div>
-              <div className="mono text-[10px] tracking-[.22em] uppercase text-[#9AA3B2] mb-1">Vehicle model</div>
-              <div className="text-[#EDEFF4] font-semibold text-sm md:text-base tracking-tight">
-                AUDI R8 COUPE <span className="text-white/25">//</span> V10 PERFORMANCE
+
+          <div className="flex flex-col gap-2">
+            <div className="inline-flex items-center gap-2 w-fit px-3 py-1 rounded-full bg-[#0C0D10]/70 border border-white/10 shadow-[0_0_38px_rgba(245,196,0,.10)]">
+              <span className="inline-flex items-center justify-center w-5 h-5 rounded-full bg-[#F5C400] text-black font-extrabold">⚡</span>
+              <span className="mono text-[10px] tracking-[.22em] uppercase text-[#F5C400]">Diagnostyka lakiernicza</span>
+            </div>
+            <div className="flex items-center gap-4 px-5 py-3 rounded-2xl bg-[#0C0D10]/90 border border-white/10 shadow-lg backdrop-blur-xl w-fit">
+              <div>
+                <div className="mono text-[10px] tracking-[.22em] uppercase text-[#9AA3B2] mb-1">Vehicle model</div>
+                <div className="text-[#EDEFF4] font-semibold text-sm md:text-base tracking-tight">
+                  AUDI R8 COUPE <span className="text-white/25">//</span> V10 PERFORMANCE
+                </div>
               </div>
             </div>
           </div>
         </div>
 
+        {/* PRAWA STRONA: Wycena z zamrożoną szerokością */}
         <div className="flex items-center justify-end gap-5 px-6 py-4 rounded-2xl bg-[#0C0D10]/90 border border-[#FFD200]/20 shadow-[0_15px_40px_-10px_rgba(245,196,0,0.2)] backdrop-blur-xl min-w-[280px] sm:min-w-[340px]">
           <div className="hidden sm:flex w-12 h-12 rounded-full bg-[#FFD200]/10 items-center justify-center border border-[#FFD200]/20 shrink-0">
             <DollarSign className="w-6 h-6 text-[#FFD200]" />
@@ -380,7 +397,7 @@ const ScannerWidget = () => {
         <div className="scanlines"></div>
         <div className="noise"></div>
 
-        {/* CAR STAGE ZE ZMODYFIKOWANYM RENDEROWANIEM (HDRI, ACES, CIENIE I FILTRY) */}
+        {/* CAR STAGE */}
         <div className="car-stage" aria-hidden="true">
           <model-viewer
             id="car3d"
@@ -529,10 +546,10 @@ export const Home = () => {
                 </div>
               </div>
               
-              <div className="w-full flex flex-col justify-center items-center mt-8 lg:mt-16">
+              <div className="w-full flex flex-col justify-center items-start mt-8 lg:mt-16">
                 <ScannerWidget />
                 
-                <div className="mt-8 flex items-center justify-center">
+                <div className="mt-8 flex w-full justify-center">
                   <div className="inline-flex items-center gap-3 px-6 py-2.5 rounded-full bg-white/5 border border-white/10 backdrop-blur-md">
                     <span className="w-2.5 h-2.5 rounded-full bg-[#FFD200] animate-pulse shadow-[0_0_12px_#FFD200]"></span>
                     <span className="text-xs md:text-sm font-mono text-gray-300 tracking-[0.15em] uppercase">Interaktywny podgląd inspekcji technicznej</span>
