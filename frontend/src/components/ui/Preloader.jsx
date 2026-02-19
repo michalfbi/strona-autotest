@@ -6,20 +6,25 @@ export const Preloader = () => {
   const [stage, setStage] = useState('loading'); 
 
   useEffect(() => {
-    // 1. Obliczamy szerokość paska przewijania
+    // 1. Obliczamy dokładną szerokość paska przewijania
     const scrollbarWidth = window.innerWidth - document.documentElement.clientWidth;
     
-    // 2. Szukamy nagłówka na stronie
-    const fixedHeader = document.querySelector('header');
-    
-    // 3. Blokujemy scrollowanie i dodajemy marginesy dla body
-    document.body.style.overflow = 'hidden';
-    document.body.style.paddingRight = `${scrollbarWidth}px`;
-    
-    // 4. Jeśli znaleźliśmy nagłówek, jemu też dodajemy margines, żeby zablokować skok!
-    if (fixedHeader) {
-      fixedHeader.style.paddingRight = `${scrollbarWidth}px`;
-    }
+    // 2. Tworzymy i wstrzykujemy bezwzględny styl CSS na czas ładowania
+    const styleEl = document.createElement('style');
+    styleEl.id = 'preloader-scroll-fix';
+    // Używamy !important i blokujemy animację (transition: none) dla paddingu, 
+    // żeby zabić jakikolwiek efekt "pływania" nagłówka.
+    styleEl.innerHTML = `
+      body { 
+        overflow: hidden !important; 
+        padding-right: ${scrollbarWidth}px !important; 
+      }
+      header, nav, .fixed, .sticky, [style*="position: fixed"] { 
+        padding-right: ${scrollbarWidth}px !important; 
+        transition: padding 0s !important; 
+      }
+    `;
+    document.head.appendChild(styleEl);
 
     const timer1 = setTimeout(() => {
       setStage('fading-content');
@@ -31,26 +36,18 @@ export const Preloader = () => {
 
     const timer3 = setTimeout(() => {
       setIsVisible(false);
-      
-      // 5. Przywracamy domyślne zachowanie po zakończeniu
-      document.body.style.overflow = '';
-      document.body.style.paddingRight = '';
-      if (fixedHeader) {
-        fixedHeader.style.paddingRight = '';
-      }
+      // 3. Delikatnie usuwamy styl po odjechaniu kurtyny
+      const existingStyle = document.getElementById('preloader-scroll-fix');
+      if (existingStyle) existingStyle.remove();
     }, 2200); 
 
     return () => {
       clearTimeout(timer1);
       clearTimeout(timer2);
       clearTimeout(timer3);
-      
       // Zabezpieczenie czyszczące
-      document.body.style.overflow = '';
-      document.body.style.paddingRight = '';
-      if (fixedHeader) {
-        fixedHeader.style.paddingRight = '';
-      }
+      const existingStyle = document.getElementById('preloader-scroll-fix');
+      if (existingStyle) existingStyle.remove();
     };
   }, []);
 
