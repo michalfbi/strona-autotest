@@ -9,9 +9,17 @@ export const Preloader = () => {
     // 1. Obliczamy szerokość paska przewijania
     const scrollbarWidth = window.innerWidth - document.documentElement.clientWidth;
     
-    // 2. Blokujemy scrollowanie, ale dodajemy niewidoczny margines o szerokości paska
+    // 2. Szukamy nagłówka na stronie
+    const fixedHeader = document.querySelector('header');
+    
+    // 3. Blokujemy scrollowanie i dodajemy marginesy dla body
     document.body.style.overflow = 'hidden';
     document.body.style.paddingRight = `${scrollbarWidth}px`;
+    
+    // 4. Jeśli znaleźliśmy nagłówek, jemu też dodajemy margines, żeby zablokować skok!
+    if (fixedHeader) {
+      fixedHeader.style.paddingRight = `${scrollbarWidth}px`;
+    }
 
     const timer1 = setTimeout(() => {
       setStage('fading-content');
@@ -23,18 +31,26 @@ export const Preloader = () => {
 
     const timer3 = setTimeout(() => {
       setIsVisible(false);
-      // 3. Przywracamy domyślne zachowanie po zakończeniu animacji
+      
+      // 5. Przywracamy domyślne zachowanie po zakończeniu
       document.body.style.overflow = '';
       document.body.style.paddingRight = '';
+      if (fixedHeader) {
+        fixedHeader.style.paddingRight = '';
+      }
     }, 2200); 
 
     return () => {
       clearTimeout(timer1);
       clearTimeout(timer2);
       clearTimeout(timer3);
-      // Zabezpieczenie na wypadek odmontowania komponentu
+      
+      // Zabezpieczenie czyszczące
       document.body.style.overflow = '';
       document.body.style.paddingRight = '';
+      if (fixedHeader) {
+        fixedHeader.style.paddingRight = '';
+      }
     };
   }, []);
 
