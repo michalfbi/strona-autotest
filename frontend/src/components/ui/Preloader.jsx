@@ -9,21 +9,21 @@ export const Preloader = () => {
     // Zablokuj scrollowanie
     document.body.style.overflow = 'hidden';
 
-    // BŁYSKAWICZNY START: Logo znika już po 300ms
+    // IDEALNY CZAS EKSPOZYCJI: Logo jest w pełni widoczne przez 800ms
     const timer1 = setTimeout(() => {
       setStage('fading-content');
-    }, 300); 
+    }, 800); 
 
-    // KURTYNA RUSZA NATYCHMIAST: Po 400ms od załadowania strony tło jedzie w górę
+    // START KURTYNY: Gdy logo łagodnie znika (po 1100ms), tło jedzie w górę
     const timer2 = setTimeout(() => {
       setStage('lifting-curtain');
-    }, 400);
+    }, 1100);
 
-    // Całość kończy się po ok. 2 sekundach (400ms opóźnienia + 1600ms animacji kurtyny)
+    // Całość kończy się po 2800ms (1100ms czekania + 1600ms animacji + 100ms buforu)
     const timer3 = setTimeout(() => {
       setIsVisible(false);
       document.body.style.overflow = 'auto';
-    }, 2100); 
+    }, 2800); 
 
     return () => {
       clearTimeout(timer1);
@@ -39,7 +39,7 @@ export const Preloader = () => {
     <div 
       className="fixed inset-0 z-[9999] flex flex-col items-center justify-center bg-[#050505]"
       style={{
-        // Kinowa krzywa przyspieszenia pozostaje, czas to dynamiczne 1600ms
+        // Kinowa krzywa przyspieszenia pozostaje bez zmian, tempo kurtyny: 1600ms
         transition: 'transform 1600ms cubic-bezier(0.76, 0, 0.24, 1)',
         transform: stage === 'lifting-curtain' ? 'translateY(-100%)' : 'translateY(0)'
       }}
@@ -50,9 +50,9 @@ export const Preloader = () => {
         style={{ transform: 'translate(-50%, -50%)' }}
       ></div>
 
-      {/* Kontener z zawartością - znika jeszcze szybciej (300ms) aby zrobić miejsce kurtynie */}
+      {/* Kontener z zawartością - płynne, łagodne zanikanie trwające 400ms */}
       <div 
-        className={`relative z-10 flex flex-col items-center transition-all duration-300 ease-out ${
+        className={`relative z-10 flex flex-col items-center transition-all duration-400 ease-out ${
           stage !== 'loading' ? 'opacity-0 scale-95 blur-sm' : 'opacity-100 scale-100 blur-0'
         }`}
       >
