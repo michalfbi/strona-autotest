@@ -14,16 +14,17 @@ export const Preloader = () => {
       setStage('fading-content');
     }, 1000); 
 
-    // Etap 2: Logo znika. Po 300ms czarne tło "odjeżdża" do góry
+    // Etap 2: Logo znika. Po 300ms czarne tło zaczyna powoli odjeżdżać do góry
     const timer2 = setTimeout(() => {
       setStage('lifting-curtain');
     }, 1300);
 
-    // Etap 3: Koniec 1.2-sekundowej animacji kurtyny, czyścimy DOM
+    // Etap 3: Koniec 2-sekundowej, dostojnej animacji kurtyny, czyścimy DOM
+    // 1300ms + 2000ms animacji + 100ms marginesu bezpieczeństwa = 3400ms
     const timer3 = setTimeout(() => {
       setIsVisible(false);
       document.body.style.overflow = 'auto';
-    }, 2500); 
+    }, 3400); 
 
     return () => {
       clearTimeout(timer1);
@@ -37,15 +38,15 @@ export const Preloader = () => {
 
   return (
     <div 
-      // cubic-bezier(0.76, 0, 0.24, 1) to krzywa przyspieszenia znana z urządzeń Apple - wolny start, bardzo szybki środek, miękkie lądowanie
-      className={`fixed inset-0 z-[9999] flex flex-col items-center justify-center bg-[#050505] transition-transform duration-[1200ms] ease-[cubic-bezier(0.76,0,0.24,1)] ${
+      // Wydłużony czas do 2000ms (2 sekundy) dla kinowej, powolnej kurtyny
+      className={`fixed inset-0 z-[9999] flex flex-col items-center justify-center bg-[#050505] transition-transform duration-[2000ms] ease-[cubic-bezier(0.76,0,0.24,1)] ${
         stage === 'lifting-curtain' ? '-translate-y-full' : 'translate-y-0'
       }`}
     >
       {/* Tło z poświatą */}
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-[#FFD200]/10 rounded-full blur-[100px] pointer-events-none"></div>
 
-      {/* Kontener z zawartością - elegancko znika i lekko się rozmywa zanim kurtyna ruszy */}
+      {/* Kontener z zawartością - elegancko znika przed podniesieniem kurtyny */}
       <div 
         className={`relative z-10 flex flex-col items-center transition-all duration-500 ease-out ${
           stage !== 'loading' ? 'opacity-0 scale-95 blur-sm' : 'opacity-100 scale-100 blur-0'
