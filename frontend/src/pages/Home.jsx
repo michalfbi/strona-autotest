@@ -346,51 +346,60 @@ const ScannerWidget = () => {
         .progress > div { height: 100%; width: 0%; background: linear-gradient(90deg, rgba(245,196,0,.2), rgba(245,196,0,.95), rgba(245,196,0,.35)); box-shadow: 0 0 18px rgba(245,196,0,.25); border-radius: 999px; }
       `}</style>
 
-      {/* PANELE INFORMACYJNE WYCIĄGNIĘTE NAD SKANER (JEDEN SZEROKI RZĄD) */}
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 w-full mb-4 z-20 items-stretch">
+      {/* PANELE INFORMACYJNE WYCIĄGNIĘTE NAD SKANER - UŁOŻONE KASKADOWO */}
+      <div className="flex flex-col gap-4 w-full mb-4 z-20">
         
-        {/* 1. Wizytówka audytora */}
-        <div className="flex items-center gap-4 px-5 py-3 rounded-2xl bg-[#0C0D10]/80 border border-white/10 shadow-[0_8px_32px_0_rgba(255,255,255,0.02)] backdrop-blur-2xl relative overflow-hidden group">
-          <div className="absolute -top-10 -right-10 w-24 h-24 bg-[#FFD200]/10 rounded-full blur-2xl group-hover:bg-[#FFD200]/20 transition-colors duration-500"></div>
-          <div className="relative w-12 h-12 rounded-full overflow-hidden border border-[#FFD200]/60 shrink-0 shadow-[0_0_10px_rgba(245,196,0,0.2)]">
+        {/* GÓRNY RZĄD: Szeroka wizytówka audytora */}
+        <div className="flex items-center gap-5 px-6 py-5 rounded-2xl bg-[#0C0D10]/80 border border-white/10 shadow-[0_8px_32px_0_rgba(255,255,255,0.02)] backdrop-blur-2xl relative overflow-hidden group w-full hover:bg-white/5 transition-all duration-300">
+          <div className="absolute -top-10 -right-10 w-48 h-48 bg-[#FFD200]/10 rounded-full blur-3xl group-hover:bg-[#FFD200]/20 transition-colors duration-500"></div>
+          
+          <div className="relative w-16 h-16 md:w-20 md:h-20 rounded-full overflow-hidden border-2 border-[#FFD200]/60 shrink-0 shadow-[0_0_15px_rgba(245,196,0,0.3)]">
             <img src="https://ui-avatars.com/api/?name=Adam+Pakuła&background=111&color=FFD200&size=150" alt="Adam Pakuła" className="w-full h-full object-cover" />
           </div>
-          <div className="flex flex-col relative z-10 justify-center">
-            <div className="flex items-center gap-1.5 mb-0.5">
-              <span className="text-white font-bold text-sm tracking-wide">Adam Pakuła</span>
-              <CheckCircle className="w-3.5 h-3.5 text-[#FFD200]" />
+          
+          <div className="flex flex-col relative z-10">
+            <div className="flex items-center gap-2 mb-1">
+              <span className="text-white font-bold text-lg md:text-xl tracking-wide">Adam Pakuła</span>
+              <CheckCircle className="w-4 h-4 md:w-5 md:h-5 text-[#FFD200]" />
             </div>
-            <span className="text-[#FFD200] font-semibold text-[10px] uppercase tracking-wider mb-1">Główny Audytor</span>
-            <p className="text-gray-400 text-[10px] leading-snug italic line-clamp-2">
-              "Chronię klientów przed ukrytymi wadami i kosztami."
+            <span className="text-[#FFD200] font-semibold text-xs md:text-sm uppercase tracking-wider mb-2">Główny Audytor & Ekspert</span>
+            <p className="text-gray-300 text-sm md:text-base leading-relaxed italic pr-4">
+              "Zweryfikowałem ponad 1200 aut na rynku. Chronię moich klientów przed ukrytymi wadami i zakupem skarbonki bez dna. Twoje bezpieczeństwo to mój priorytet."
             </p>
           </div>
         </div>
 
-        {/* 2. Model i Badge */}
-        <div className="flex flex-col justify-center px-6 py-3 rounded-2xl bg-[#0C0D10]/80 border border-white/10 shadow-lg backdrop-blur-xl relative overflow-hidden">
-          <div className="inline-flex items-center gap-2 w-fit px-2.5 py-1 mb-2 rounded-full bg-black/50 border border-white/5">
-            <span className="inline-flex items-center justify-center w-4 h-4 rounded-full bg-[#F5C400] text-black font-extrabold text-[8px]">⚡</span>
-            <span className="mono text-[9px] tracking-[.15em] uppercase text-[#F5C400]">Diagnostyka lakiernicza</span>
-          </div>
-          <div>
-            <div className="mono text-[10px] tracking-[.2em] uppercase text-[#9AA3B2] mb-0.5">Vehicle model</div>
-            <div className="text-[#EDEFF4] font-semibold text-sm tracking-tight truncate">
-              AUDI R8 COUPE <span className="text-white/25">//</span> V10
+        {/* DOLNY RZĄD: Model po lewej, Wycena po prawej */}
+        <div className="flex flex-col md:flex-row items-stretch justify-between w-full gap-4">
+          
+          {/* Lewa strona: Model i Badge */}
+          <div className="flex flex-col gap-2 w-full md:w-auto">
+            <div className="inline-flex items-center gap-2 w-fit px-3 py-1 rounded-full bg-[#0C0D10]/70 border border-white/10 shadow-[0_0_38px_rgba(245,196,0,.10)] backdrop-blur-md">
+              <span className="inline-flex items-center justify-center w-5 h-5 rounded-full bg-[#F5C400] text-black font-extrabold">⚡</span>
+              <span className="mono text-[10px] tracking-[.22em] uppercase text-[#F5C400]">Diagnostyka lakiernicza</span>
+            </div>
+            <div className="flex items-center gap-4 px-6 py-4 rounded-2xl bg-[#0C0D10]/80 border border-white/10 shadow-lg backdrop-blur-xl h-full">
+              <div>
+                <div className="mono text-[10px] tracking-[.22em] uppercase text-[#9AA3B2] mb-1">Vehicle model</div>
+                <div className="text-[#EDEFF4] font-semibold text-base tracking-tight">
+                  AUDI R8 COUPE <span className="text-white/25">//</span> V10 PERFORMANCE
+                </div>
+              </div>
             </div>
           </div>
-        </div>
 
-        {/* 3. Wycena */}
-        <div className="flex items-center justify-between lg:justify-end gap-4 px-6 py-3 rounded-2xl bg-[#0C0D10]/90 border border-[#FFD200]/20 shadow-[0_15px_40px_-10px_rgba(245,196,0,0.2)] backdrop-blur-xl">
-          <div className="hidden xl:flex w-10 h-10 rounded-full bg-[#FFD200]/10 items-center justify-center border border-[#FFD200]/20 shrink-0">
-            <DollarSign className="w-5 h-5 text-[#FFD200]" />
+          {/* Prawa strona: Wycena */}
+          <div className="flex items-center justify-between md:justify-end gap-5 px-8 py-4 rounded-2xl bg-[#0C0D10]/90 border border-[#FFD200]/20 shadow-[0_15px_40px_-10px_rgba(245,196,0,0.2)] backdrop-blur-xl w-full md:w-auto md:min-w-[360px] h-full">
+            <div className="hidden sm:flex w-12 h-12 rounded-full bg-[#FFD200]/10 items-center justify-center border border-[#FFD200]/20 shrink-0">
+              <DollarSign className="w-6 h-6 text-[#FFD200]" />
+            </div>
+            <div className="text-right flex flex-col items-end justify-center w-full md:w-auto">
+              <div className="mono text-[11px] tracking-[.22em] uppercase text-[#9AA3B2] mb-1.5">Wycena uszkodzeń</div>
+              <div className="mono text-3xl md:text-4xl font-black text-[#FFD200] leading-none transition-colors duration-300" id="total">0 PLN</div>
+              <div className="mono text-[10px] tracking-[.18em] uppercase text-white/40 mt-2 transition-colors duration-300 w-[240px] text-right" id="status">INITIALIZING...</div>
+            </div>
           </div>
-          <div className="text-right flex flex-col items-end justify-center w-full lg:w-auto">
-            <div className="mono text-[10px] tracking-[.2em] uppercase text-[#9AA3B2] mb-1">Wycena uszkodzeń</div>
-            <div className="mono text-2xl xl:text-3xl font-black text-[#FFD200] leading-none transition-colors duration-300" id="total">0 PLN</div>
-            <div className="mono text-[9px] tracking-[.15em] uppercase text-white/40 mt-1.5 transition-colors duration-300 w-full text-right" id="status">INITIALIZING...</div>
-          </div>
+          
         </div>
       </div>
 
@@ -549,7 +558,7 @@ export const Home = () => {
                 </div>
               </div>
               
-              <div className="w-full flex flex-col justify-center items-center mt-8 lg:mt-16">
+              <div className="w-full flex flex-col justify-center items-center mt-8 lg:mt-8">
                 <ScannerWidget />
                 
                 <div className="mt-8 flex items-center justify-center">
