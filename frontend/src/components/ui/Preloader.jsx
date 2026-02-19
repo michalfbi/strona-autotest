@@ -6,39 +6,53 @@ export const Preloader = () => {
   const [stage, setStage] = useState('loading'); 
 
   useEffect(() => {
-    // 1. Precyzyjne obliczenie szerokości paska przewijania
+    // 1. Obliczamy szerokość paska
     const scrollbarWidth = window.innerWidth - document.documentElement.clientWidth;
     
-    // 2. Blokada przeskoku - nakładamy poprawkę bezpośrednio na HTML i BODY
-    const originalOverflow = document.documentElement.style.overflow;
-    const originalPadding = document.body.style.paddingRight;
-    
-    document.documentElement.style.overflow = 'hidden';
-    if (scrollbarWidth > 0) {
-      document.body.style.paddingRight = `${scrollbarWidth}px`;
-      // Szukamy też headera, by go "zamrozić"
-      const header = document.querySelector('header');
-      if (header) header.style.paddingRight = `${scrollbarWidth}px`;
-    }
+    // 2. Blokujemy przeskok na poziomie globalnym CSS
+    const styleEl = document.createElement('style');
+    styleEl.id = 'preloader-final-fix';
+    styleEl.innerHTML = `
+      html { 
+        overflow: hidden !important; 
+        /* Wymuszamy, aby strona zawsze zajmowała 100% szerokości minus pasek */
+        width: 100vw !important;
+      }
+      body { 
+        position: fixed !important;
+        overflow-y: scroll !important;
+        width: 100% !important;
+      }
+      /* Zamrażamy nagłówek w miejscu */
+      header, nav {
+        position: fixed !important;
+        width: 100% !important;
+        left: 0 !important;
+        right: 0 !important;
+      }
+    `;
+    document.head.appendChild(styleEl);
 
     const timer1 = setTimeout(() => setStage('fading-content'), 600); 
     const timer2 = setTimeout(() => setStage('lifting-curtain'), 800);
 
     const timer3 = setTimeout(() => {
       setIsVisible(false);
-      // 3. Przywracamy stan pierwotny
-      document.documentElement.style.overflow = originalOverflow;
-      document.body.style.paddingRight = originalPadding;
-      const header = document.querySelector('header');
-      if (header) header.style.paddingRight = '';
+      // 3. Przywracamy wolność stronie
+      const fix = document.getElementById('preloader-final-fix');
+      if (fix) fix.remove();
+      document.documentElement.style.overflow = '';
+      document.body.style.position = '';
+      document.body.style.width = '';
+      document.body.style.overflowY = '';
     }, 2500); 
 
     return () => {
       clearTimeout(timer1);
       clearTimeout(timer2);
       clearTimeout(timer3);
-      document.documentElement.style.overflow = originalOverflow;
-      document.body.style.paddingRight = originalPadding;
+      const fix = document.getElementById('preloader-final-fix');
+      if (fix) fix.remove();
     };
   }, []);
 
