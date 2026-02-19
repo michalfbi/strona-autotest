@@ -528,9 +528,9 @@ export const Home = () => {
                 </div>
                 
                 <h1 className="text-5xl xl:text-[72px] font-extrabold leading-[1] tracking-tighter text-white">
-              <span className="text-primary">Kupujesz auto?</span><br />
-              Sprawdzimy je przed zakupem.
-            </h1>
+                <span className="text-primary">Kupujesz auto?</span><br />
+                Sprawdzimy je przed zakupem.
+              </h1>
                 
                 <p className="text-lg text-gray-400 max-w-lg font-light leading-relaxed">
                   Bądź pewny swojego zakupu. Wykrywamy to, co handlarz próbuje ukryć przed zakupem.
