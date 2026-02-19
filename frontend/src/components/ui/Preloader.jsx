@@ -9,21 +9,21 @@ export const Preloader = () => {
     // Zablokuj scrollowanie
     document.body.style.overflow = 'hidden';
 
-    // LEKKO PRZYSPIESZONY START: Logo zaczyna znikać po 700ms
+    // JESZCZE SZYBSZY START: Logo zaczyna znikać po 500ms
     const timer1 = setTimeout(() => {
       setStage('fading-content');
-    }, 700); 
+    }, 500); 
 
-    // SZYBSZA KURTYNA: Rusza już po 850ms (prawie natychmiast jak logo zacznie blaknąć)
+    // KURTYNA W GÓRĘ: Dokładnie 0.2s szybciej niż poprzednio (rusza po 650ms)
     const timer2 = setTimeout(() => {
       setStage('lifting-curtain');
-    }, 850);
+    }, 650);
 
-    // Całość kończy się po 2550ms (850ms czekania + 1600ms animacji + 100ms buforu)
+    // Całość kończy się po 2350ms (650ms startu + 1600ms animacji + 100ms buforu)
     const timer3 = setTimeout(() => {
       setIsVisible(false);
       document.body.style.overflow = 'auto';
-    }, 2550); 
+    }, 2350); 
 
     return () => {
       clearTimeout(timer1);
