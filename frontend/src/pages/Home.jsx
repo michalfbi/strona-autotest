@@ -339,9 +339,7 @@ const ScannerWidget = () => {
         .progress > div { height: 100%; width: 0%; background: linear-gradient(90deg, rgba(245,196,0,.2), rgba(245,196,0,.95), rgba(245,196,0,.35)); box-shadow: 0 0 18px rgba(245,196,0,.25); border-radius: 999px; }
       `}</style>
 
-      {/* PANELE INFORMACYJNE WYCIĄGNIĘTE NAD SKANER */}
       <div className="flex flex-col md:flex-row items-start md:items-end justify-between w-full mb-4 z-20 gap-4">
-        {/* LEWA STRONA: Model i Badge */}
         <div className="flex flex-col gap-2">
           <div className="inline-flex items-center gap-2 w-fit px-3 py-1 rounded-full bg-[#0C0D10]/70 border border-white/10 shadow-[0_0_38px_rgba(245,196,0,.10)]">
             <span className="inline-flex items-center justify-center w-5 h-5 rounded-full bg-[#F5C400] text-black font-extrabold">⚡</span>
@@ -357,7 +355,6 @@ const ScannerWidget = () => {
           </div>
         </div>
 
-        {/* PRAWA STRONA: Wycena z zamrożoną szerokością zapobiegającą skakaniu układu */}
         <div className="flex items-center justify-end gap-5 px-6 py-4 rounded-2xl bg-[#0C0D10]/90 border border-[#FFD200]/20 shadow-[0_15px_40px_-10px_rgba(245,196,0,0.2)] backdrop-blur-xl min-w-[280px] sm:min-w-[340px]">
           <div className="hidden sm:flex w-12 h-12 rounded-full bg-[#FFD200]/10 items-center justify-center border border-[#FFD200]/20 shrink-0">
             <DollarSign className="w-6 h-6 text-[#FFD200]" />
@@ -370,22 +367,22 @@ const ScannerWidget = () => {
         </div>
       </div>
 
-      {/* GŁÓWNY WIDŻET SKANERA */}
       <div className="scanner-widget" id="widget">
         <div className="scanner-grid"></div>
         <div className="scanlines"></div>
         <div className="noise"></div>
 
-        {/* CAR STAGE */}
+        {/* CAR STAGE ZE ZMODYFIKOWANYM RENDEROWANIEM (HDRI, ACES, CIENIE) */}
         <div className="car-stage" aria-hidden="true">
           <model-viewer
             id="car3d"
             src="/r8.glb"
             style={{ width: '100%', height: '100%', background: 'transparent' }}
-            exposure="1.12"
-            shadow-intensity="0.65"
-            shadow-softness="0.9"
-            environment-image="neutral"
+            exposure="1.25"
+            tone-mapping="aces"
+            shadow-intensity="2.2"
+            shadow-softness="0.8"
+            environment-image="https://modelviewer.dev/shared-assets/environments/aircraft_workshop_01_1k.hdr"
             interaction-prompt="none"
             camera-orbit="90deg 75deg 5.5m"
             field-of-view="30deg"
@@ -408,7 +405,6 @@ const ScannerWidget = () => {
           </div>
         </div>
 
-        {/* LASER LAYER */}
         <div className="laser" id="laserLayer">
           <div className="laser-band" id="laserBand"></div>
           <div className="laser-line" id="laserLine"></div>
@@ -420,7 +416,6 @@ const ScannerWidget = () => {
           </div>
         </div>
 
-        {/* ALERT */}
         <div className="alert" id="alert">
           <div className="alert-head">
             <div className="alert-tag"><span id="alertIcon" className="fa-solid fa-triangle-exclamation"></span> <span id="alertTitle">USTERKA</span></div>
@@ -437,7 +432,6 @@ const ScannerWidget = () => {
 
         <div className="connector" id="connector"></div>
 
-        {/* BOTTOM BAR + PROGRESS */}
         <div className="absolute left-0 right-0 bottom-0 z-35 p-4 md:p-6">
           <div className="flex items-center justify-between gap-3 mb-2">
             <div className="hud-chip hidden sm:inline-flex">
@@ -471,17 +465,14 @@ export const Home = () => {
   return (
     <div className="min-h-screen text-text relative bg-[#050505] overflow-x-hidden">
       
-      {/* TŁO DLA CAŁEJ STRONY (SIATKA I GLOW) */}
       <div className="fixed inset-0 z-0 pointer-events-none">
         <div className="absolute inset-0 bg-[linear-gradient(to_right,rgba(255,255,255,0.03)_1px,transparent_1px),linear-gradient(to_bottom,rgba(255,255,255,0.03)_1px,transparent_1px)] bg-[size:32px_32px]"></div>
         <div className="absolute top-0 left-1/4 w-[800px] h-[800px] bg-[#FFD200] opacity-15 rounded-full blur-[150px] -translate-y-1/2"></div>
         <div className="absolute bottom-0 right-0 w-[600px] h-[600px] bg-[#FFD200] opacity-10 rounded-full blur-[150px] translate-x-1/4 translate-y-1/4"></div>
       </div>
 
-      {/* ZAWARTOŚĆ STRONY */}
       <div className="relative z-10">
         
-        {/* 1. SEKCJA HERO */}
         <section className="pt-20 pb-16 lg:pt-24 lg:pb-24 border-b border-white/5">
           <div className="container max-w-[1500px] mx-auto px-4 sm:px-6">
             
@@ -525,7 +516,6 @@ export const Home = () => {
                 </div>
               </div>
               
-              {/* OBNIŻENIE SKANERA o lg:mt-16 ABY ZRÓWNAŁ SIĘ Z H1 */}
               <div className="w-full flex flex-col justify-center items-center mt-8 lg:mt-16">
                 <ScannerWidget />
                 
@@ -541,7 +531,6 @@ export const Home = () => {
           </div>
         </section>
 
-        {/* 2. SEKCJA DLACZEGO MY */}
         <section className="py-20 lg:py-32">
           <div className="container max-w-[1200px] mx-auto px-6">
             <div className="text-center mb-16">
@@ -566,7 +555,6 @@ export const Home = () => {
           </div>
         </section>
 
-        {/* 3. SEKCJA CTA */}
         <section className="py-24 border-t border-white/5 relative">
           <div className="absolute inset-0 bg-[#FFD200]/5"></div>
           <div className="container relative z-10 max-w-[800px] mx-auto px-6 text-center">
