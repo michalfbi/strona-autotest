@@ -1,7 +1,7 @@
 import { HomeSEOSections } from '../components/HomeSEOSections';
 import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { ArrowRight, CheckCircle, Zap, Shield, Search, FileText, Gauge, UserCheck, FileCheck, Clock, MapPin, DollarSign, Link2 } from "lucide-react";
+import { ArrowRight, CheckCircle, Zap, Shield, Search, FileText, Gauge, UserCheck, FileCheck, Clock, MapPin, DollarSign, Link2, AlertTriangle } from "lucide-react";
 
 const ScannerWidget = () => {
   useEffect(() => {
@@ -14,16 +14,16 @@ const ScannerWidget = () => {
 
     const defects = [
       {
-        id: "hood", pct: 22, hotId: "hot-hood",
-        title: "ODPRYSKI / MASKA", desc: "Liczne odpryski lakieru na masce. Uszkodzenia warstwy bezbarwnej (clear coat).", cost: 1500, icon: "fa-solid fa-virus",
+        id: "dpf", pct: 25, hotId: "hot-dpf",
+        title: "STAN DPF", desc: "Zapełnienie filtra cząstek stałych na poziomie 45g. Zbliża się limit serwisowy.", cost: 1200, icon: "fa-solid fa-filter",
       },
       {
-        id: "door", pct: 50, hotId: "hot-door",
-        title: "WGNIECENIE / DRZWI", desc: "Wgniecenie parkingowe na przetłoczeniu drzwi kierowcy. Bez pęknięcia lakieru (PDR).", cost: 450, icon: "fa-solid fa-compress",
+        id: "injector", pct: 60, hotId: "hot-injector",
+        title: "WTRYSKIWACZ CYL. 3", desc: "Korekta wtrysku poza normą (+1.85 mg/suw). Silnik pracuje nierówno pod obciążeniem.", cost: 1800, icon: "fa-solid fa-gas-pump",
       },
       {
-        id: "fender", pct: 82, hotId: "hot-fender",
-        title: "RYSA / BŁOTNIK TYŁ", desc: "Głęboka rysa nad nadkolem. Uszkodzenie do podkładu. Wymagane lakierowanie.", cost: 1200, icon: "fa-solid fa-marker",
+        id: "dtc", pct: 85, hotId: "hot-dtc",
+        title: "BŁĄD P0420", desc: "Sprawność katalizatora poniżej progu. Błąd był niedawno kasowany przez sprzedawcę.", cost: 2500, icon: "fa-solid fa-triangle-exclamation",
       },
     ];
 
@@ -273,7 +273,7 @@ const ScannerWidget = () => {
           transform: translate(-50%, -50%) rotateX(var(--tiltX)) rotateY(var(--tiltY));
           transform-style: preserve-3d; 
           width: 90%; 
-          height: 85%; 
+          height: 80%; 
           z-index: 10;
           transition: transform .35s ease; will-change: transform;
           display: flex; align-items: center; justify-content: center;
@@ -351,13 +351,13 @@ const ScannerWidget = () => {
           <div className="flex flex-col gap-2 w-full md:w-auto">
             <div className="inline-flex items-center gap-2 w-fit px-3 py-1 rounded-full bg-[#0C0D10]/70 border border-white/10 shadow-[0_0_38px_rgba(245,196,0,.10)] backdrop-blur-md">
               <span className="inline-flex items-center justify-center w-5 h-5 rounded-full bg-[#F5C400] text-black font-extrabold">⚡</span>
-              <span className="mono text-[10px] tracking-[.22em] uppercase text-[#F5C400]">Diagnostyka lakiernicza</span>
+              <span className="mono text-[10px] tracking-[.22em] uppercase text-[#F5C400]">Połączenie ze sterownikiem</span>
             </div>
             <div className="flex items-center gap-4 px-6 py-4 rounded-2xl bg-[#0C0D10]/80 border border-white/10 shadow-lg backdrop-blur-xl h-full">
               <div>
-                <div className="mono text-[10px] tracking-[.22em] uppercase text-[#9AA3B2] mb-1">Vehicle model</div>
+                <div className="mono text-[10px] tracking-[.22em] uppercase text-[#9AA3B2] mb-1">Status systemu</div>
                 <div className="text-[#EDEFF4] font-semibold text-base tracking-tight">
-                  PORSCHE 911 <span className="text-white/25">//</span> CARRERA S
+                  AKTYWNA DIAGNOSTYKA <span className="text-white/25">//</span> OBD-II
                 </div>
               </div>
             </div>
@@ -381,27 +381,64 @@ const ScannerWidget = () => {
         <div className="scanlines"></div>
         <div className="noise"></div>
 
+        {/* NOWE WNĘTRZE SKANERA - DIAGNOSTYKA OBD */}
         <div className="car-stage" aria-hidden="true">
-          <img 
-            src="https://images.unsplash.com/photo-1583121274602-3e2820c69888?q=80&w=1000&auto=format&fit=crop" 
-            alt="Car Silhouette" 
-            className="w-full h-full object-contain mix-blend-screen opacity-70"
-            style={{ filter: 'grayscale(100%) sepia(100%) hue-rotate(5deg) saturate(500%) brightness(0.8) contrast(1.2) drop-shadow(0 0 15px rgba(245,196,0,0.5))' }}
-          />
-          
-          <div id="hot-hood" className="defect absolute pointer-events-none" style={{ left: '20%', top: '56%', transform: 'translate(-50%, -50%)' }}>
-            <div className="w-8 h-8 rounded-full border-2 border-[rgba(255,77,77,.85)] bg-[rgba(255,77,77,.08)] flex items-center justify-center">
-              <div className="w-2 h-2 rounded-full bg-[rgba(255,77,77,.95)]"></div>
+          <div className="w-full h-full bg-[#0C0D10]/50 p-4 md:p-6 flex flex-col gap-4 relative overflow-hidden border border-white/5 rounded-2xl shadow-2xl backdrop-blur-sm">
+            <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.03)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.03)_1px,transparent_1px)] bg-[size:24px_24px] opacity-40"></div>
+            
+            <div className="flex justify-between items-end border-b border-white/10 pb-3 relative z-10">
+              <div>
+                <div className="text-[#FFD200] font-mono text-[10px] tracking-widest mb-1">TELEMETRY DATA STREAM // V 2.4.1</div>
+                <div className="text-white font-mono text-lg md:text-xl font-bold tracking-tight">LIVE ECU PARAMETERS</div>
+              </div>
+              <div className="text-green-500 font-mono text-[10px] tracking-widest animate-pulse flex items-center gap-2">
+                <div className="w-2 h-2 bg-green-500 rounded-full shadow-[0_0_8px_rgba(34,197,94,0.6)]"></div>
+                CONNECTED
+              </div>
             </div>
-          </div>
-          <div id="hot-door" className="defect absolute pointer-events-none" style={{ left: '48%', top: '52%', transform: 'translate(-50%, -50%)' }}>
-            <div className="w-9 h-9 rounded-full border-2 border-[rgba(255,77,77,.85)] bg-[rgba(255,77,77,.08)] flex items-center justify-center">
-              <div className="w-2 h-2 rounded-full bg-[rgba(255,77,77,.95)]"></div>
-            </div>
-          </div>
-          <div id="hot-fender" className="defect absolute pointer-events-none" style={{ left: '80%', top: '50%', transform: 'translate(-50%, -50%)' }}>
-            <div className="w-8 h-8 rounded-full border-2 border-[rgba(255,77,77,.85)] bg-[rgba(255,77,77,.08)] flex items-center justify-center">
-              <div className="w-2 h-2 rounded-full bg-[rgba(255,77,77,.95)]"></div>
+
+            <div className="grid grid-cols-2 gap-4 relative z-10 h-full">
+              {/* DPF Box */}
+              <div className="bg-black/40 border border-white/10 p-4 rounded-xl flex flex-col justify-center relative" id="hot-dpf">
+                <div className="text-gray-400 font-mono text-[10px] tracking-wider">DPF SOOT MASS</div>
+                <div className="text-[#FFD200] font-mono text-3xl font-bold mt-2">45<span className="text-sm text-gray-500">g</span></div>
+                <div className="w-full bg-white/10 h-1.5 mt-4 rounded-full"><div className="w-[85%] bg-[#FFD200] h-full rounded-full shadow-[0_0_10px_rgba(245,196,0,0.5)]"></div></div>
+                <div className="defect absolute right-3 top-3 pointer-events-none">
+                  <div className="w-4 h-4 rounded-full border-2 border-[rgba(255,77,77,.85)] bg-[rgba(255,77,77,.08)] flex items-center justify-center"><div className="w-1.5 h-1.5 rounded-full bg-[rgba(255,77,77,.95)]"></div></div>
+                </div>
+              </div>
+
+              {/* Engine Temp Box */}
+              <div className="bg-black/40 border border-white/10 p-4 rounded-xl flex flex-col justify-center relative">
+                <div className="text-gray-400 font-mono text-[10px] tracking-wider">COOLANT TEMP</div>
+                <div className="text-white font-mono text-3xl font-bold mt-2">89<span className="text-sm text-gray-500">°C</span></div>
+                <div className="w-full bg-white/10 h-1.5 mt-4 rounded-full"><div className="w-[45%] bg-green-500 h-full rounded-full shadow-[0_0_10px_rgba(34,197,94,0.5)]"></div></div>
+              </div>
+
+              {/* Injectors Box */}
+              <div className="col-span-2 bg-black/40 border border-white/10 p-4 rounded-xl flex flex-col justify-center relative" id="hot-injector">
+                <div className="text-gray-400 font-mono text-[10px] tracking-wider mb-4">INJECTOR DEVIATION (mg/str)</div>
+                <div className="flex justify-between text-white font-mono text-sm px-2 md:px-8">
+                  <div className="flex flex-col items-center"><span className="text-gray-500 text-[10px] mb-1">CYL 1</span><span className="text-green-500">+0.12</span></div>
+                  <div className="flex flex-col items-center"><span className="text-gray-500 text-[10px] mb-1">CYL 2</span><span className="text-green-500">-0.05</span></div>
+                  <div className="flex flex-col items-center"><span className="text-gray-500 text-[10px] mb-1">CYL 3</span><span className="text-red-500 font-bold">+1.85</span></div>
+                  <div className="flex flex-col items-center"><span className="text-gray-500 text-[10px] mb-1">CYL 4</span><span className="text-green-500">-0.10</span></div>
+                </div>
+                <div className="defect absolute right-3 top-3 pointer-events-none">
+                  <div className="w-4 h-4 rounded-full border-2 border-[rgba(255,77,77,.85)] bg-[rgba(255,77,77,.08)] flex items-center justify-center"><div className="w-1.5 h-1.5 rounded-full bg-[rgba(255,77,77,.95)]"></div></div>
+                </div>
+              </div>
+
+              {/* DTC Box */}
+              <div className="col-span-2 bg-red-500/10 border border-red-500/20 p-4 rounded-xl flex flex-col justify-center relative" id="hot-dtc">
+                 <div className="text-red-500 font-mono text-[10px] tracking-wider mb-2 flex items-center gap-2 font-bold">
+                   <AlertTriangle className="w-3 h-3" /> DTC FOUND (1)
+                 </div>
+                 <div className="text-white font-mono text-sm">P0420 - Catalyst System Efficiency Below Threshold (Bank 1)</div>
+                 <div className="defect absolute right-3 top-3 pointer-events-none">
+                  <div className="w-4 h-4 rounded-full border-2 border-[rgba(255,77,77,.85)] bg-[rgba(255,77,77,.08)] flex items-center justify-center"><div className="w-1.5 h-1.5 rounded-full bg-[rgba(255,77,77,.95)]"></div></div>
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -524,7 +561,6 @@ export const Home = () => {
           </div>
         </section>
 
-        {/* Sekcja: Dlaczego my? */}
         <section className="py-24 relative overflow-hidden bg-surface/30 border-y border-glass-border">
           <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-primary/5 rounded-full blur-[120px] pointer-events-none"></div>
 
@@ -582,7 +618,6 @@ export const Home = () => {
           </div>
         </section>
 
-      {/* LEAD MAGNET */}
       <section className="py-24 relative overflow-hidden bg-surface/20 border-y border-glass-border">
         <div className="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none z-0">
           <div className="absolute top-1/2 left-1/4 -translate-y-1/2 w-96 h-96 bg-primary/10 rounded-full blur-[100px]"></div>
