@@ -2,14 +2,6 @@ import { HomeSEOSections } from '../components/HomeSEOSections';
 import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { ArrowRight, CheckCircle, Zap, Shield, Search, FileText, Gauge, UserCheck, FileCheck, Clock, MapPin, DollarSign, Link2 } from "lucide-react";
-import { mockData } from "../mockData";
-
-const iconMap = {
-  UserCheck: UserCheck,
-  FileCheck: FileCheck,
-  Clock: Clock,
-  MapPin: MapPin,
-};
 
 const ScannerWidget = () => {
   useEffect(() => {
@@ -485,27 +477,27 @@ export const Home = () => {
         <section className="pt-20 pb-16 lg:pt-24 lg:pb-24 border-b border-white/5">
           <div className="container max-w-[1500px] mx-auto px-4 sm:px-6">
             
-            <div className="grid grid-cols-1 lg:grid-cols-[1fr_1.6fr] gap-8 lg:gap-12 items-start">
+            <div className="grid grid-cols-1 lg:grid-cols-[1fr_1.4fr] gap-8 lg:gap-16 items-center">
               
-              <div className="text-left space-y-8 animate-in fade-in slide-in-from-left-8 duration-1000 flex flex-col justify-center pt-4 lg:pt-4">
+              <div className="text-left space-y-8 animate-in fade-in slide-in-from-left-8 duration-1000">
                 <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-[#FFD200]/10 border border-[#FFD200]/20 text-[#FFD200] text-xs font-bold uppercase tracking-widest">
                   <Zap className="w-3 h-3 fill-current" />
-                  <span>Diagnostyka pojazdów przed zakupem</span>
+                  <span>Certyfikowani rzeczoznawcy</span>
                 </div>
                 
-                <h1 className="text-5xl xl:text-[72px] font-extrabold leading-[1] tracking-tighter text-white">
-                <span className="text-primary">Kupujesz auto?</span><br />
-                Sprawdzimy je przed zakupem.
-              </h1>
+                <h1 className="text-5xl xl:text-[72px] font-extrabold leading-[1.05] tracking-tighter text-white">
+                  Kupujesz auto?<br />
+                  <span className="text-[#FFD200]">My je prześwietlimy.</span>
+                </h1>
                 
                 <p className="text-lg text-gray-400 max-w-lg font-light leading-relaxed">
-                  Bądź pewny swojego zakupu. Wykrywamy to, co handlarz próbuje ukryć przed zakupem.
+                  Podejmuj decyzje na podstawie faktów, a nie obietnic handlarza. Wykonujemy najbardziej rygorystyczne inspekcje przedzakupowe na rynku.
                 </p>
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   {[
                     { t: "Diagnostyka OBD", i: Search },
-                    { t: "Pomiar lakieru", i: Gauge },
+                    { t: "Pomiary lakieru", i: Gauge },
                     { t: "Weryfikacja VIN", i: FileText },
                     { t: "Ocena mechaniczna", i: Shield }
                   ].map((item, idx) => (
@@ -524,109 +516,73 @@ export const Home = () => {
                 </div>
               </div>
               
-              <div className="w-full flex flex-col justify-center items-center mt-8 lg:-mt-6">
-                <div className="hidden lg:block w-full">
-              <ScannerWidget />
-            </div>
-                
-                <div className="mt-8 flex items-center justify-center">
-                  <div className="inline-flex items-center gap-3 px-6 py-2.5 rounded-full bg-white/5 border border-white/10 backdrop-blur-md">
-                    <span className="w-2.5 h-2.5 rounded-full bg-[#FFD200] animate-pulse shadow-[0_0_12px_#FFD200]"></span>
-                    <span className="text-xs md:text-sm font-mono text-gray-300 tracking-[0.15em] uppercase">Zaufaj najlepszym diagnostom w regionie</span>
-                  </div>
-                </div>
+              <div className="w-full animate-in fade-in slide-in-from-right-8 duration-1000 delay-150">
+                <ScannerWidget />
               </div>
 
             </div>
           </div>
         </section>
 
+        {/* Sekcja: Dlaczego my? */}
         <section className="py-24 relative overflow-hidden bg-surface/30 border-y border-glass-border">
-  <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-primary/5 rounded-full blur-[120px] pointer-events-none"></div>
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-primary/5 rounded-full blur-[120px] pointer-events-none"></div>
 
-  <div className="container relative z-10 max-w-[1200px] mx-auto">
-    <div className="text-center mb-16">
-      <div className="inline-block px-4 py-1.5 mb-4 text-xs font-bold tracking-widest text-primary uppercase bg-primary/10 border border-primary/20 rounded-full backdrop-blur-md">
-        Przewaga konkurencyjna
-      </div>
-      <h2 className="display-md text-text mb-6">
-        Dlaczego <span className="text-primary">Autotest</span>?
-      </h2>
-      <p className="body-lg max-w-2xl mx-auto text-muted">
-        Nie jesteśmy zwykłym rzeczoznawcą. Jesteśmy Twoim osobistym doradcą, negocjatorem i tarczą przed oszustami. Zobacz, co zyskujesz wybierając ekspertów.
-      </p>
-    </div>
-
-    <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-      
-      <div className="md:col-span-2 glass p-8 md:p-10 relative overflow-hidden group hover:border-primary/40 transition-all duration-500 hover:-translate-y-1">
-        <div className="absolute top-0 right-0 w-64 h-64 bg-primary/10 rounded-full blur-[80px] -mr-20 -mt-20 transition-opacity group-hover:bg-primary/20"></div>
-        <UserCheck className="w-12 h-12 text-primary mb-6 relative z-10" />
-        <h3 className="h2 text-text mb-4 relative z-10">100% Niezależni. Gramy do Twojej bramki.</h3>
-        <p className="body-lg text-muted mb-6 relative z-10 max-w-xl">
-          Wielu "ekspertów" współpracuje z komisami za prowizję od sprzedaży. My działamy <strong className="text-gray-200">wyłącznie na Twoje zlecenie</strong>. Naszym celem nie jest to, żebyś po prostu kupił auto – naszym celem jest to, żebyś nie kupił skarbonki bez dna.
-        </p>
-        <div className="flex flex-col sm:flex-row gap-4 relative z-10">
-          <div className="flex items-center text-sm text-gray-300 bg-white/5 px-4 py-2 rounded-lg border border-white/5">
-            <CheckCircle className="w-4 h-4 text-primary mr-2" /> Zero ukrytych prowizji
-          </div>
-          <div className="flex items-center text-sm text-gray-300 bg-white/5 px-4 py-2 rounded-lg border border-white/5">
-            <CheckCircle className="w-4 h-4 text-primary mr-2" /> Surowa i obiektywna ocena
-          </div>
-        </div>
-      </div>
-
-      <div className="glass p-8 relative overflow-hidden group hover:border-primary/40 transition-all duration-500 hover:-translate-y-1 flex flex-col">
-        <FileCheck className="w-12 h-12 text-primary mb-6" />
-        <h3 className="h3 text-text mb-4">Eksperckie raporty</h3>
-        <p className="body-md text-muted mb-6 flex-grow">
-          Otrzymujesz raport PDF z dziesiątkami zdjęć, wynikami z komputera diagnostycznego i pomiarami lakieru. Konkretne fakty, zero gdybania.
-        </p>
-        <div className="pt-6 border-t border-white/10 mt-auto">
-          <div className="text-xs text-primary font-semibold uppercase tracking-wider mb-3">Weryfikujemy m.in:</div>
-          <div className="flex flex-wrap gap-2">
-            <span className="px-2 py-1 bg-black/50 border border-white/10 rounded text-xs text-gray-300">Korekty wtrysków</span>
-            <span className="px-2 py-1 bg-black/50 border border-white/10 rounded text-xs text-gray-300">Stan DPF/EGR</span>
-            <span className="px-2 py-1 bg-black/50 border border-white/10 rounded text-xs text-gray-300">Bezwypadkowość</span>
-          </div>
-        </div>
-      </div>
-
-      <div className="glass p-8 relative overflow-hidden group hover:border-primary/40 transition-all duration-500 hover:-translate-y-1">
-        <DollarSign className="w-12 h-12 text-primary mb-6" />
-        <h3 className="h3 text-text mb-4">Usługa, która się zwraca</h3>
-        <p className="body-md text-muted mb-0">
-          Dzięki wykrytym usterkom zyskujesz twarde argumenty. Średnio negocjujemy dla klientów <strong className="text-primary font-bold">od 7% do 15% zniżki</strong>. Koszt inspekcji nierzadko zwraca się w całości przy negocjacjach.
-        </p>
-      </div>
-
-      <div className="md:col-span-2 glass p-8 relative overflow-hidden group hover:border-primary/40 transition-all duration-500 hover:-translate-y-1 flex flex-col justify-center">
-        <div className="absolute bottom-0 right-0 w-full h-1/2 bg-gradient-to-t from-primary/5 to-transparent pointer-events-none"></div>
-        <div className="flex flex-col md:flex-row gap-8 items-center relative z-10">
-          <div className="flex-1">
-            <MapPin className="w-12 h-12 text-primary mb-6" />
-            <h3 className="h3 text-text mb-4">Cała Polska. Bez wymówek.</h3>
-            <p className="body-md text-muted">
-              Nie trać czasu wolnego i pieniędzy na paliwo, by jechać na drugi koniec kraju po "igłę", która okazuje się powypadkowym ulepem. Nasi inspektorzy dojadą za Ciebie na miejsce oględzin w dowolnym województwie.
-            </p>
-          </div>
-          <div className="w-full md:w-auto flex flex-row md:flex-col gap-3 justify-center shrink-0">
-            <div className="bg-black/40 px-6 py-4 rounded-xl border border-white/5 text-center flex-1 shadow-inner">
-              <div className="text-3xl font-black text-primary mb-1">24h</div>
-              <div className="text-[10px] text-gray-400 font-bold uppercase tracking-widest">Czas reakcji</div>
+          <div className="container relative z-10 max-w-[1200px] mx-auto">
+            <div className="text-center mb-16">
+              <div className="inline-block px-4 py-1.5 mb-4 text-xs font-bold tracking-widest text-primary uppercase bg-primary/10 border border-primary/20 rounded-full backdrop-blur-md">
+                Przewaga konkurencyjna
+              </div>
+              <h2 className="display-md text-text mb-6">
+                Dlaczego <span className="text-primary">Autotest</span>?
+              </h2>
+              <p className="body-lg max-w-2xl mx-auto text-muted">
+                Nie jesteśmy zwykłym rzeczoznawcą. Jesteśmy Twoim osobistym doradcą, negocjatorem i tarczą przed oszustami.
+              </p>
             </div>
-            <div className="bg-black/40 px-6 py-4 rounded-xl border border-white/5 text-center flex-1 shadow-inner">
-              <div className="text-3xl font-black text-primary mb-1">16</div>
-              <div className="text-[10px] text-gray-400 font-bold uppercase tracking-widest">Województw</div>
+
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+              <div className="md:col-span-2 glass p-8 md:p-10 relative overflow-hidden group hover:border-primary/40 transition-all duration-500 hover:-translate-y-1">
+                <div className="absolute top-0 right-0 w-64 h-64 bg-primary/10 rounded-full blur-[80px] -mr-20 -mt-20 transition-opacity group-hover:bg-primary/20"></div>
+                <Shield className="w-12 h-12 text-primary mb-6 relative z-10" />
+                <h3 className="h2 text-text mb-4 relative z-10">100% Niezależni. Gramy do Twojej bramki.</h3>
+                <p className="body-lg text-muted mb-6 relative z-10 max-w-xl">
+                  Wielu "ekspertów" współpracuje z komisami za prowizję od sprzedaży. My działamy <strong className="text-gray-200">wyłącznie na Twoje zlecenie</strong>. Naszym celem nie jest to, żebyś po prostu kupił auto – naszym celem jest to, żebyś nie kupił skarbonki bez dna.
+                </p>
+              </div>
+
+              <div className="glass p-8 relative overflow-hidden group hover:border-primary/40 transition-all duration-500 hover:-translate-y-1 flex flex-col">
+                <FileCheck className="w-12 h-12 text-primary mb-6" />
+                <h3 className="h3 text-text mb-4">Fakty, nie gdybanie</h3>
+                <p className="body-md text-muted mb-6 flex-grow">
+                  Otrzymujesz rygorystyczny raport PDF. Konkretne usterki, pomiary i zdjęcia.
+                </p>
+              </div>
+
+              <div className="glass p-8 relative overflow-hidden group hover:border-primary/40 transition-all duration-500 hover:-translate-y-1">
+                <div className="text-3xl font-black text-primary mb-2">~12%</div>
+                <h3 className="h3 text-text mb-4">Usługa, która się zwraca</h3>
+                <p className="body-md text-muted mb-0">
+                  Wykryte wady to Twoje twarde argumenty. Średnio negocjujemy od 7% do 15% zniżki dla naszych klientów.
+                </p>
+              </div>
+
+              <div className="md:col-span-2 glass p-8 relative overflow-hidden group hover:border-primary/40 transition-all duration-500 hover:-translate-y-1 flex flex-col justify-center">
+                <div className="flex flex-col md:flex-row gap-8 items-center relative z-10">
+                  <div className="flex-1">
+                    <MapPin className="w-12 h-12 text-primary mb-6" />
+                    <h3 className="h3 text-text mb-4">Dojedziemy w każde miejsce</h3>
+                    <p className="body-md text-muted">
+                      Znalazłeś wymarzone auto na drugim końcu Polski? Nasi inspektorzy pojawią się na miejscu, oszczędzając Twój czas i pieniądze na paliwo.
+                    </p>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
-        </div>
-      </div>
+        </section>
 
-    </div>
-  </div>
-</section>
-
+      {/* LEAD MAGNET */}
       <section className="py-24 relative overflow-hidden bg-surface/20 border-y border-glass-border">
         <div className="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none z-0">
           <div className="absolute top-1/2 left-1/4 -translate-y-1/2 w-96 h-96 bg-primary/10 rounded-full blur-[100px]"></div>
