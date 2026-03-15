@@ -1,107 +1,140 @@
 import { HomeSEOSections } from '../components/HomeSEOSections';
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { ArrowRight, CheckCircle, Zap, Shield, Search, FileText, Gauge, AlertTriangle, FileCheck, DollarSign, Download, Star, MapPin, Link2 } from "lucide-react";
+import { ArrowRight, CheckCircle, Zap, Shield, Search, FileText, Gauge, FileCheck, MapPin, Download, Star, AlertTriangle, Link2, Activity, Fingerprint, Car, Cpu } from "lucide-react";
 
 export const Home = () => {
   const navigate = useNavigate();
   const handleConsultationClick = () => navigate("/kontakt");
 
-  const ExpertReportPreview = () => {
+  // Premium Audit Dashboard
+  const PremiumAuditDashboard = () => {
+    const [progress, setProgress] = useState(0);
+
+    useEffect(() => {
+      const timer = setInterval(() => {
+        setProgress((prev) => (prev >= 100 ? 0 : prev + 0.5));
+      }, 50);
+      return () => clearInterval(timer);
+    }, []);
+
     return (
-      <div className="w-full flex flex-col gap-5 z-20 relative mt-8 lg:mt-0">
+      <div className="w-full relative mt-8 lg:mt-0 z-20">
+        {/* Dekoracyjny glow w tle */}
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[120%] h-[120%] bg-[#FFD200]/5 rounded-full blur-[100px] -z-10 pointer-events-none"></div>
         
-        {/* Wizytówka Audytora */}
-        <div className="flex items-center gap-5 px-6 py-5 rounded-2xl bg-[#0C0D10]/90 border border-white/10 shadow-[0_8px_32px_0_rgba(255,255,255,0.02)] backdrop-blur-2xl relative overflow-hidden w-full">
-          <div className="absolute -top-10 -right-10 w-48 h-48 bg-[#FFD200]/5 rounded-full blur-3xl"></div>
+        <div className="glass rounded-3xl border border-white/10 shadow-[0_30px_80px_rgba(0,0,0,0.8)] backdrop-blur-2xl p-6 md:p-8 overflow-hidden relative">
           
-          <div className="relative w-16 h-16 rounded-full overflow-hidden border border-[#FFD200]/30 shrink-0">
-            <img src="https://ui-avatars.com/api/?name=Adam+Pakuła&background=111&color=FFD200&size=150" alt="Adam Pakuła" className="w-full h-full object-cover" />
-          </div>
-          
-          <div className="flex flex-col relative z-10">
-            <div className="flex items-center gap-2 mb-1">
-              <span className="text-white font-bold text-lg tracking-wide">Adam Pakuła</span>
-              <CheckCircle className="w-4 h-4 text-[#FFD200]" />
-            </div>
-            <span className="text-[#FFD200] font-semibold text-xs uppercase tracking-wider mb-2">Główny Audytor & Ekspert</span>
-            <p className="text-gray-400 text-sm leading-relaxed italic pr-4">
-              "Opieramy się na faktach, nie na obietnicach sprzedawcy. Zobacz, jak wygląda fragment naszego rzeczywistego raportu z inspekcji."
-            </p>
-          </div>
-        </div>
-
-        {/* Panel Raportu - Twarde dane */}
-        <div className="glass p-6 md:p-8 rounded-2xl border border-white/10 shadow-[0_20px_60px_rgba(0,0,0,0.6)] backdrop-blur-2xl relative overflow-hidden">
-          
-          {/* Header Raportu */}
-          <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-6 border-b border-white/10 pb-6">
-            <div>
-              <div className="flex items-center gap-2 mb-2">
-                <Shield className="w-4 h-4 text-[#FFD200]" />
-                <span className="text-[#FFD200] text-xs font-bold tracking-widest uppercase">Raport Przedzakupowy #4892</span>
+          {/* Górna belka statusowa */}
+          <div className="flex justify-between items-center pb-6 border-b border-white/10 mb-6">
+            <div className="flex items-center gap-3">
+              <div className="relative flex h-3 w-3">
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#FFD200] opacity-75"></span>
+                <span className="relative inline-flex rounded-full h-3 w-3 bg-[#FFD200]"></span>
               </div>
-              <h3 className="text-xl md:text-2xl font-bold text-white tracking-tight">BMW Seria 5 G30 520d</h3>
-              <p className="text-gray-500 font-mono text-xs mt-1">VIN: WBAJF51080G******</p>
+              <span className="font-mono text-[11px] uppercase tracking-widest text-gray-400">System Weryfikacji Aktywny</span>
             </div>
-            <div className="bg-black/50 border border-white/10 px-4 py-3 rounded-xl text-center min-w-[120px]">
-              <div className="text-gray-400 text-[10px] uppercase tracking-widest mb-1">Ocena końcowa</div>
-              <div className="flex items-center justify-center gap-1">
-                <span className="text-2xl font-black text-white">8.5</span>
-                <span className="text-gray-500 font-bold">/10</span>
-              </div>
-            </div>
+            <div className="font-mono text-[11px] text-gray-500">ID: #4920-PL</div>
           </div>
 
-          {/* Siatka parametrów */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
-            <div className="bg-white/5 border border-white/5 p-4 rounded-xl flex items-start gap-3">
-              <Gauge className="w-5 h-5 text-[#FFD200] shrink-0 mt-0.5" />
-              <div>
-                <div className="text-sm font-semibold text-white mb-1">Powłoka lakiernicza</div>
-                <div className="text-xs text-gray-400 font-mono">110-140 μm (Oryginał)</div>
-                <div className="text-[11px] text-green-400 mt-1">Brak śladów napraw blacharskich</div>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+            {/* Lewa strona - Główny wynik */}
+            <div className="flex flex-col items-center justify-center bg-black/40 rounded-2xl border border-white/5 p-6 relative overflow-hidden">
+              <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(255,210,0,0.1)_0%,transparent_70%)] pointer-events-none"></div>
+              
+              <div className="relative w-40 h-40 flex items-center justify-center mb-4">
+                <svg className="w-full h-full transform -rotate-90" viewBox="0 0 100 100">
+                  <circle cx="50" cy="50" r="45" fill="none" stroke="rgba(255,255,255,0.1)" strokeWidth="6" />
+                  <circle cx="50" cy="50" r="45" fill="none" stroke="#FFD200" strokeWidth="6" 
+                          strokeDasharray="283" strokeDashoffset={283 - (283 * 82) / 100} 
+                          className="transition-all duration-1000 ease-out" />
+                </svg>
+                <div className="absolute flex flex-col items-center justify-center">
+                  <span className="text-4xl font-black text-white leading-none">82<span className="text-xl text-gray-500">/100</span></span>
+                  <span className="text-[10px] uppercase tracking-widest text-[#FFD200] font-bold mt-1">Trust Score</span>
+                </div>
               </div>
-            </div>
-            
-            <div className="bg-white/5 border border-white/5 p-4 rounded-xl flex items-start gap-3">
-              <Search className="w-5 h-5 text-[#FFD200] shrink-0 mt-0.5" />
-              <div>
-                <div className="text-sm font-semibold text-white mb-1">Diagnostyka komputerowa</div>
-                <div className="text-xs text-gray-400 font-mono">Odczyt: 1 błąd w pamięci (Historyczny)</div>
-                <div className="text-[11px] text-[#FFD200] mt-1">Korekty wtryskiwaczy w normie</div>
+              
+              <div className="text-center w-full z-10">
+                <h3 className="text-white font-bold text-lg">BMW Seria 5 G30</h3>
+                <p className="text-gray-400 text-xs mt-1">Status: Pojazd warunkowo polecany</p>
+                <div className="mt-4 pt-4 border-t border-white/10 w-full flex justify-between items-center">
+                  <span className="text-xs text-gray-500 uppercase tracking-wider">Potencjał negocjacji:</span>
+                  <span className="text-sm font-bold text-green-400">Wysoki</span>
+                </div>
               </div>
             </div>
 
-            <div className="bg-white/5 border border-white/5 p-4 rounded-xl flex items-start gap-3">
-              <FileCheck className="w-5 h-5 text-[#FFD200] shrink-0 mt-0.5" />
-              <div>
-                <div className="text-sm font-semibold text-white mb-1">Historia serwisowa</div>
-                <div className="text-xs text-gray-400 font-mono">ASO BMW do 120tys. km</div>
-                <div className="text-[11px] text-green-400 mt-1">Przebieg potwierdzony w bazie</div>
+            {/* Prawa strona - Moduły weryfikacji */}
+            <div className="flex flex-col gap-3">
+              {/* Moduł 1 */}
+              <div className="bg-[#0C0D10]/80 border border-white/10 rounded-xl p-4 flex items-center justify-between group hover:border-[#FFD200]/40 transition-colors">
+                <div className="flex items-center gap-4">
+                  <div className="w-10 h-10 rounded-lg bg-green-500/10 flex items-center justify-center border border-green-500/20">
+                    <Fingerprint className="w-5 h-5 text-green-500" />
+                  </div>
+                  <div>
+                    <div className="text-sm font-bold text-white mb-0.5">Weryfikacja Prawna</div>
+                    <div className="text-[10px] text-gray-400 uppercase tracking-wider">VIN & Bazy kradzieżowe</div>
+                  </div>
+                </div>
+                <CheckCircle className="w-5 h-5 text-green-500" />
               </div>
-            </div>
 
-            <div className="bg-red-500/10 border border-red-500/20 p-4 rounded-xl flex items-start gap-3">
-              <AlertTriangle className="w-5 h-5 text-red-400 shrink-0 mt-0.5" />
-              <div>
-                <div className="text-sm font-semibold text-white mb-1">Znalezione usterki</div>
-                <div className="text-xs text-red-300/80 mb-1">• Wyciek z okolic pokrywy zaworów</div>
-                <div className="text-xs text-red-300/80">• Klocki hamulcowe tył (kwalifikacja)</div>
+              {/* Moduł 2 */}
+              <div className="bg-[#0C0D10]/80 border border-white/10 rounded-xl p-4 flex items-center justify-between group hover:border-[#FFD200]/40 transition-colors">
+                <div className="flex items-center gap-4">
+                  <div className="w-10 h-10 rounded-lg bg-[#FFD200]/10 flex items-center justify-center border border-[#FFD200]/20">
+                    <Car className="w-5 h-5 text-[#FFD200]" />
+                  </div>
+                  <div>
+                    <div className="text-sm font-bold text-white mb-0.5">Powłoka Lakiernicza</div>
+                    <div className="text-[10px] text-gray-400 uppercase tracking-wider">Wykryto 2 elementy malowane</div>
+                  </div>
+                </div>
+                <AlertTriangle className="w-5 h-5 text-[#FFD200]" />
+              </div>
+
+              {/* Moduł 3 */}
+              <div className="bg-[#0C0D10]/80 border border-white/10 rounded-xl p-4 flex items-center justify-between group hover:border-[#FFD200]/40 transition-colors">
+                <div className="flex items-center gap-4">
+                  <div className="w-10 h-10 rounded-lg bg-green-500/10 flex items-center justify-center border border-green-500/20">
+                    <Activity className="w-5 h-5 text-green-500" />
+                  </div>
+                  <div>
+                    <div className="text-sm font-bold text-white mb-0.5">Test Drogowy & Mechanika</div>
+                    <div className="text-[10px] text-gray-400 uppercase tracking-wider">Silnik / Skrzynia / Zawieszenie</div>
+                  </div>
+                </div>
+                <CheckCircle className="w-5 h-5 text-green-500" />
+              </div>
+
+              {/* Moduł 4 */}
+              <div className="bg-[#0C0D10]/80 border border-white/10 rounded-xl p-4 flex items-center justify-between group hover:border-[#FFD200]/40 transition-colors">
+                <div className="flex items-center gap-4">
+                  <div className="w-10 h-10 rounded-lg bg-green-500/10 flex items-center justify-center border border-green-500/20">
+                    <Cpu className="w-5 h-5 text-green-500" />
+                  </div>
+                  <div>
+                    <div className="text-sm font-bold text-white mb-0.5">Diagnostyka OBD-II</div>
+                    <div className="text-[10px] text-gray-400 uppercase tracking-wider">Skanowanie 42 sterowników</div>
+                  </div>
+                </div>
+                <CheckCircle className="w-5 h-5 text-green-500" />
               </div>
             </div>
           </div>
 
-          {/* Konkluzja i Negocjacje */}
-          <div className="bg-black/40 border border-[#FFD200]/20 rounded-xl p-5 flex flex-col md:flex-row items-center justify-between gap-4">
-            <div>
-              <div className="text-[10px] text-gray-400 uppercase tracking-widest mb-1">Rekomendacja</div>
-              <div className="text-white font-semibold text-sm">Pojazd warunkowo polecany do zakupu.</div>
-              <div className="text-gray-400 text-xs mt-1">Wymagany pakiet startowy: ~2500 PLN.</div>
+          {/* Dolny pasek postępu */}
+          <div className="mt-8 pt-6 border-t border-white/10">
+            <div className="flex justify-between text-[10px] uppercase tracking-widest text-gray-400 mb-2">
+              <span>Generowanie pełnego raportu PDF</span>
+              <span className="text-[#FFD200]">{Math.round(progress)}%</span>
             </div>
-            <div className="w-full md:w-auto text-center md:text-right border-t md:border-t-0 md:border-l border-white/10 pt-4 md:pt-0 md:pl-6">
-              <div className="text-[10px] text-[#FFD200] uppercase tracking-widest mb-1">Nasz argument do negocjacji</div>
-              <div className="text-2xl font-black text-white">-3 500 PLN</div>
+            <div className="w-full h-1.5 bg-black rounded-full overflow-hidden border border-white/10">
+              <div className="h-full bg-gradient-to-r from-[#FFD200]/50 to-[#FFD200] relative" style={{ width: `${progress}%` }}>
+                <div className="absolute top-0 right-0 bottom-0 w-20 bg-gradient-to-r from-transparent to-white/50 blur-[2px]"></div>
+              </div>
             </div>
           </div>
 
@@ -126,29 +159,29 @@ export const Home = () => {
         <section className="pt-20 pb-16 lg:pt-24 lg:pb-24 border-b border-white/5">
           <div className="container max-w-[1500px] mx-auto px-4 sm:px-6">
             
-            <div className="grid grid-cols-1 lg:grid-cols-[1fr_1.2fr] gap-8 lg:gap-16 items-center">
+            <div className="grid grid-cols-1 lg:grid-cols-[1fr_1.3fr] gap-8 lg:gap-16 items-center">
               
               <div className="text-left space-y-8 animate-in fade-in slide-in-from-left-8 duration-1000">
                 <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-[#FFD200]/10 border border-[#FFD200]/20 text-[#FFD200] text-xs font-bold uppercase tracking-widest">
                   <Zap className="w-3 h-3 fill-current" />
-                  <span>Certyfikowani rzeczoznawcy</span>
+                  <span>Autoryzowani Rzeczoznawcy</span>
                 </div>
                 
-                <h1 className="text-5xl xl:text-[72px] font-extrabold leading-[1.05] tracking-tighter text-white">
-                  Kupujesz auto?<br />
-                  <span className="text-[#FFD200]">My je prześwietlimy.</span>
+                <h1 className="text-5xl xl:text-[64px] font-extrabold leading-[1.05] tracking-tighter text-white">
+                  Eksperckie inspekcje pojazdów.<br />
+                  <span className="text-[#FFD200]">Kupuj bez ryzyka.</span>
                 </h1>
                 
                 <p className="text-lg text-gray-400 max-w-lg font-light leading-relaxed">
-                  Podejmuj decyzje na podstawie twardych danych, a nie obietnic sprzedawcy. Wykonujemy najbardziej rygorystyczne inspekcje przedzakupowe na rynku.
+                  Podejmuj decyzje inwestycyjne w oparciu o twarde dane. Weryfikujemy stan techniczny i historię aut, chroniąc Cię przed kosztownymi błędami.
                 </p>
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   {[
-                    { t: "Diagnostyka komputerowa", i: Search },
-                    { t: "Pomiary lakieru", i: Gauge },
-                    { t: "Weryfikacja historii", i: FileText },
-                    { t: "Ocena mechaniczna", i: Shield }
+                    { t: "Diagnostyka komputerowa", i: Cpu },
+                    { t: "Pomiary grubości lakieru", i: Gauge },
+                    { t: "Analiza prawna i VIN", i: Shield },
+                    { t: "Wycena i negocjacje", i: FileCheck }
                   ].map((item, idx) => (
                     <div key={idx} className="flex items-center gap-3 bg-white/5 p-4 rounded-xl border border-white/5 backdrop-blur-md">
                       <item.i className="w-5 h-5 text-[#FFD200] shrink-0" />
@@ -159,17 +192,17 @@ export const Home = () => {
                 
                 <div className="flex flex-col sm:flex-row gap-4 pt-4">
                   <button onClick={handleConsultationClick} className="group px-8 py-4 bg-[#FFD200] text-black font-black text-lg rounded-xl hover:shadow-[0_0_40px_rgba(255,210,0,0.3)] transition-all flex items-center justify-center gap-3">
-                    Rezerwuj termin
+                    Skonsultuj zakup
                     <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
                   </button>
                   <button className="px-8 py-4 bg-white/5 text-white font-semibold text-lg rounded-xl border border-white/10 hover:bg-white/10 transition-all flex items-center justify-center gap-2">
-                    <Download className="w-5 h-5" /> Zobacz wzór raportu
+                    <Download className="w-5 h-5" /> Wzór raportu
                   </button>
                 </div>
               </div>
               
               <div className="w-full animate-in fade-in slide-in-from-right-8 duration-1000 delay-150">
-                <ExpertReportPreview />
+                <PremiumAuditDashboard />
               </div>
 
             </div>
@@ -205,9 +238,9 @@ export const Home = () => {
 
               <div className="glass p-8 relative overflow-hidden group hover:border-primary/40 transition-all duration-500 hover:-translate-y-1 flex flex-col">
                 <FileCheck className="w-12 h-12 text-primary mb-6" />
-                <h3 className="h3 text-text mb-4">Pełna transparentność</h3>
+                <h3 className="h3 text-text mb-4">Fakty, nie gdybanie</h3>
                 <p className="body-md text-muted mb-6 flex-grow">
-                  Dostarczamy obiektywne fakty. Każda znaleziona rysa i każdy błąd w sterowniku zostaną szczegółowo udokumentowane.
+                  Otrzymujesz rygorystyczny raport PDF. Konkretne usterki, pomiary i zdjęcia.
                 </p>
               </div>
 
@@ -215,7 +248,7 @@ export const Home = () => {
                 <div className="text-3xl font-black text-primary mb-2">~12%</div>
                 <h3 className="h3 text-text mb-4">Usługa, która się zwraca</h3>
                 <p className="body-md text-muted mb-0">
-                  Wykryte wady to twarde argumenty. Średnio negocjujemy od 7% do 15% zniżki dla naszych klientów.
+                  Wykryte wady to Twoje twarde argumenty. Średnio negocjujemy od 7% do 15% zniżki dla naszych klientów.
                 </p>
               </div>
 
