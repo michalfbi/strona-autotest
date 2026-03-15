@@ -1,7 +1,7 @@
 import { HomeSEOSections } from '../components/HomeSEOSections';
 import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { ArrowRight, CheckCircle, Zap, Shield, Search, FileText, Gauge, UserCheck, FileCheck, Clock, MapPin, DollarSign , Link2} from "lucide-react";
+import { ArrowRight, CheckCircle, Zap, Shield, Search, FileText, Gauge, UserCheck, FileCheck, Clock, MapPin, DollarSign, Link2 } from "lucide-react";
 import { mockData } from "../mockData";
 
 const iconMap = {
@@ -13,12 +13,6 @@ const iconMap = {
 
 const ScannerWidget = () => {
   useEffect(() => {
-    if (!document.querySelector('script[src*="model-viewer"]')) {
-      const script = document.createElement('script');
-      script.type = 'module';
-      script.src = 'https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js';
-      document.head.appendChild(script);
-    }
     if (!document.querySelector('link[href*="font-awesome"]')) {
       const link = document.createElement('link');
       link.rel = 'stylesheet';
@@ -28,15 +22,15 @@ const ScannerWidget = () => {
 
     const defects = [
       {
-        id: "hood", pct: 28, hotId: "hot-hood",
+        id: "hood", pct: 22, hotId: "hot-hood",
         title: "ODPRYSKI / MASKA", desc: "Liczne odpryski lakieru na masce. Uszkodzenia warstwy bezbarwnej (clear coat).", cost: 1500, icon: "fa-solid fa-virus",
       },
       {
-        id: "door", pct: 49, hotId: "hot-door",
+        id: "door", pct: 50, hotId: "hot-door",
         title: "WGNIECENIE / DRZWI", desc: "Wgniecenie parkingowe na przetłoczeniu drzwi kierowcy. Bez pęknięcia lakieru (PDR).", cost: 450, icon: "fa-solid fa-compress",
       },
       {
-        id: "fender", pct: 78, hotId: "hot-fender",
+        id: "fender", pct: 82, hotId: "hot-fender",
         title: "RYSA / BŁOTNIK TYŁ", desc: "Głęboka rysa nad nadkolem. Uszkodzenie do podkładu. Wymagane lakierowanie.", cost: 1200, icon: "fa-solid fa-marker",
       },
     ];
@@ -71,7 +65,6 @@ const ScannerWidget = () => {
     let hitSet = new Set();
     const baseSpeed = 0.34;
     let animFrame;
-    let envRot = 0; 
 
     const clamp = (v, a, b) => Math.max(a, Math.min(b, v));
     const pad = (n, len = 3) => { const s = String(n); return s.length >= len ? s : "0".repeat(len - s.length) + s; };
@@ -201,12 +194,6 @@ const ScannerWidget = () => {
     }
 
     function tick() {
-      envRot += 0.005;
-      const mv = document.getElementById('car3d');
-      if (mv) {
-        mv.setAttribute('environment-rotation', `0 ${envRot}rad 0`);
-      }
-
       const t = progress / 100;
       const speed = baseSpeed * (0.78 + 0.22 * Math.sin(t * Math.PI));
       if (!isPaused) {
@@ -293,10 +280,11 @@ const ScannerWidget = () => {
           position: absolute; left: 50%; top: 50%;
           transform: translate(-50%, -50%) rotateX(var(--tiltX)) rotateY(var(--tiltY));
           transform-style: preserve-3d; 
-          width: 98%; 
+          width: 90%; 
           height: 85%; 
           z-index: 10;
           transition: transform .35s ease; will-change: transform;
+          display: flex; align-items: center; justify-content: center;
         }
         .scanner-widget.is-paused .car-stage { transform: translate(-50%, -50%) rotateX(var(--tiltX)) rotateY(var(--tiltY)) scale(1.02); }
         .laser { position: absolute; inset: 0; z-index: 25; pointer-events: none; }
@@ -347,10 +335,7 @@ const ScannerWidget = () => {
         .progress > div { height: 100%; width: 0%; background: linear-gradient(90deg, rgba(245,196,0,.2), rgba(245,196,0,.95), rgba(245,196,0,.35)); box-shadow: 0 0 18px rgba(245,196,0,.25); border-radius: 999px; }
       `}</style>
 
-      {/* PANELE INFORMACYJNE WYCIĄGNIĘTE NAD SKANER - UŁOŻONE KASKADOWO */}
       <div className="flex flex-col gap-4 w-full mb-4 z-20">
-        
-        {/* GÓRNY RZĄD: Szeroka wizytówka audytora */}
         <div className="flex items-center gap-5 px-6 py-5 rounded-2xl bg-[#0C0D10]/80 border border-white/10 shadow-[0_8px_32px_0_rgba(255,255,255,0.02)] backdrop-blur-2xl relative overflow-hidden group w-full hover:bg-white/5 transition-all duration-300">
           <div className="absolute -top-10 -right-10 w-48 h-48 bg-[#FFD200]/10 rounded-full blur-3xl group-hover:bg-[#FFD200]/20 transition-colors duration-500"></div>
           
@@ -370,10 +355,7 @@ const ScannerWidget = () => {
           </div>
         </div>
 
-        {/* DOLNY RZĄD: Model po lewej, Wycena po prawej */}
         <div className="flex flex-col md:flex-row items-stretch justify-between w-full gap-4">
-          
-          {/* Lewa strona: Model i Badge */}
           <div className="flex flex-col gap-2 w-full md:w-auto">
             <div className="inline-flex items-center gap-2 w-fit px-3 py-1 rounded-full bg-[#0C0D10]/70 border border-white/10 shadow-[0_0_38px_rgba(245,196,0,.10)] backdrop-blur-md">
               <span className="inline-flex items-center justify-center w-5 h-5 rounded-full bg-[#F5C400] text-black font-extrabold">⚡</span>
@@ -383,13 +365,12 @@ const ScannerWidget = () => {
               <div>
                 <div className="mono text-[10px] tracking-[.22em] uppercase text-[#9AA3B2] mb-1">Vehicle model</div>
                 <div className="text-[#EDEFF4] font-semibold text-base tracking-tight">
-                  AUDI R8 COUPE <span className="text-white/25">//</span> V10 PERFORMANCE
+                  PORSCHE 911 <span className="text-white/25">//</span> CARRERA S
                 </div>
               </div>
             </div>
           </div>
 
-          {/* Prawa strona: Wycena */}
           <div className="flex items-center justify-between md:justify-end gap-5 px-8 py-4 rounded-2xl bg-[#0C0D10]/90 border border-[#FFD200]/20 shadow-[0_15px_40px_-10px_rgba(245,196,0,0.2)] backdrop-blur-xl w-full md:w-auto md:min-w-[360px] h-full">
             <div className="hidden xl:flex w-10 h-10 rounded-full bg-[#FFD200]/10 items-center justify-center border border-[#FFD200]/20 shrink-0">
               <DollarSign className="w-5 h-5 text-[#FFD200]" />
@@ -400,48 +381,33 @@ const ScannerWidget = () => {
               <div className="mono text-[9px] tracking-[.15em] uppercase text-white/40 mt-1.5 transition-colors duration-300 w-full text-right" id="status">INITIALIZING...</div>
             </div>
           </div>
-          
         </div>
       </div>
 
-      {/* GŁÓWNY WIDŻET SKANERA */}
       <div className="scanner-widget" id="widget">
         <div className="scanner-grid"></div>
         <div className="scanlines"></div>
         <div className="noise"></div>
 
-        {/* CAR STAGE */}
         <div className="car-stage" aria-hidden="true">
-          <model-viewer
-            id="car3d"
-            src="/r8.glb"
-            style={{ 
-              width: '100%', 
-              height: '100%', 
-              background: 'transparent',
-              filter: 'contrast(1.15) saturate(1.2) brightness(1.1) drop-shadow(0 20px 30px rgba(0,0,0,0.5))'
-            }}
-            exposure="1.4"
-            tone-mapping="aces"
-            shadow-intensity="3"
-            shadow-softness="0.5"
-            environment-image="https://modelviewer.dev/shared-assets/environments/aircraft_workshop_01_1k.hdr"
-            interaction-prompt="none"
-            camera-orbit="90deg 75deg 5.5m"
-            field-of-view="30deg"
-          ></model-viewer>
+          <img 
+            src="https://images.unsplash.com/photo-1583121274602-3e2820c69888?q=80&w=1000&auto=format&fit=crop" 
+            alt="Car Silhouette" 
+            className="w-full h-full object-contain mix-blend-screen opacity-70"
+            style={{ filter: 'grayscale(100%) sepia(100%) hue-rotate(5deg) saturate(500%) brightness(0.8) contrast(1.2) drop-shadow(0 0 15px rgba(245,196,0,0.5))' }}
+          />
           
-          <div id="hot-hood" className="defect absolute pointer-events-none" style={{ left: '35%', top: '52%', transform: 'translate(-50%, -50%)' }}>
+          <div id="hot-hood" className="defect absolute pointer-events-none" style={{ left: '20%', top: '56%', transform: 'translate(-50%, -50%)' }}>
             <div className="w-8 h-8 rounded-full border-2 border-[rgba(255,77,77,.85)] bg-[rgba(255,77,77,.08)] flex items-center justify-center">
               <div className="w-2 h-2 rounded-full bg-[rgba(255,77,77,.95)]"></div>
             </div>
           </div>
-          <div id="hot-door" className="defect absolute pointer-events-none" style={{ left: '51%', top: '64%', transform: 'translate(-50%, -50%)' }}>
+          <div id="hot-door" className="defect absolute pointer-events-none" style={{ left: '48%', top: '52%', transform: 'translate(-50%, -50%)' }}>
             <div className="w-9 h-9 rounded-full border-2 border-[rgba(255,77,77,.85)] bg-[rgba(255,77,77,.08)] flex items-center justify-center">
               <div className="w-2 h-2 rounded-full bg-[rgba(255,77,77,.95)]"></div>
             </div>
           </div>
-          <div id="hot-fender" className="defect absolute pointer-events-none" style={{ left: '75%', top: '57%', transform: 'translate(-50%, -50%)' }}>
+          <div id="hot-fender" className="defect absolute pointer-events-none" style={{ left: '80%', top: '50%', transform: 'translate(-50%, -50%)' }}>
             <div className="w-8 h-8 rounded-full border-2 border-[rgba(255,77,77,.85)] bg-[rgba(255,77,77,.08)] flex items-center justify-center">
               <div className="w-2 h-2 rounded-full bg-[rgba(255,77,77,.95)]"></div>
             </div>
@@ -558,7 +524,6 @@ export const Home = () => {
                 </div>
               </div>
               
-              {/* DODANO lg:-mt-6 ABY PODCIĄGNĄĆ CAŁY PRAWY BLOK POD HEADER */}
               <div className="w-full flex flex-col justify-center items-center mt-8 lg:-mt-6">
                 <div className="hidden lg:block w-full">
               <ScannerWidget />
@@ -577,7 +542,6 @@ export const Home = () => {
         </section>
 
         <section className="py-24 relative overflow-hidden bg-surface/30 border-y border-glass-border">
-  {/* Subtelny glow w tle */}
   <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-primary/5 rounded-full blur-[120px] pointer-events-none"></div>
 
   <div className="container relative z-10 max-w-[1200px] mx-auto">
@@ -593,10 +557,8 @@ export const Home = () => {
       </p>
     </div>
 
-    {/* Bento Grid Layout */}
     <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
       
-      {/* BOX 1: Niezależność (Szeroki) */}
       <div className="md:col-span-2 glass p-8 md:p-10 relative overflow-hidden group hover:border-primary/40 transition-all duration-500 hover:-translate-y-1">
         <div className="absolute top-0 right-0 w-64 h-64 bg-primary/10 rounded-full blur-[80px] -mr-20 -mt-20 transition-opacity group-hover:bg-primary/20"></div>
         <UserCheck className="w-12 h-12 text-primary mb-6 relative z-10" />
@@ -614,7 +576,6 @@ export const Home = () => {
         </div>
       </div>
 
-      {/* BOX 2: Raport (Wąski, wysoki) */}
       <div className="glass p-8 relative overflow-hidden group hover:border-primary/40 transition-all duration-500 hover:-translate-y-1 flex flex-col">
         <FileCheck className="w-12 h-12 text-primary mb-6" />
         <h3 className="h3 text-text mb-4">Eksperckie raporty</h3>
@@ -631,7 +592,6 @@ export const Home = () => {
         </div>
       </div>
 
-      {/* BOX 3: Oszczędność (Wąski) */}
       <div className="glass p-8 relative overflow-hidden group hover:border-primary/40 transition-all duration-500 hover:-translate-y-1">
         <DollarSign className="w-12 h-12 text-primary mb-6" />
         <h3 className="h3 text-text mb-4">Usługa, która się zwraca</h3>
@@ -640,7 +600,6 @@ export const Home = () => {
         </p>
       </div>
 
-      {/* BOX 4: Zasięg (Szeroki) */}
       <div className="md:col-span-2 glass p-8 relative overflow-hidden group hover:border-primary/40 transition-all duration-500 hover:-translate-y-1 flex flex-col justify-center">
         <div className="absolute bottom-0 right-0 w-full h-1/2 bg-gradient-to-t from-primary/5 to-transparent pointer-events-none"></div>
         <div className="flex flex-col md:flex-row gap-8 items-center relative z-10">
@@ -668,7 +627,6 @@ export const Home = () => {
   </div>
 </section>
 
-      {/* NOWA SEKCJA: LEAD MAGNET */}
       <section className="py-24 relative overflow-hidden bg-surface/20 border-y border-glass-border">
         <div className="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none z-0">
           <div className="absolute top-1/2 left-1/4 -translate-y-1/2 w-96 h-96 bg-primary/10 rounded-full blur-[100px]"></div>
