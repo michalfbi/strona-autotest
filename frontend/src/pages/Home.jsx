@@ -164,24 +164,24 @@ export const Home = () => {
               <div className="text-left space-y-8 animate-in fade-in slide-in-from-left-8 duration-1000">
                 <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-[#FFD200]/10 border border-[#FFD200]/20 text-[#FFD200] text-xs font-bold uppercase tracking-widest">
                   <Zap className="w-3 h-3 fill-current" />
-                  <span>Autoryzowani Rzeczoznawcy</span>
+                  <span>Pomoc w zakupie auta</span>
                 </div>
                 
                 <h1 className="text-5xl xl:text-[64px] font-extrabold leading-[1.05] tracking-tighter text-white">
-                  Eksperckie inspekcje pojazdów.<br />
+                  Sprawdzimy auto przed zakupem.<br />
                   <span className="text-[#FFD200]">Kupuj bez ryzyka.</span>
                 </h1>
                 
                 <p className="text-lg text-gray-400 max-w-lg font-light leading-relaxed">
-                  Podejmuj decyzje inwestycyjne w oparciu o twarde dane. Weryfikujemy stan techniczny i historię aut, chroniąc Cię przed kosztownymi błędami.
+                  Nie kupuj kota w worku. Pojedziemy na miejsce, dokładnie zbadamy samochód i powiemy Ci, czy warto go kupić. Chronimy przed oszustami i kosztownymi naprawami.
                 </p>
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   {[
-                    { t: "Diagnostyka komputerowa", i: Cpu },
-                    { t: "Pomiary grubości lakieru", i: Gauge },
-                    { t: "Analiza prawna i VIN", i: Shield },
-                    { t: "Wycena i negocjacje", i: FileCheck }
+                    { t: "Sprawdzenie silnika i błędów", i: Cpu },
+                    { t: "Badanie bezwypadkowości", i: Gauge },
+                    { t: "Prawdziwy przebieg i historia", i: Shield },
+                    { t: "Pomoc w obniżeniu ceny", i: FileCheck }
                   ].map((item, idx) => (
                     <div key={idx} className="flex items-center gap-3 bg-white/5 p-4 rounded-xl border border-white/5 backdrop-blur-md">
                       <item.i className="w-5 h-5 text-[#FFD200] shrink-0" />
@@ -192,7 +192,7 @@ export const Home = () => {
                 
                 <div className="flex flex-col sm:flex-row gap-4 pt-4">
                   <button onClick={handleConsultationClick} className="group px-8 py-4 bg-[#FFD200] text-black font-black text-lg rounded-xl hover:shadow-[0_0_40px_rgba(255,210,0,0.3)] transition-all flex items-center justify-center gap-3">
-                    Skonsultuj zakup
+                    Darmowa konsultacja
                     <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
                   </button>
                   <button className="px-8 py-4 bg-white/5 text-white font-semibold text-lg rounded-xl border border-white/10 hover:bg-white/10 transition-all flex items-center justify-center gap-2">
