@@ -9,14 +9,38 @@ export const Home = () => {
 
   // Premium Audit Dashboard
   const PremiumAuditDashboard = () => {
+    const cars = [
+      { model: "BMW Seria 5 G30 (2018)", initial: "125 000", discount: "5 500", final: "119 500" },
+      { model: "Skoda Octavia III (2018)", initial: "55 000", discount: "3 200", final: "51 800" },
+      { model: "Audi A4 B9 (2017)", initial: "85 000", discount: "4 500", final: "80 500" },
+      { model: "Toyota RAV4 Hybrid (2019)", initial: "132 000", discount: "4 000", final: "128 000" },
+      { model: "Ford Focus Mk4 (2019)", initial: "62 000", discount: "2 800", final: "59 200" }
+    ];
+
     const [progress, setProgress] = useState(0);
+    const [currentIndex, setCurrentIndex] = useState(0);
+    const [fade, setFade] = useState(false);
 
     useEffect(() => {
-      const timer = setInterval(() => {
+      const progressTimer = setInterval(() => {
         setProgress((prev) => (prev >= 100 ? 0 : prev + 0.5));
       }, 50);
-      return () => clearInterval(timer);
-    }, []);
+
+      let switchTimer;
+      const fadeInterval = setInterval(() => {
+        setFade(true);
+        switchTimer = setTimeout(() => {
+          setCurrentIndex((prev) => (prev + 1) % cars.length);
+          setFade(false);
+        }, 500);
+      }, 5000);
+
+      return () => {
+        clearInterval(progressTimer);
+        clearInterval(fadeInterval);
+        clearTimeout(switchTimer);
+      };
+    }, [cars.length]);
 
     return (
       <div className="w-full relative mt-8 lg:mt-0 z-20">
@@ -28,39 +52,27 @@ export const Home = () => {
           {/* Górna belka statusowa */}
           <div className="flex justify-between items-center pb-6 border-b border-white/10 mb-6">
             <div className="flex items-center gap-3">
-              <div className="relative flex h-3 w-3">
-                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#FFD200] opacity-75"></span>
-                <span className="relative inline-flex rounded-full h-3 w-3 bg-[#FFD200]"></span>
-              </div>
-              <span className="font-mono text-[11px] uppercase tracking-widest text-gray-400">System Weryfikacji Aktywny</span>
+              <span className="font-mono text-[11px] uppercase tracking-widest text-gray-400">Przykładowe wyniki naszych inspekcji</span>
             </div>
-            <div className="font-mono text-[11px] text-gray-500">ID: #4920-PL</div>
+            <div className="font-mono text-[11px] text-gray-500">Zlecenie: #4920-PL</div>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
             {/* Lewa strona - Główny wynik */}
-            <div className="flex flex-col items-center justify-center bg-black/40 rounded-2xl border border-white/5 p-6 relative overflow-hidden">
+            <div className={`flex flex-col items-center justify-center bg-black/40 rounded-2xl border border-white/5 p-6 relative overflow-hidden transition-opacity duration-500 ${fade ? 'opacity-0' : 'opacity-100'}`}>
               <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(255,210,0,0.1)_0%,transparent_70%)] pointer-events-none"></div>
               
-              <div className="relative w-40 h-40 flex items-center justify-center mb-4">
-                <svg className="w-full h-full transform -rotate-90" viewBox="0 0 100 100">
-                  <circle cx="50" cy="50" r="45" fill="none" stroke="rgba(255,255,255,0.1)" strokeWidth="6" />
-                  <circle cx="50" cy="50" r="45" fill="none" stroke="#FFD200" strokeWidth="6" 
-                          strokeDasharray="283" strokeDashoffset={283 - (283 * 82) / 100} 
-                          className="transition-all duration-1000 ease-out" />
-                </svg>
-                <div className="absolute flex flex-col items-center justify-center">
-                  <span className="text-4xl font-black text-white leading-none">82<span className="text-xl text-gray-500">/100</span></span>
-                  <span className="text-[10px] uppercase tracking-widest text-[#FFD200] font-bold mt-1">Trust Score</span>
-                </div>
+              <div className="mb-4 text-center">
+                <div className="text-5xl font-black text-green-400">- {cars[currentIndex].discount} PLN</div>
+                <div className="text-[10px] uppercase tracking-widest text-[#FFD200] font-bold mt-1">WYNEGOCJOWANA ZNIŻKA</div>
               </div>
               
               <div className="text-center w-full z-10">
-                <h3 className="text-white font-bold text-lg">BMW Seria 5 G30</h3>
-                <p className="text-gray-400 text-xs mt-1">Status: Pojazd warunkowo polecany</p>
+                <h3 className="text-white font-bold text-lg">{cars[currentIndex].model}</h3>
+                <p className="text-gray-400 text-xs mt-1">Cena początkowa: {cars[currentIndex].initial} PLN</p>
                 <div className="mt-4 pt-4 border-t border-white/10 w-full flex justify-between items-center">
-                  <span className="text-xs text-gray-500 uppercase tracking-wider">Potencjał negocjacji:</span>
-                  <span className="text-sm font-bold text-green-400">Wysoki</span>
+                  <span className="text-xs text-gray-500 uppercase tracking-wider">Cena po negocjacjach:</span>
+                  <span className="text-sm font-bold text-green-400">{cars[currentIndex].final} PLN</span>
                 </div>
               </div>
             </div>
