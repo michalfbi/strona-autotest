@@ -10,11 +10,51 @@ export const Home = () => {
   // Premium Audit Dashboard
   const PremiumAuditDashboard = () => {
     const cars = [
-      { model: "BMW Seria 5 G30 (2018)", initial: "125 000", discount: "5 500", final: "119 500" },
-      { model: "Skoda Octavia III (2018)", initial: "55 000", discount: "3 200", final: "51 800" },
-      { model: "Audi A4 B9 (2017)", initial: "85 000", discount: "4 500", final: "80 500" },
-      { model: "Toyota RAV4 Hybrid (2019)", initial: "132 000", discount: "4 000", final: "128 000" },
-      { model: "Ford Focus Mk4 (2019)", initial: "62 000", discount: "2 800", final: "59 200" }
+      {
+        model: "BMW Seria 5 G30 (2018)", initial: "125 000", discount: "5 500", final: "119 500",
+        modules: [
+          { title: "Weryfikacja Prawna", desc: "HISTORIA SERWISOWA ASO POTWIERDZONA", ok: true },
+          { title: "Powłoka Lakiernicza", desc: "WYMIENIONY ZDERZAK, RYSY NA MASCE (-1500 PLN)", ok: false },
+          { title: "Test Drogowy & Mechanika", desc: "LEKKI WYCIEK Z MISKI OLEJOWEJ (-2000 PLN)", ok: false },
+          { title: "Diagnostyka OBD-II", desc: "BŁĄD CZUJNIKA NOX, DO WYMIANY (-2000 PLN)", ok: false }
+        ]
+      },
+      {
+        model: "Skoda Octavia III (2018)", initial: "55 000", discount: "3 200", final: "51 800",
+        modules: [
+          { title: "Weryfikacja Prawna", desc: "BRAK WPISÓW O SZKODACH CAŁKOWITYCH", ok: true },
+          { title: "Powłoka Lakiernicza", desc: "ORYGINALNA POWŁOKA NA CAŁYM AUCIE", ok: true },
+          { title: "Test Drogowy & Mechanika", desc: "SPRZĘGŁO ŁAPIE WYSOKO (-2500 PLN)", ok: false },
+          { title: "Diagnostyka OBD-II", desc: "SPORADYCZNY BŁĄD SONDY LAMBDA (-700 PLN)", ok: false }
+        ]
+      },
+      {
+        model: "Audi A4 B9 (2017)", initial: "85 000", discount: "4 500", final: "80 500",
+        modules: [
+          { title: "Weryfikacja Prawna", desc: "AUTO Z IMPORTU, BAZY SPRAWDZONE", ok: true },
+          { title: "Powłoka Lakiernicza", desc: "DRUGI LAKIER - SZKODA PARKINGOWA (-1000 PLN)", ok: false },
+          { title: "Test Drogowy & Mechanika", desc: "ZAWIESZENIE PRZÓD DO SERWISU (-2500 PLN)", ok: false },
+          { title: "Diagnostyka OBD-II", desc: "BŁĄD STEROWNIKA SZYB (-1000 PLN)", ok: false }
+        ]
+      },
+      {
+        model: "Toyota RAV4 Hybrid (2019)", initial: "132 000", discount: "4 000", final: "128 000",
+        modules: [
+          { title: "Weryfikacja Prawna", desc: "RAPORT VIN CZYSTY, JEDEN WŁAŚCICIEL", ok: true },
+          { title: "Powłoka Lakiernicza", desc: "OTARCIA NA PLASTIKACH I ZDERZAKACH (-1500 PLN)", ok: false },
+          { title: "Test Drogowy & Mechanika", desc: "UKŁAD HYBRYDOWY W IDEALNYM STANIE", ok: true },
+          { title: "Diagnostyka OBD-II", desc: "BRAK KALIBRACJI RADARÓW (-2500 PLN)", ok: false }
+        ]
+      },
+      {
+        model: "Ford Focus Mk4 (2019)", initial: "62 000", discount: "2 800", final: "59 200",
+        modules: [
+          { title: "Weryfikacja Prawna", desc: "POCHODZENIE SALON PL, BEZ ZASTAWÓW", ok: true },
+          { title: "Powłoka Lakiernicza", desc: "WGNIECENIA GRADOWE NA DACHU (-1000 PLN)", ok: false },
+          { title: "Test Drogowy & Mechanika", desc: "TARCZE I KLOCKI PRZÓD DO WYMIANY (-1200 PLN)", ok: false },
+          { title: "Diagnostyka OBD-II", desc: "AKCJA SERWISOWA MODUŁU (-600 PLN)", ok: false }
+        ]
+      }
     ];
 
     const [progress, setProgress] = useState(0);
@@ -78,7 +118,7 @@ export const Home = () => {
             </div>
 
             {/* Prawa strona - Moduły weryfikacji */}
-            <div className="flex flex-col gap-3">
+            <div className={`flex flex-col gap-3 transition-opacity duration-500 ${fade ? 'opacity-0' : 'opacity-100'}`}>
               {/* Moduł 1 */}
               <div className="bg-[#0C0D10]/80 border border-white/10 rounded-xl p-4 flex items-center justify-between group hover:border-[#FFD200]/40 transition-colors">
                 <div className="flex items-center gap-4">
@@ -87,10 +127,10 @@ export const Home = () => {
                   </div>
                   <div>
                     <div className="text-sm font-bold text-white mb-0.5">Weryfikacja Prawna</div>
-                    <div className="text-[10px] text-gray-400 uppercase tracking-wider">VIN & Bazy kradzieżowe</div>
+                    <div className="text-[10px] text-gray-400 uppercase tracking-wider">{cars[currentIndex].modules[0].desc}</div>
                   </div>
                 </div>
-                <CheckCircle className="w-5 h-5 text-green-500" />
+                {cars[currentIndex].modules[0].ok ? <CheckCircle className="w-5 h-5 text-green-500" /> : <AlertTriangle className="w-5 h-5 text-[#FFD200]" />}
               </div>
 
               {/* Moduł 2 */}
@@ -101,10 +141,10 @@ export const Home = () => {
                   </div>
                   <div>
                     <div className="text-sm font-bold text-white mb-0.5">Powłoka Lakiernicza</div>
-                    <div className="text-[10px] text-gray-400 uppercase tracking-wider">Wykryto 2 elementy malowane</div>
+                    <div className="text-[10px] text-gray-400 uppercase tracking-wider">{cars[currentIndex].modules[1].desc}</div>
                   </div>
                 </div>
-                <AlertTriangle className="w-5 h-5 text-[#FFD200]" />
+                {cars[currentIndex].modules[1].ok ? <CheckCircle className="w-5 h-5 text-green-500" /> : <AlertTriangle className="w-5 h-5 text-[#FFD200]" />}
               </div>
 
               {/* Moduł 3 */}
@@ -115,10 +155,10 @@ export const Home = () => {
                   </div>
                   <div>
                     <div className="text-sm font-bold text-white mb-0.5">Test Drogowy & Mechanika</div>
-                    <div className="text-[10px] text-gray-400 uppercase tracking-wider">Silnik / Skrzynia / Zawieszenie</div>
+                    <div className="text-[10px] text-gray-400 uppercase tracking-wider">{cars[currentIndex].modules[2].desc}</div>
                   </div>
                 </div>
-                <CheckCircle className="w-5 h-5 text-green-500" />
+                {cars[currentIndex].modules[2].ok ? <CheckCircle className="w-5 h-5 text-green-500" /> : <AlertTriangle className="w-5 h-5 text-[#FFD200]" />}
               </div>
 
               {/* Moduł 4 */}
@@ -129,10 +169,10 @@ export const Home = () => {
                   </div>
                   <div>
                     <div className="text-sm font-bold text-white mb-0.5">Diagnostyka OBD-II</div>
-                    <div className="text-[10px] text-gray-400 uppercase tracking-wider">Skanowanie 42 sterowników</div>
+                    <div className="text-[10px] text-gray-400 uppercase tracking-wider">{cars[currentIndex].modules[3].desc}</div>
                   </div>
                 </div>
-                <CheckCircle className="w-5 h-5 text-green-500" />
+                {cars[currentIndex].modules[3].ok ? <CheckCircle className="w-5 h-5 text-green-500" /> : <AlertTriangle className="w-5 h-5 text-[#FFD200]" />}
               </div>
             </div>
           </div>
