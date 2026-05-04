@@ -168,7 +168,7 @@ export const Home = () => {
       <div className="relative z-10">
         
         {/* SEKCJA HERO */}
-        <section className="pt-20 pb-16 lg:pt-24 lg:pb-24 border-b border-white/5">
+        <section className="pt-20 pb-16 lg:pt-24 lg:pb-24 border-b border-white/10">
           <div className="container max-w-[1500px] mx-auto px-4 sm:px-6">
             
             <div className="grid grid-cols-1 lg:grid-cols-[1fr_1.3fr] gap-8 lg:gap-16 items-center">
@@ -222,7 +222,7 @@ export const Home = () => {
         </section>
 
         {/* DLACZEGO MY */}
-        <section className="py-24 relative overflow-hidden bg-surface/30 border-y border-glass-border">
+        <section className="py-24 relative overflow-hidden bg-surface/30 border-b border-white/10">
           <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-primary/5 rounded-full blur-[120px] pointer-events-none"></div>
 
           <div className="container relative z-10 max-w-[1200px] mx-auto">
@@ -280,7 +280,7 @@ export const Home = () => {
         </section>
 
         {/* LEAD MAGNET */}
-        <section className="py-24 relative overflow-hidden bg-surface/20 border-y border-glass-border">
+        <section className="py-24 relative overflow-hidden bg-surface/20 border-b border-white/10">
           <div className="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none z-0">
             <div className="absolute top-1/2 left-1/4 -translate-y-1/2 w-96 h-96 bg-primary/10 rounded-full blur-[100px]"></div>
             <div className="absolute top-1/2 right-1/4 -translate-y-1/2 w-96 h-96 bg-yellow-500/5 rounded-full blur-[120px]"></div>

@@ -5,7 +5,7 @@ import { Badge } from './ui/badge';
 export const HomeSEOSections = () => {
   return (
     <>
-      <section className="py-20 bg-surface/50 border-y border-glass-border relative z-10 mt-12">
+      <section className="py-20 bg-surface/50 relative z-10 mt-12 border-b border-white/10">
         <div className="container">
           <div className="max-w-4xl mx-auto text-center mb-16">
             <h2 className="display-md text-text mb-6">Dlaczego samodzielny zakup to ryzyko?</h2>
