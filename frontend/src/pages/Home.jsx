@@ -278,41 +278,44 @@ export const Home = () => {
               </p>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-              <div className="md:col-span-2 glass p-8 md:p-10 relative overflow-hidden group hover:border-primary/40 transition-all duration-500 hover:-translate-y-1">
-                <div className="absolute top-0 right-0 w-64 h-64 bg-primary/10 rounded-full blur-[80px] -mr-20 -mt-20 transition-opacity group-hover:bg-primary/20"></div>
-                <Shield className="w-12 h-12 text-primary mb-6 relative z-10" />
-                <h3 className="h2 text-text mb-4 relative z-10">100% Niezależni. Gramy do Twojej bramki.</h3>
-                <p className="body-lg text-muted mb-6 relative z-10 max-w-xl">
-                  Wielu "ekspertów" współpracuje z komisami za prowizję od sprzedaży. My działamy <strong className="text-gray-200">wyłącznie na Twoje zlecenie</strong>. Naszym celem nie jest to, żebyś po prostu kupił auto – naszym celem jest to, żebyś nie kupił skarbonki bez dna.
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 auto-rows-[minmax(280px,auto)]">
+              {/* Karta 1: 100% Niezależni (Szeroka) */}
+              <div className="md:col-span-2 bg-[#0A0A0A] border border-white/10 rounded-[2rem] p-8 md:p-12 relative overflow-hidden group hover:border-[#FFD200]/40 transition-all duration-500 flex flex-col justify-center">
+                <div className="absolute top-0 right-0 w-[400px] h-[400px] bg-[#FFD200]/5 rounded-full blur-[80px] -translate-y-1/2 translate-x-1/3 group-hover:bg-[#FFD200]/10 transition-colors duration-500 pointer-events-none"></div>
+                <Shield className="w-12 h-12 text-[#FFD200] mb-6 relative z-10" />
+                <h3 className="text-3xl md:text-4xl font-bold text-white mb-4 relative z-10 leading-tight">100% Niezależni.<br/>Gramy do Twojej bramki.</h3>
+                <p className="text-gray-400 text-lg leading-relaxed relative z-10 max-w-xl">
+                  Wielu "ekspertów" współpracuje z komisami za prowizję od sprzedaży. My działamy <strong className="text-white">wyłącznie na Twoje zlecenie</strong>. Naszym celem nie jest to, żebyś po prostu kupił auto – naszym celem jest to, żebyś nie kupił skarbonki bez dna.
                 </p>
               </div>
 
-              <div className="glass p-8 relative overflow-hidden group hover:border-primary/40 transition-all duration-500 hover:-translate-y-1 flex flex-col">
-                <FileCheck className="w-12 h-12 text-primary mb-6" />
-                <h3 className="h3 text-text mb-4">Fakty, nie gdybanie</h3>
-                <p className="body-md text-muted mb-6 flex-grow">
-                  Otrzymujesz rygorystyczny raport PDF. Konkretne usterki, pomiary i zdjęcia.
+              {/* Karta 2: Fakty, nie gdybanie (Kwadrat) */}
+              <div className="col-span-1 bg-gradient-to-br from-[#121212] to-[#050505] border border-white/10 rounded-[2rem] p-8 relative group hover:border-[#FFD200]/40 transition-all duration-500 flex flex-col justify-center">
+                <FileCheck className="w-12 h-12 text-[#FFD200] mb-6" />
+                <h3 className="text-2xl font-bold text-white mb-4">Fakty, nie gdybanie</h3>
+                <p className="text-gray-400 leading-relaxed">
+                  Otrzymujesz rygorystyczny raport PDF. Konkretne usterki, weryfikacja VIN, pomiary lakieru i bogata dokumentacja zdjęciowa.
                 </p>
               </div>
 
-              <div className="glass p-8 relative overflow-hidden group hover:border-primary/40 transition-all duration-500 hover:-translate-y-1">
-                <div className="text-3xl font-black text-primary mb-2">~12%</div>
-                <h3 className="h3 text-text mb-4">Usługa, która się zwraca</h3>
-                <p className="body-md text-muted mb-0">
-                  Wykryte wady to Twoje twarde argumenty. Średnio negocjujemy od 7% do 15% zniżki dla naszych klientów.
+              {/* Karta 3: ~12% (Kwadrat, akcentowa) */}
+              <div className="col-span-1 bg-[#FFD200]/5 border border-[#FFD200]/20 rounded-[2rem] p-8 relative group hover:bg-[#FFD200]/10 transition-all duration-500 flex flex-col justify-center text-center">
+                <div className="text-6xl md:text-7xl font-black text-[#FFD200] mb-4 tracking-tighter">~12%</div>
+                <h3 className="text-xl font-bold text-white mb-3">Usługa, która się zwraca</h3>
+                <p className="text-gray-400 text-sm leading-relaxed">
+                  Wykryte wady to twarde argumenty. Średnio negocjujemy od 7% do 15% zniżki dla naszych klientów.
                 </p>
               </div>
 
-              <div className="md:col-span-2 glass p-8 relative overflow-hidden group hover:border-primary/40 transition-all duration-500 hover:-translate-y-1 flex flex-col justify-center">
-                <div className="flex flex-col md:flex-row gap-8 items-center relative z-10">
-                  <div className="flex-1">
-                    <MapPin className="w-12 h-12 text-primary mb-6" />
-                    <h3 className="h3 text-text mb-4">Dojedziemy w każde miejsce</h3>
-                    <p className="body-md text-muted">
-                      Znalazłeś wymarzone auto na drugim końcu Polski? Nasi inspektorzy pojawią się na miejscu, oszczędzając Twój czas i pieniądze na paliwo.
-                    </p>
-                  </div>
+              {/* Karta 4: Dojedziemy (Szeroka) */}
+              <div className="md:col-span-2 bg-[#0A0A0A] border border-white/10 rounded-[2rem] p-8 md:p-12 relative overflow-hidden group hover:border-[#FFD200]/40 transition-all duration-500">
+                <div className="absolute bottom-0 right-0 w-[500px] h-[500px] bg-[radial-gradient(circle_at_bottom_right,rgba(255,210,0,0.08),transparent_60%)] pointer-events-none"></div>
+                <div className="relative z-10 h-full flex flex-col justify-center">
+                  <MapPin className="w-12 h-12 text-[#FFD200] mb-6" />
+                  <h3 className="text-3xl font-bold text-white mb-4">Dojedziemy w każde miejsce</h3>
+                  <p className="text-gray-400 text-lg leading-relaxed max-w-2xl">
+                    Znalazłeś wymarzone auto na drugim końcu Polski? Nasi inspektorzy pojawią się na miejscu, oszczędzając Twój czas, nerwy i pieniądze na paliwo. Otrzymasz gotowy raport bez wychodzenia z domu.
+                  </p>
                 </div>
               </div>
             </div>
