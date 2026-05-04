@@ -1,72 +1,72 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { 
   ArrowRight, 
-  Truck, 
-  Shield, 
-  CheckCircle, 
   Search, 
   DollarSign, 
-  FileText,
   Car,
   CreditCard,
-  Users,
-  BookOpen,
-  Zap
+  Shield,
+  TrendingUp,
+  CheckCircle,
+  FileCheck,
+  Clock
 } from 'lucide-react';
-import { mockData } from '../mockData';
 import { Badge } from '../components/ui/badge';
 
 export const Services = () => {
-  const handleServiceClick = (serviceName) => {
-    alert(`Przejście do ${serviceName} - funkcja w przygotowaniu`);
+  const navigate = useNavigate();
+
+  const handleServiceClick = (link) => {
+    if(link) {
+      navigate(link);
+    } else {
+      navigate('/kontakt');
+    }
   };
 
   const serviceCategories = [
     {
-      title: "Zakup i weryfikacja",
-      description: "Kompleksowe wsparcie w procesie zakupu pojazdu",
+      title: "Weryfikacja i Zakup",
+      description: "Pozwól ekspertom przejąć ryzyko. Ty wybierasz model, my dbamy o to, byś nie przepłacił i nie kupił wady ukrytej.",
       services: [
         {
           id: 1,
-          title: "Pomoc w zakupie pojazdów",
-          description: "Kompleksowe prowadzenie całego procesu zakupu od A do Z",
+          title: "Kompleksowa pomoc w zakupie",
+          description: "Prowadzimy Cię za rękę od wyszukania idealnego egzemplarza, przez rygorystyczną weryfikację, aż po finalizację transakcji.",
+          savings: "Średnio 12% zniżki wynegocjowanej u sprzedawcy. Oszczędzasz dziesiątki godzin na poszukiwaniach i dojazdach w ciemno.",
           icon: Car,
-          price: "799 - 2,299 PLN",
+          price: "od 799 PLN",
           featured: true,
           link: "/pomoc-w-zakupie"
         },
         {
           id: 2,
-          title: "Inspekcja mobilna",
-          description: "Profesjonalna inspekcja techniczna z wyjazdem do pojazdu",
+          title: "Inspekcja mobilna pojazdu",
+          description: "Profesjonalne sprawdzenie auta w dowolnym miejscu w Polsce. Diagnoza komputerowa, pomiar lakieru i test drogowy.",
+          savings: "Chronisz się przed utopieniem nawet kilkunastu tysięcy złotych w ukryte wady powypadkowe i drogie awarie silnika.",
           icon: Search,
           price: "od 300 PLN"
         },
         {
           id: 3,
-          title: "Wycena i negocjacja",
-          description: "Profesjonalna wycena rynkowa i negocjacja najlepszej ceny",
+          title: "Wycena i twarde negocjacje",
+          description: "Znalazłeś auto? My ocenimy jego realną wartość i profesjonalnie zbijemy cenę wykorzystując twarde argumenty i usterki.",
+          savings: "Koszt naszej usługi zwraca się w 100% z wynegocjowanej zniżki. Reszta zaoszczędzonej kwoty zostaje w Twojej kieszeni.",
           icon: DollarSign,
           price: "od 400 PLN"
-        },
-        {
-          id: 4,
-          title: "Raporty online",
-          description: "Dostęp do panelu klienta z raportami i dokumentacją",
-          icon: FileText,
-          price: "w cenie pakietu"
         }
       ]
     },
     {
-      title: "Formalności i usługi",
-      description: "Załatwianie formalności i usługi dodatkowe",
+      title: "Usługi dodatkowe",
+      description: "Wsparcie przy sprzedaży i bezpiecznym obrocie autami.",
       services: [
         {
-          id: 8,
-          title: "Wyceny / sprzedaż auta dla klienta",
-          description: "Profesjonalna wycena i sprzedaż Twojego obecnego pojazdu",
+          id: 4,
+          title: "Wsparcie w sprzedaży auta",
+          description: "Przygotowanie auta, profesjonalna wycena, zdjęcia oraz bezstresowa weryfikacja i rozmowy z potencjalnymi kupującymi.",
+          savings: "Sprzedajesz auto średnio 10-15% drożej i o wiele szybciej dzięki rzetelnej wycenie i profesjonalnemu przygotowaniu oferty.",
           icon: CreditCard,
           price: "od 800 PLN"
         }
@@ -74,184 +74,160 @@ export const Services = () => {
     }
   ];
 
-  const processSteps = [
-    "Kontakt telefoniczny",
-    "Umówienie na oględziny ze sprzedającym", 
-    "Oględziny pojazdu w zależności od wybranego planu",
-    "Raport z oględzin",
-    "Możliwość negocjacji ceny za klienta przez doświadczonego sprzedawcę",
-    "Możliwość transportu pojazdu"
-  ];
-
   return (
-    <div className="min-h-screen">
-      {/* Hero Section */}
-      <section className="py-12 lg:py-16">
-        <div className="container">
-          <div className="max-w-6xl mx-auto text-center">
-            <h1 className="display-lg text-text mb-6">
-              Katalog usług
+    <div className="min-h-screen text-text bg-[#050505]">
+      
+      
+      <div className="fixed inset-0 z-0 pointer-events-none overflow-hidden">
+        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[600px] bg-[#FFD200]/5 rounded-full blur-[120px]"></div>
+      </div>
+
+      <div className="relative z-10">
+        
+        <section className="py-20 lg:py-28 border-b border-white/5">
+          <div className="container max-w-[1200px] mx-auto text-center">
+            <div className="inline-flex items-center gap-2 px-4 py-2 mb-6 rounded-full bg-white/5 border border-white/10 text-gray-300 text-xs font-bold uppercase tracking-widest">
+              <span>Oferta Autotest</span>
+            </div>
+            <h1 className="text-5xl lg:text-7xl font-extrabold mb-6 tracking-tight text-white">
+              Nasze usługi. <span className="text-[#FFD200]">Twój zysk.</span>
             </h1>
-            <p className="body-lg max-w-3xl mx-auto mb-8">
-              Komplementarne usługi wokół zakupu i użytkowania auta. Od weryfikacji przez formalności, aż po wsparcie biznesowe.
+            <p className="text-lg md:text-xl text-gray-400 max-w-2xl mx-auto mb-10 leading-relaxed font-light">
+              Nie wydajesz pieniędzy na nasze usługi – inwestujesz w bezpieczeństwo i spokój. Zobacz, w jaki sposób każda nasza usługa realnie chroni Twój portfel.
             </p>
             
-            <div className="flex flex-wrap justify-center gap-4 mb-12">
-              <Badge>5 specjalistycznych usług</Badge>
-              <Badge>Dostępne w całej Polsce</Badge>
-              <Badge>Wsparcie 7 dni w tygodniu</Badge>
+            <div className="flex flex-wrap justify-center gap-4">
+              <Badge className="bg-white/5 border-white/10 text-white hover:bg-white/10 text-sm py-2 px-4">Dojazd w całej Polsce</Badge>
+              <Badge className="bg-[#FFD200]/10 border-[#FFD200]/20 text-[#FFD200] hover:bg-[#FFD200]/20 text-sm py-2 px-4">Raporty PDF w cenie</Badge>
+              <Badge className="bg-white/5 border-white/10 text-white hover:bg-white/10 text-sm py-2 px-4">Szybka realizacja</Badge>
             </div>
           </div>
-        </div>
-      </section>
+        </section>
 
-      {/* Services by Categories */}
-      {serviceCategories.map((category, categoryIndex) => (
-        <section key={categoryIndex} className={`py-20 ${categoryIndex % 2 === 1 ? 'bg-surface/30' : ''}`}>
-          <div className="container">
-            <div className="max-w-6xl mx-auto">
-              <div className="text-center mb-12">
-                <h2 className="display-md text-text mb-4">
+        {/* Services Sections */}
+        {serviceCategories.map((category, index) => (
+          <section key={index} className="py-20 border-b border-white/5">
+            <div className="container max-w-[1200px] mx-auto">
+              <div className="text-center mb-16">
+                <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
                   {category.title}
                 </h2>
-                <p className="body-lg max-w-2xl mx-auto text-muted">
+                <p className="text-lg text-gray-400 max-w-2xl mx-auto">
                   {category.description}
                 </p>
               </div>
 
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                 {category.services.map((service) => (
                   <div 
                     key={service.id} 
-                    className={`feature-card hover:scale-105 transition-all duration-300 cursor-pointer ${
-                      service.featured ? 'border-primary' : ''
+                    className={`bg-[#0A0A0A] border border-white/10 rounded-[2rem] p-8 relative group hover:border-[#FFD200]/40 transition-all duration-500 cursor-pointer flex flex-col ${
+                      service.featured ? 'md:col-span-2 lg:col-span-3 lg:flex-row gap-10 items-center' : ''
                     }`}
-                    onClick={() => service.link ? window.location.href = service.link : handleServiceClick(service.title)}
+                    onClick={() => handleServiceClick(service.link)}
                   >
                     {service.featured && (
-                      <div className="absolute -top-3 -right-3">
-                        <Badge className="popular">Główna usługa</Badge>
-                      </div>
+                      <div className="absolute top-0 right-0 w-[400px] h-[400px] bg-[#FFD200]/5 rounded-full blur-[80px] pointer-events-none group-hover:bg-[#FFD200]/10 transition-colors duration-500"></div>
                     )}
                     
-                    <div className="flex items-start justify-between mb-6">
-                      <div className={`w-12 h-12 ${service.featured ? 'bg-primary' : 'bg-primary/10'} rounded-lg flex items-center justify-center`}>
-                        <service.icon className={`w-6 h-6 ${service.featured ? 'text-bg' : 'text-primary'}`} />
+                    <div className={service.featured ? "lg:w-1/2 relative z-10" : "relative z-10 flex-1"}>
+                      <div className="flex items-center justify-between mb-6">
+                        <div className="w-14 h-14 bg-white/5 rounded-2xl flex items-center justify-center border border-white/10 group-hover:border-[#FFD200]/30 transition-colors">
+                          <service.icon className="w-7 h-7 text-[#FFD200]" />
+                        </div>
+                        <div className="text-right">
+                          <Badge variant="outline" className="border-white/10 text-gray-300">
+                            {service.price}
+                          </Badge>
+                        </div>
                       </div>
-                      <div className="text-right">
-                        <div className="text-sm font-medium text-primary">{service.price}</div>
-                      </div>
+
+                      <h3 className="text-2xl font-bold text-white mb-3 group-hover:text-[#FFD200] transition-colors">{service.title}</h3>
+                      <p className="text-gray-400 leading-relaxed mb-6">
+                        {service.description}
+                      </p>
                     </div>
 
-                    <h3 className="h3 text-text mb-4">{service.title}</h3>
-                    <p className="body-md text-muted mb-6">{service.description}</p>
-
-                    <div className="flex items-center justify-between">
-                      <button className="btn-ghost text-sm">
-                        Dowiedz się więcej
-                        <ArrowRight className="w-4 h-4 ml-2" />
-                      </button>
+                    <div className={service.featured ? "lg:w-1/2 w-full relative z-10" : "w-full relative z-10 mt-auto"}>
                       
-                      <button className="btn-secondary text-sm px-4 py-2">
-                        Zapytaj o wycenę
+                      <div className="bg-green-500/5 border border-green-500/20 rounded-2xl p-5 mb-6">
+                        <div className="flex items-center gap-2 mb-2">
+                          <TrendingUp className="w-5 h-5 text-green-400"/>
+                          <span className="font-bold text-green-400 text-sm uppercase tracking-wider">Twoja oszczędność:</span>
+                        </div>
+                        <p className="text-gray-300 text-sm leading-relaxed">
+                          {service.savings}
+                        </p>
+                      </div>
+
+                      <button className="w-full py-4 px-6 bg-white/5 hover:bg-[#FFD200] hover:text-black text-white font-semibold rounded-xl border border-white/10 hover:border-[#FFD200] transition-all flex items-center justify-center gap-2 group/btn">
+                        Wybieram tę usługę
+                        <ArrowRight className="w-5 h-5 group-hover/btn:translate-x-1 transition-transform"/>
                       </button>
                     </div>
                   </div>
                 ))}
               </div>
             </div>
-          </div>
-        </section>
-      ))}
+          </section>
+        ))}
 
-      {/* Process Overview */}
-      <section className="py-12 lg:py-16 bg-surface/30">
-        <div className="container">
-          <div className="max-w-6xl mx-auto">
-            <div className="text-center mb-12">
-              <h2 className="display-md text-text mb-6">
-                Usługi – eliminująca agencja
+        
+        <section className="py-24 border-b border-white/5 bg-gradient-to-b from-transparent to-white/[0.02]">
+          <div className="container max-w-[1200px] mx-auto">
+            <div className="text-center mb-16">
+              <h2 className="text-3xl md:text-4xl font-bold text-white mb-6">
+                Prosty proces. Konkretne efekty.
               </h2>
-              <p className="body-lg max-w-2xl mx-auto">
-                Opis procesu realizacji usług
-              </p>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-              {processSteps.map((step, index) => (
-                <div key={index} className="text-center">
-                  <div className="w-12 h-12 bg-primary text-bg rounded-full flex items-center justify-center font-bold text-lg mb-4 mx-auto">
-                    {index + 1}
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+              {[
+                { step: "01", title: "Darmowa analiza", desc: "Podsyłasz link, a my za darmo oceniamy czy warto w ogóle jechać." },
+                { step: "02", title: "Inspekcja w terenie", desc: "Nasz rzeczoznawca jedzie na miejsce i prześwietla auto w 100+ punktach." },
+                { step: "03", title: "Raport i twarde fakty", desc: "Otrzymujesz szczegółowy raport PDF ze zdjęciami i listą wykrytych wad." },
+                { step: "04", title: "Negocjacje i zysk", desc: "Używamy wad jako argumentów i ścinamy cenę zakupu do minimum." }
+              ].map((item, index) => (
+                <div key={index} className="bg-[#0A0A0A] border border-white/10 rounded-3xl p-8 relative overflow-hidden">
+                  <div className="text-5xl font-black text-white/5 absolute -top-2 -right-2">{item.step}</div>
+                  <div className="w-10 h-10 bg-[#FFD200]/10 rounded-full flex items-center justify-center text-[#FFD200] font-bold mb-6">
+                    {item.step}
                   </div>
-                  <h3 className="h4 text-text mb-2">{step}</h3>
+                  <h3 className="text-lg font-bold text-white mb-3">{item.title}</h3>
+                  <p className="text-gray-400 text-sm leading-relaxed">{item.desc}</p>
                 </div>
               ))}
             </div>
           </div>
-        </div>
-      </section>
+        </section>
 
-      {/* Service Guarantee */}
-      <section className="py-12 lg:py-16">
-        <div className="container">
-          <div className="max-w-4xl mx-auto">
-            <div className="glass p-12 text-center">
-              <h2 className="display-md text-text mb-6">
-                Unikalna oferta gwarancji
-              </h2>
+        
+        <section className="py-24">
+          <div className="container max-w-[800px] mx-auto text-center">
+            <div className="bg-[#0A0A0A] border border-white/10 rounded-[3rem] p-10 md:p-16 relative overflow-hidden">
+              <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(255,210,0,0.1)_0%,transparent_70%)] pointer-events-none"></div>
               
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-8">
-                <div>
-                  <Shield className="w-12 h-12 text-primary mx-auto mb-4" />
-                  <h3 className="h4 text-text mb-2">Rozszerzona ochrona</h3>
-                  <p className="body-sm text-muted">Dodatkowy czas gwarancji dla wyższych planów usługowych</p>
-                </div>
-                <div>
-                  <CheckCircle className="w-12 h-12 text-primary mx-auto mb-4" />
-                  <h3 className="h4 text-text mb-2">Lepszy plan = więcej czasu</h3>
-                  <p className="body-sm text-muted">Im wyższy plan, tym dłuższy okres gwarancji na auto</p>
-                </div>
-                <div>
-                  <FileText className="w-12 h-12 text-primary mx-auto mb-4" />
-                  <h3 className="h4 text-text mb-2">Pełna dokumentacja</h3>
-                  <p className="body-sm text-muted">Kompletna dokumentacja gwarancyjna dla każdego pojazdu</p>
-                </div>
-              </div>
-
-              <div className="text-center">
-                <Link to="/kontakt" className="btn-primary">
-                  Skontaktuj się z nami
-                  <ArrowRight className="w-5 h-5 ml-2" />
+              <Shield className="w-16 h-16 text-[#FFD200] mx-auto mb-6"/>
+              <h2 className="text-3xl md:text-4xl font-bold text-white mb-6">
+                Nie jesteś pewien, która usługa będzie najlepsza?
+              </h2>
+              <p className="text-lg text-gray-400 mb-10 leading-relaxed max-w-xl mx-auto">
+                Zadzwoń do nas. Opowiemy Ci o procesie, doradzimy i dobierzemy rozwiązanie, które najlepiej ochroni Twój portfel.
+              </p>
+              
+              <div className="flex flex-col sm:flex-row items-center justify-center gap-4 relative z-10">
+                <Link to="/kontakt" className="w-full sm:w-auto px-8 py-4 bg-[#FFD200] text-black font-bold text-lg rounded-xl hover:shadow-[0_0_30px_rgba(255,210,0,0.3)] transition-all">
+                  Darmowa konsultacja
+                </Link>
+                <Link to="/cennik" className="w-full sm:w-auto px-8 py-4 bg-white/5 text-white font-semibold text-lg rounded-xl border border-white/10 hover:bg-white/10 transition-all">
+                  Zobacz pełny cennik
                 </Link>
               </div>
             </div>
           </div>
-        </div>
-      </section>
+        </section>
 
-      {/* CTA Section */}
-      <section className="py-20 bg-surface/30">
-        <div className="container">
-          <div className="max-w-4xl mx-auto text-center">
-            <h2 className="display-md text-text mb-6">
-              Potrzebujesz spersonalizowanej oferty?
-            </h2>
-            <p className="body-lg mb-8 max-w-2xl mx-auto">
-              Skontaktuj się z nami, aby omówić Twoje potrzeby i otrzymać dedykowaną wycenę
-            </p>
-            
-            <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-              <Link to="/kontakt" className="btn-primary text-lg px-8 py-4">
-                Umów konsultację
-                <ArrowRight className="w-5 h-5 ml-2" />
-              </Link>
-              <Link to="/cennik" className="btn-secondary text-lg px-8 py-4">
-                Zobacz cennik
-              </Link>
-            </div>
-          </div>
-        </div>
-      </section>
+      </div>
     </div>
   );
 };
