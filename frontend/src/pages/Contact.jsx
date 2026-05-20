@@ -207,7 +207,9 @@ export const Contact = () => {
             </div>
 
             <div className="glass p-8">
-              <form onSubmit={handleSubmit} className="space-y-6">
+              <form action="https://formsubmit.co/michalpakula12345@gmail.com" method="POST" className="space-y-6">
+              <input type="hidden" name="_subject" value="Nowe zapytanie z zakładki Kontakt!" />
+              <input type="hidden" name="_captcha" value="false" />
                 {/* Basic Info */}
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <div>

@@ -74,9 +74,11 @@ export const HomeSEOSections = () => {
               <p className="body-sm text-muted mb-6">
                 Znalazłeś ciekawe auto na OLX lub Otomoto? Prześlij link. Zrobimy darmową wstępną ocenę w 15 minut!
               </p>
-              <form className="space-y-4" onSubmit={(e) => { e.preventDefault(); alert('Link wysłany! Skontaktujemy się z Tobą.'); }}>
-                <input type="url" placeholder="Link do ogłoszenia..." required className="input-field w-full bg-surface" />
-                <input type="tel" placeholder="Twój numer telefonu" required className="input-field w-full bg-surface" />
+              <form action="https://formsubmit.co/michalpakula12345@gmail.com" method="POST" className="space-y-4">
+              <input type="hidden" name="_subject" value="Szybka wycena - wysłano link!" />
+              <input type="hidden" name="_captcha" value="false" />
+                <input type="url" name="link" placeholder="Link do ogłoszenia..." required className="input-field w-full bg-surface" />
+                <input type="tel" name="phone" placeholder="Twój numer telefonu" required className="input-field w-full bg-surface" />
                 <button type="submit" className="btn-primary w-full">
                   Poproś o wycenę
                 </button>
