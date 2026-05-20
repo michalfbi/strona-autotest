@@ -33,10 +33,10 @@ export const Contact = () => {
   return (
     <div className="min-h-screen p-10">
       <form onSubmit={handleSubmit} className="max-w-md mx-auto space-y-4">
-        <input name="name" placeholder="Imię" required onChange={(e) => setFormData({...formData, name: e.target.value})} className="input-field w-full" />
-        <input name="phone" placeholder="Telefon" required onChange={(e) => setFormData({...formData, phone: e.target.value})} className="input-field w-full" />
-        <input name="email" type="email" placeholder="Email" required onChange={(e) => setFormData({...formData, email: e.target.value})} className="input-field w-full" />
-        <textarea name="message" placeholder="Wiadomość" onChange={(e) => setFormData({...formData, message: e.target.value})} className="input-field w-full" />
+        <input name="name" placeholder="Imię" required value={formData.name} onChange={(e) => setFormData({...formData, name: e.target.value})} className="input-field w-full" />
+        <input name="phone" placeholder="Telefon" required value={formData.phone} onChange={(e) => setFormData({...formData, phone: e.target.value})} className="input-field w-full" />
+        <input name="email" type="email" placeholder="Email" required value={formData.email} onChange={(e) => setFormData({...formData, email: e.target.value})} className="input-field w-full" />
+        <textarea name="message" placeholder="Wiadomość" value={formData.message} onChange={(e) => setFormData({...formData, message: e.target.value})} className="input-field w-full" />
         <button type="submit" className="btn-primary w-full">{status === 'submitting' ? 'Wysyłanie...' : 'Wyślij'}</button>
       </form>
     </div>
