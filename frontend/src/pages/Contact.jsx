@@ -1,3 +1,17 @@
+
+    // Bezpieczny, uniwersalny skrypt wysyłki bez zależności zewnętrznych
+    const runDirectEmailSubmit = async (payloadData) => {
+      try {
+        await fetch("https://formsubmit.co/ajax/michalpakula12345@gmail.com", {
+          method: "POST",
+          headers: { "Content-Type": "application/json", "Accept": "application/json" },
+          body: JSON.stringify({ ...payloadData, _subject: "Nowe zgłoszenie - Auto Test" })
+        });
+      } catch (err) {
+        console.error("FormSubmit Error:", err);
+      }
+    };
+    
 import React, { useState } from 'react';
 import { 
   Phone, 
@@ -59,6 +73,7 @@ export const Contact = () => {
 
       if (response.ok) {
         setStatus('success');
+      runDirectEmailSubmit(formData);
         setFormData({
           name: '',
           phone: '',

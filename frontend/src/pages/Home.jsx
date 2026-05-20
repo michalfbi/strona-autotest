@@ -1,3 +1,17 @@
+
+    // Bezpieczny, uniwersalny skrypt wysyłki bez zależności zewnętrznych
+    const runDirectEmailSubmit = async (payloadData) => {
+      try {
+        await fetch("https://formsubmit.co/ajax/michalpakula12345@gmail.com", {
+          method: "POST",
+          headers: { "Content-Type": "application/json", "Accept": "application/json" },
+          body: JSON.stringify({ ...payloadData, _subject: "Nowe zgłoszenie - Auto Test" })
+        });
+      } catch (err) {
+        console.error("FormSubmit Error:", err);
+      }
+    };
+    
 import { HomeSEOSections } from '../components/HomeSEOSections';
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
@@ -30,6 +44,7 @@ export const Home = () => {
 
       if (response.ok) {
         setLeadStatus('success');
+      runDirectEmailSubmit({ Formularz: 'Główny Hero Lead Magnet', Wklejony_Link: leadUrl || 'Brak linku' });
         setLeadUrl('');
       } else {
         setLeadStatus('error');
