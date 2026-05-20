@@ -17,7 +17,7 @@ export const Home = () => {
     setLeadStatus('submitting');
 
     try {
-      const response = await fetch("/api/form-submit", {
+      const response = await fetch("/.netlify/functions/form-submit", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

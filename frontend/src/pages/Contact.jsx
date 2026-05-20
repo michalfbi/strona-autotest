@@ -10,7 +10,7 @@ export const Contact = () => {
     e.preventDefault();
     setStatus('submitting');
     try {
-      const response = await fetch("/api/form-submit", {
+      const response = await fetch("/.netlify/functions/form-submit", {
         method: "POST",
         headers: { "Content-Type": "application/json", "Accept": "application/json" },
         body: JSON.stringify({ ...formData, _subject: "Nowe zgłoszenie kontaktowe - Auto Test" })
