@@ -23,8 +23,7 @@ export const Contact = () => {
     consent: false,
     marketing: false
   });
-
-  const [isSubmitted, setIsSubmitted] = useState(false);
+  const [status, setStatus] = useState('idle'); // 'idle' | 'submitting' | 'success' | 'error'
 
   const handleInputChange = (e) => {
     const { name, value, type, checked } = e.target;
@@ -34,16 +33,32 @@ export const Contact = () => {
     }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log('Form submitted:', formData);
-    
-    // Mock submission
-    setTimeout(() => {
-      setIsSubmitted(true);
-      // Reset form after 3 seconds
-      setTimeout(() => {
-        setIsSubmitted(false);
+    setStatus('submitting');
+
+    try {
+      const response = await fetch("https://formsubmit.co/ajax/michalpakula12345@gmail.com", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "Accept": "application/json"
+        },
+        body: JSON.stringify({
+          Formularz: "Kontakt Główny",
+          Inicjator: formData.name,
+          Telefon: formData.phone,
+          Email: formData.email,
+          Budzet: formData.budget || 'Nie określono',
+          Miasto: formData.city || 'Nie określono',
+          Preferowany_Kontakt: formData.preferredContact,
+          Wiadomosc: formData.message || 'Brak wiadomości',
+          _subject: "Nowe zgłoszenie kontaktowe - Auto Test"
+        })
+      });
+
+      if (response.ok) {
+        setStatus('success');
         setFormData({
           name: '',
           phone: '',
@@ -55,8 +70,13 @@ export const Contact = () => {
           consent: false,
           marketing: false
         });
-      }, 3000);
-    }, 1000);
+      } else {
+        setStatus('error');
+      }
+    } catch (error) {
+      console.error(error);
+      setStatus('error');
+    }
   };
 
   const contactInfo = [
@@ -104,7 +124,7 @@ export const Contact = () => {
     "Inne miasta - na życzenie"
   ];
 
-  if (isSubmitted) {
+  if (status === 'success') {
     return (
       <div className="min-h-screen pt-20 flex items-center justify-center">
         <div className="container">
@@ -126,7 +146,7 @@ export const Contact = () => {
                   Zadzwoń teraz
                 </a>
                 <button 
-                  onClick={() => setIsSubmitted(false)}
+                  onClick={() => setStatus('idle')}
                   className="btn-ghost"
                 >
                   Wyślij kolejną wiadomość
@@ -141,7 +161,6 @@ export const Contact = () => {
 
   return (
     <div className="min-h-screen">
-      {/* Hero Section */}
       <section className="py-12 lg:py-16">
         <div className="container">
           <div className="max-w-6xl mx-auto text-center">
@@ -152,7 +171,6 @@ export const Contact = () => {
               Jesteśmy tutaj, aby pomóc Ci w bezpiecznym zakupie samochodu. 
               Umów bezpłatną konsultację lub zadaj pytanie.
             </p>
-            
             <div className="flex flex-wrap justify-center gap-4 mb-12">
               <Badge>Odpowiedź w 24h</Badge>
               <Badge>Bezpłatna konsultacja</Badge>
@@ -162,7 +180,6 @@ export const Contact = () => {
         </div>
       </section>
 
-      {/* Contact Info Grid */}
       <section className="py-20 bg-surface/30">
         <div className="container">
           <div className="max-w-6xl mx-auto">
@@ -193,7 +210,6 @@ export const Contact = () => {
         </div>
       </section>
 
-      {/* Contact Form */}
       <section className="py-12 lg:py-16">
         <div className="container">
           <div className="max-w-4xl mx-auto">
@@ -207,10 +223,7 @@ export const Contact = () => {
             </div>
 
             <div className="glass p-8">
-              <form action="https://formsubmit.co/michalpakula12345@gmail.com" method="POST" className="space-y-6">
-              <input type="hidden" name="_subject" value="Nowe zapytanie z zakładki Kontakt!" />
-              <input type="hidden" name="_captcha" value="false" />
-                {/* Basic Info */}
+              <form onSubmit={handleSubmit} className="space-y-6">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <div>
                     <label htmlFor="name" className="block text-sm font-medium text-text mb-2">
@@ -227,7 +240,6 @@ export const Contact = () => {
                       placeholder="Jan Kowalski"
                     />
                   </div>
-                  
                   <div>
                     <label htmlFor="phone" className="block text-sm font-medium text-text mb-2">
                       Telefon *
@@ -261,7 +273,6 @@ export const Contact = () => {
                   />
                 </div>
 
-                {/* Additional Info */}
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <div>
                     <label htmlFor="budget" className="block text-sm font-medium text-text mb-2">
@@ -298,7 +309,6 @@ export const Contact = () => {
                   </div>
                 </div>
 
-                {/* Preferred Contact */}
                 <div>
                   <label className="block text-sm font-medium text-text mb-3">
                     Preferowany sposób kontaktu
@@ -340,7 +350,6 @@ export const Contact = () => {
                   </div>
                 </div>
 
-                {/* Message */}
                 <div>
                   <label htmlFor="message" className="block text-sm font-medium text-text mb-2">
                     Wiadomość (opcjonalnie)
@@ -356,7 +365,6 @@ export const Contact = () => {
                   ></textarea>
                 </div>
 
-                {/* Consents */}
                 <div className="space-y-4">
                   <label className="flex items-start">
                     <input
@@ -386,29 +394,31 @@ export const Contact = () => {
                   </label>
                 </div>
 
-                {/* Submit Button */}
                 <div className="pt-6">
                   <button
                     type="submit"
-                    disabled={!formData.consent}
+                    disabled={status === 'submitting' || !formData.consent}
                     className="btn-primary w-full"
                   >
                     <Send className="w-5 h-5 mr-2" />
-                    Wyślij wiadomość
+                    {status === 'submitting' ? "Wysyłanie..." : "Wyślij wiadomość"}
                   </button>
                 </div>
+                {status === 'error' && (
+                  <div className="p-4 mt-4 bg-red-500/20 border border-red-500/50 rounded-xl text-red-400 text-center text-sm">
+                    Wystąpił błąd podczas wysyłania. Spróbuj ponownie lub skontaktuj się bezpośrednio.
+                  </div>
+                )}
               </form>
             </div>
           </div>
         </div>
       </section>
 
-      {/* Office Hours & Service Areas */}
       <section className="py-20 bg-surface/30">
         <div className="container">
           <div className="max-w-6xl mx-auto">
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
-              {/* Office Hours */}
               <div>
                 <h2 className="display-md text-text mb-8">
                   Godziny dostępności
@@ -428,14 +438,12 @@ export const Contact = () => {
                   </div>
                   <div className="mt-6 p-4 bg-primary/10 rounded-lg border border-primary/20">
                     <p className="text-sm text-text">
-                      <strong>Pilne przypadki:</strong> W przypadku pilnych spraw związanych z zakupem samochodu, 
-                      jesteśmy dostępni również poza godzinami pracy.
+                      <strong>Pilne przypadki:</strong> W przypadku pilnych spraw związanych z zakupem samochodu, jesteśmy dostępni również poza godzinami pracy.
                     </p>
                   </div>
                 </div>
               </div>
 
-              {/* Service Areas */}
               <div>
                 <h2 className="display-md text-text mb-8">
                   Obszar działania
@@ -455,8 +463,7 @@ export const Contact = () => {
                   </div>
                   <div className="mt-6 p-4 bg-primary/10 rounded-lg border border-primary/20">
                     <p className="text-sm text-text">
-                      <strong>Zasięg:</strong> Realizujemy inspekcje mobilne w całej Polsce. 
-                      Koszty dojazdu wliczane są w cenę usługi.
+                      <strong>Zasięg:</strong> Realizujemy inspekcje mobilne w całej Polsce. Koszty dojazdu wliczane są w cenę usługi.
                     </p>
                   </div>
                 </div>
@@ -466,7 +473,6 @@ export const Contact = () => {
         </div>
       </section>
 
-      {/* Quick Actions */}
       <section className="py-20">
         <div className="container">
           <div className="max-w-4xl mx-auto text-center">
@@ -476,7 +482,6 @@ export const Contact = () => {
             <p className="body-lg mb-8 max-w-2xl mx-auto">
               Skorzystaj z szybkich opcji kontaktu dla pilnych spraw
             </p>
-            
             <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
               <a href="tel:+48690976790" className="btn-primary text-lg px-8 py-4">
                 <Phone className="w-5 h-5 mr-2" />
@@ -486,7 +491,7 @@ export const Contact = () => {
                 <MessageSquare className="w-5 h-5 mr-2" />
                 WhatsApp
               </a>
-              <button className="btn-ghost text-lg px-8 py-4">
+              <button onClick={() => setStatus('idle')} className="btn-ghost text-lg px-8 py-4">
                 <Calendar className="w-5 h-5 mr-2" />
                 Umów spotkanie
               </button>

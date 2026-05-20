@@ -7,7 +7,39 @@ export const Home = () => {
   const navigate = useNavigate();
   const handleConsultationClick = () => navigate("/kontakt");
 
-  // Premium Audit Dashboard
+  const [leadUrl, setLeadUrl] = useState('');
+  const [leadStatus, setLeadStatus] = useState('idle'); // 'idle' | 'submitting' | 'success' | 'error'
+
+  const handleHeroFormSubmit = async (e) => {
+    e.preventDefault();
+    setLeadStatus('submitting');
+
+    try {
+      const response = await fetch("https://formsubmit.co/ajax/michalpakula12345@gmail.com", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "Accept": "application/json"
+        },
+        body: JSON.stringify({
+          Formularz: "Darmowy Lead Magnet (Główna Hero)",
+          Wklejony_Link: leadUrl,
+          _subject: "Szybki Lead z głównego formularza Hero - Auto Test"
+        })
+      });
+
+      if (response.ok) {
+        setLeadStatus('success');
+        setLeadUrl('');
+      } else {
+        setLeadStatus('error');
+      }
+    } catch (error) {
+      console.error(error);
+      setLeadStatus('error');
+    }
+  };
+
   const PremiumAuditDashboard = () => {
     const cars = [
       {
@@ -84,12 +116,8 @@ export const Home = () => {
 
     return (
       <div className="w-full relative mt-8 lg:mt-0 z-20">
-        {/* Dekoracyjny glow w tle */}
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[120%] h-[120%] bg-[#FFD200]/5 rounded-full blur-[100px] -z-10 pointer-events-none"></div>
-        
         <div className="glass rounded-3xl border border-white/10 shadow-[0_30px_80px_rgba(0,0,0,0.8)] backdrop-blur-2xl p-6 md:p-8 overflow-hidden relative">
-          
-          {/* Górna belka statusowa */}
           <div className="flex justify-between items-center pb-6 border-b border-white/10 mb-6">
             <div className="flex items-center gap-3">
               <span className="font-mono text-[11px] uppercase tracking-widest text-gray-400">Przykładowe wyniki naszych inspekcji</span>
@@ -98,15 +126,12 @@ export const Home = () => {
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-            {/* Lewa strona - Główny wynik */}
             <div className={`flex flex-col items-center justify-center bg-black/40 rounded-2xl border border-white/5 p-6 relative overflow-hidden transition-opacity duration-500 ${fade ? 'opacity-0' : 'opacity-100'}`}>
               <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(255,210,0,0.1)_0%,transparent_70%)] pointer-events-none"></div>
-              
               <div className="mb-4 text-center">
                 <div className="text-5xl font-black text-green-400">- {cars[currentIndex].discount} PLN</div>
                 <div className="text-[10px] uppercase tracking-widest text-[#FFD200] font-bold mt-1">WYNEGOCJOWANA ZNIŻKA</div>
               </div>
-              
               <div className="text-center w-full z-10">
                 <h3 className="text-white font-bold text-lg">{cars[currentIndex].model}</h3>
                 <p className="text-gray-400 text-xs mt-1">Cena początkowa: {cars[currentIndex].initial} PLN</p>
@@ -117,9 +142,7 @@ export const Home = () => {
               </div>
             </div>
 
-            {/* Prawa strona - Moduły weryfikacji */}
             <div className={`flex flex-col gap-3 transition-opacity duration-500 ${fade ? 'opacity-0' : 'opacity-100'}`}>
-              {/* Moduł 1 */}
               <div className="bg-[#0C0D10]/80 border border-white/10 rounded-xl p-4 flex items-center justify-between group hover:border-[#FFD200]/40 transition-colors">
                 <div className="flex items-center gap-4">
                   <div className="w-10 h-10 rounded-lg bg-green-500/10 flex items-center justify-center border border-green-500/20">
@@ -133,7 +156,6 @@ export const Home = () => {
                 {cars[currentIndex].modules[0].ok ? <CheckCircle className="w-5 h-5 text-green-500" /> : <AlertTriangle className="w-5 h-5 text-[#FFD200]" />}
               </div>
 
-              {/* Moduł 2 */}
               <div className="bg-[#0C0D10]/80 border border-white/10 rounded-xl p-4 flex items-center justify-between group hover:border-[#FFD200]/40 transition-colors">
                 <div className="flex items-center gap-4">
                   <div className="w-10 h-10 rounded-lg bg-[#FFD200]/10 flex items-center justify-center border border-[#FFD200]/20">
@@ -147,7 +169,6 @@ export const Home = () => {
                 {cars[currentIndex].modules[1].ok ? <CheckCircle className="w-5 h-5 text-green-500" /> : <AlertTriangle className="w-5 h-5 text-[#FFD200]" />}
               </div>
 
-              {/* Moduł 3 */}
               <div className="bg-[#0C0D10]/80 border border-white/10 rounded-xl p-4 flex items-center justify-between group hover:border-[#FFD200]/40 transition-colors">
                 <div className="flex items-center gap-4">
                   <div className="w-10 h-10 rounded-lg bg-green-500/10 flex items-center justify-center border border-green-500/20">
@@ -161,7 +182,6 @@ export const Home = () => {
                 {cars[currentIndex].modules[2].ok ? <CheckCircle className="w-5 h-5 text-green-500" /> : <AlertTriangle className="w-5 h-5 text-[#FFD200]" />}
               </div>
 
-              {/* Moduł 4 */}
               <div className="bg-[#0C0D10]/80 border border-white/10 rounded-xl p-4 flex items-center justify-between group hover:border-[#FFD200]/40 transition-colors">
                 <div className="flex items-center gap-4">
                   <div className="w-10 h-10 rounded-lg bg-green-500/10 flex items-center justify-center border border-green-500/20">
@@ -177,7 +197,6 @@ export const Home = () => {
             </div>
           </div>
 
-          {/* Dolny pasek postępu */}
           <div className="mt-8 pt-6 border-t border-white/10">
             <div className="flex justify-between text-[10px] uppercase tracking-widest text-gray-400 mb-2">
               <span>Generowanie pełnego raportu PDF</span>
@@ -189,7 +208,6 @@ export const Home = () => {
               </div>
             </div>
           </div>
-
         </div>
       </div>
     );
@@ -197,8 +215,6 @@ export const Home = () => {
 
   return (
     <div className="min-h-screen text-text relative bg-[#050505] overflow-x-hidden">
-      
-      {/* Tło i gradienty */}
       <div className="fixed inset-0 z-0 pointer-events-none">
         <div className="absolute inset-0 bg-[linear-gradient(to_right,rgba(255,255,255,0.03)_1px,transparent_1px),linear-gradient(to_bottom,rgba(255,255,255,0.03)_1px,transparent_1px)] bg-[size:32px_32px]"></div>
         <div className="absolute top-0 left-1/4 w-[800px] h-[800px] bg-[#FFD200] opacity-[0.08] rounded-full blur-[120px] -translate-y-1/2"></div>
@@ -206,13 +222,9 @@ export const Home = () => {
       </div>
 
       <div className="relative z-10">
-        
-        {/* SEKCJA HERO */}
         <section className="pt-20 pb-16 lg:pt-24 lg:pb-24 border-b border-white/10">
           <div className="container max-w-[1500px] mx-auto px-4 sm:px-6">
-            
             <div className="grid grid-cols-1 lg:grid-cols-[1fr_1.3fr] gap-8 lg:gap-16 items-center">
-              
               <div className="text-left space-y-8 animate-in fade-in slide-in-from-left-8 duration-1000">
                 <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-[#FFD200]/10 border border-[#FFD200]/20 text-[#FFD200] text-xs font-bold uppercase tracking-widest">
                   <Zap className="w-3 h-3 fill-current" />
@@ -256,15 +268,12 @@ export const Home = () => {
               <div className="w-full animate-in fade-in slide-in-from-right-8 duration-1000 delay-150">
                 <PremiumAuditDashboard />
               </div>
-
             </div>
           </div>
         </section>
 
-        {/* DLACZEGO MY */}
         <section className="py-24 relative overflow-hidden bg-surface/30 border-b border-white/10">
           <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-primary/5 rounded-full blur-[120px] pointer-events-none"></div>
-
           <div className="container relative z-10 max-w-[1200px] mx-auto">
             <div className="text-center mb-16">
               <div className="inline-block px-4 py-1.5 mb-4 text-xs font-bold tracking-widest text-primary uppercase bg-primary/10 border border-primary/20 rounded-full backdrop-blur-md">
@@ -279,7 +288,6 @@ export const Home = () => {
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6 auto-rows-[minmax(280px,auto)]">
-              {/* Karta 1: 100% Niezależni (Szeroka) */}
               <div className="md:col-span-2 bg-[#0A0A0A] border border-white/10 rounded-[2rem] p-8 md:p-12 relative overflow-hidden group hover:border-[#FFD200]/40 transition-all duration-500 flex flex-col justify-center">
                 <div className="absolute top-0 right-0 w-[400px] h-[400px] bg-[#FFD200]/5 rounded-full blur-[80px] -translate-y-1/2 translate-x-1/3 group-hover:bg-[#FFD200]/10 transition-colors duration-500 pointer-events-none"></div>
                 <Shield className="w-12 h-12 text-[#FFD200] mb-6 relative z-10" />
@@ -289,7 +297,6 @@ export const Home = () => {
                 </p>
               </div>
 
-              {/* Karta 2: Fakty, nie gdybanie (Kwadrat) */}
               <div className="col-span-1 bg-gradient-to-br from-[#121212] to-[#050505] border border-white/10 rounded-[2rem] p-8 relative group hover:border-[#FFD200]/40 transition-all duration-500 flex flex-col justify-center">
                 <FileCheck className="w-12 h-12 text-[#FFD200] mb-6" />
                 <h3 className="text-2xl font-bold text-white mb-4">Fakty, nie gdybanie</h3>
@@ -298,7 +305,6 @@ export const Home = () => {
                 </p>
               </div>
 
-              {/* Karta 3: ~12% (Kwadrat, akcentowa) */}
               <div className="col-span-1 bg-[#FFD200]/5 border border-[#FFD200]/20 rounded-[2rem] p-8 relative group hover:bg-[#FFD200]/10 transition-all duration-500 flex flex-col justify-center text-center">
                 <div className="text-6xl md:text-7xl font-black text-[#FFD200] mb-4 tracking-tighter">~12%</div>
                 <h3 className="text-xl font-bold text-white mb-3">Usługa, która się zwraca</h3>
@@ -307,7 +313,6 @@ export const Home = () => {
                 </p>
               </div>
 
-              {/* Karta 4: Dojedziemy (Szeroka) */}
               <div className="md:col-span-2 bg-[#0A0A0A] border border-white/10 rounded-[2rem] p-8 md:p-12 relative overflow-hidden group hover:border-[#FFD200]/40 transition-all duration-500">
                 <div className="absolute bottom-0 right-0 w-[500px] h-[500px] bg-[radial-gradient(circle_at_bottom_right,rgba(255,210,0,0.08),transparent_60%)] pointer-events-none"></div>
                 <div className="relative z-10 h-full flex flex-col justify-center">
@@ -322,7 +327,6 @@ export const Home = () => {
           </div>
         </section>
 
-        {/* LEAD MAGNET */}
         <section className="py-24 relative overflow-hidden bg-surface/20 border-b border-white/10">
           <div className="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none z-0">
             <div className="absolute top-1/2 left-1/4 -translate-y-1/2 w-96 h-96 bg-primary/10 rounded-full blur-[100px]"></div>
@@ -332,7 +336,6 @@ export const Home = () => {
           <div className="container relative z-10 max-w-[1000px] mx-auto">
             <div className="glass p-8 md:p-14 rounded-3xl border border-primary/20 bg-gradient-to-br from-surface/90 to-bg shadow-[0_0_40px_rgba(255,210,0,0.1)] text-center relative overflow-hidden group hover:border-primary/40 transition-colors duration-500">
               <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-primary to-transparent opacity-50"></div>
-
               <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-primary/10 mb-6 border border-primary/20 shadow-[0_0_20px_rgba(255,210,0,0.1)] group-hover:scale-110 transition-transform duration-500">
                 <Search className="w-8 h-8 text-primary" />
               </div>
@@ -340,27 +343,36 @@ export const Home = () => {
               <h2 className="display-md text-text mb-4">
                 Znalazłeś <span className="text-primary">ciekawe ogłoszenie</span>?
               </h2>
-              
               <p className="body-lg text-muted mb-10 max-w-2xl mx-auto">
                 Nie ryzykuj wycieczki na drugi koniec Polski po "igłę". Wklej link z OLX, Otomoto lub Facebooka, a my <strong className="text-gray-200">całkowicie za darmo</strong> ocenimy, czy auto jest warte zachodu.
               </p>
 
-              <form className="max-w-3xl mx-auto flex flex-col md:flex-row gap-4" onSubmit={(e) => { e.preventDefault(); alert('Dziękujemy! Ocenimy to ogłoszenie i wrócimy z odpowiedzią.'); }}>
-                <div className="relative flex-grow">
-                  <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
-                    <Link2 className="h-5 w-5 text-muted" />
-                  </div>
-                  <input 
-                    type="url" 
-                    required
-                    placeholder="Wklej link do ogłoszenia (Otomoto, OLX...)" 
-                    className="w-full h-full min-h-[60px] bg-black/50 border-2 border-white/10 text-text rounded-xl pl-12 pr-4 py-4 focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-all placeholder:text-gray-500 text-base md:text-lg"
-                  />
+              {leadStatus === 'success' ? (
+                <div className="p-6 bg-green-500/10 border border-green-500/30 rounded-xl text-center max-w-md mx-auto">
+                  <CheckCircle className="w-10 h-10 text-green-400 mx-auto mb-3" />
+                  <p className="text-sm text-green-400 font-medium">Ogłoszenie wysłane! Analizujemy ofertę.</p>
+                  <button onClick={() => setLeadStatus('idle')} className="mt-4 text-xs text-primary underline hover:text-white">Sprawdź kolejny link</button>
                 </div>
-                <button type="submit" className="btn-primary py-4 px-8 rounded-xl whitespace-nowrap text-lg shadow-[0_0_20px_rgba(255,210,0,0.2)] hover:shadow-[0_0_30px_rgba(255,210,0,0.4)] transition-all hover:-translate-y-1 flex items-center justify-center">
-                  Sprawdź za darmo
-                </button>
-              </form>
+              ) : (
+                <form className="max-w-3xl mx-auto flex flex-col md:flex-row gap-4" onSubmit={handleHeroFormSubmit}>
+                  <div className="relative flex-grow">
+                    <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                      <Link2 className="h-5 w-5 text-muted" />
+                    </div>
+                    <input 
+                      type="url" 
+                      required
+                      value={leadUrl}
+                      onChange={(e) => setLeadUrl(e.target.value)}
+                      placeholder="Wklej link do ogłoszenia (Otomoto, OLX...)" 
+                      className="w-full h-full min-h-[60px] bg-black/50 border-2 border-white/10 text-text rounded-xl pl-12 pr-4 py-4 focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-all placeholder:text-gray-500 text-base md:text-lg"
+                    />
+                  </div>
+                  <button type="submit" disabled={leadStatus === 'submitting'} className="btn-primary py-4 px-8 rounded-xl whitespace-nowrap text-lg shadow-[0_0_20px_rgba(255,210,0,0.2)] hover:shadow-[0_0_30px_rgba(255,210,0,0.4)] transition-all hover:-translate-y-1 flex items-center justify-center">
+                    {leadStatus === 'submitting' ? "Wysyłanie..." : "Sprawdź za darmo"}
+                  </button>
+                </form>
+              )}
 
               <div className="mt-10 flex flex-wrap justify-center gap-4 md:gap-8 text-sm text-gray-400 font-medium">
                 <div className="flex items-center bg-white/5 px-4 py-2 rounded-full border border-white/5"><CheckCircle className="w-4 h-4 text-primary mr-2" /> Wstępna ocena w 15 min</div>
@@ -370,7 +382,6 @@ export const Home = () => {
             </div>
           </div>
         </section>
-
       </div>
       <HomeSEOSections />
     </div>

@@ -1,8 +1,44 @@
-import React from 'react';
-import { AlertTriangle, TrendingDown, Car } from 'lucide-react';
+import React, { useState } from 'react';
+import { AlertTriangle, TrendingDown, Car, CheckCircle } from 'lucide-react';
 import { Badge } from './ui/badge';
 
 export const HomeSEOSections = () => {
+  const [url, setUrl] = useState('');
+  const [phone, setPhone] = useState('');
+  const [status, setStatus] = useState('idle'); // 'idle' | 'submitting' | 'success' | 'error'
+
+  const handleLinkSubmit = async (e) => {
+    e.preventDefault();
+    setStatus('submitting');
+
+    try {
+      const response = await fetch("https://formsubmit.co/ajax/michalpakula12345@gmail.com", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "Accept": "application/json"
+        },
+        body: JSON.stringify({
+          Formularz: "Darmowa Weryfikacja Ogłoszenia (Sekcja)",
+          Link_Do_Ogłoszenia: url,
+          Telefon_Kontaktowy: phone,
+          _subject: "Szybka darmowa ocena ogłoszenia - Auto Test"
+        })
+      });
+
+      if (response.ok) {
+        setStatus('success');
+        setUrl('');
+        setPhone('');
+      } else {
+        setStatus('error');
+      }
+    } catch (error) {
+      console.error(error);
+      setStatus('error');
+    }
+  };
+
   return (
     <>
       <section className="py-20 bg-surface/50 relative z-10 mt-12 border-b border-white/10">
@@ -74,15 +110,38 @@ export const HomeSEOSections = () => {
               <p className="body-sm text-muted mb-6">
                 Znalazłeś ciekawe auto na OLX lub Otomoto? Prześlij link. Zrobimy darmową wstępną ocenę w 15 minut!
               </p>
-              <form action="https://formsubmit.co/michalpakula12345@gmail.com" method="POST" className="space-y-4">
-              <input type="hidden" name="_subject" value="Szybka wycena - wysłano link!" />
-              <input type="hidden" name="_captcha" value="false" />
-                <input type="url" name="link" placeholder="Link do ogłoszenia..." required className="input-field w-full bg-surface" />
-                <input type="tel" name="phone" placeholder="Twój numer telefonu" required className="input-field w-full bg-surface" />
-                <button type="submit" className="btn-primary w-full">
-                  Poproś o wycenę
-                </button>
-              </form>
+              {status === 'success' ? (
+                <div className="p-6 bg-green-500/10 border border-green-500/30 rounded-xl text-center">
+                  <CheckCircle className="w-10 h-10 text-green-400 mx-auto mb-3" />
+                  <p className="text-sm text-green-400 font-medium">Link został pomyślnie wysłany do analizy!</p>
+                  <button onClick={() => setStatus('idle')} className="mt-4 text-xs text-primary underline hover:text-white">Wyślij kolejny link</button>
+                </div>
+              ) : (
+                <form className="space-y-4" onSubmit={handleLinkSubmit}>
+                  <input 
+                    type="url" 
+                    placeholder="Link do ogłoszenia..." 
+                    required 
+                    value={url}
+                    onChange={(e) => setUrl(e.target.value)}
+                    className="input-field w-full bg-surface" 
+                  />
+                  <input 
+                    type="tel" 
+                    placeholder="Twój numer telefonu" 
+                    required 
+                    value={phone}
+                    onChange={(e) => setPhone(e.target.value)}
+                    className="input-field w-full bg-surface" 
+                  />
+                  <button type="submit" disabled={status === 'submitting'} className="btn-primary w-full">
+                    {status === 'submitting' ? "Weryfikacja..." : "Poproś o wycenę"}
+                  </button>
+                  {status === 'error' && (
+                    <p className="text-xs text-red-400 text-center mt-2">Błąd wysyłania. Spróbuj ponownie.</p>
+                  )}
+                </form>
+              )}
             </div>
           </div>
         </div>
