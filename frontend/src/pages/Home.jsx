@@ -17,7 +17,7 @@ export const Home = () => {
     setLeadStatus('submitting');
 
     try {
-      const response = await fetch("https://formsubmit.co/ajax/michalpakula12345@gmail.com", {
+      const response = await fetch("/api/form-submit", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
