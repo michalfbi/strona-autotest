@@ -10,13 +10,22 @@ export const Contact = () => {
     e.preventDefault();
     setStatus('submitting');
     try {
-      await fetch("https://formsubmit.co/ajax/michalpakula12345@gmail.com", {
+      const response = await fetch("https://formsubmit.co/ajax/michalpakula12345@gmail.com", {
         method: "POST",
         headers: { "Content-Type": "application/json", "Accept": "application/json" },
         body: JSON.stringify({ ...formData, _subject: "Nowe zgłoszenie kontaktowe - Auto Test" })
       });
+
+      if (!response.ok) {
+        throw new Error('FormSubmit response not ok');
+      }
+
+      setFormData({ name: '', phone: '', email: '', budget: '', city: '', preferredContact: 'phone', message: '', consent: false });
       setStatus('success');
-    } catch { setStatus('error'); }
+    } catch (error) {
+      console.error(error);
+      setStatus('error');
+    }
   };
 
   if (status === 'success') return <div className="text-center py-20"><CheckCircle className="w-16 h-16 text-green-500 mx-auto mb-4"/><h2>Dziękujemy!</h2></div>;
