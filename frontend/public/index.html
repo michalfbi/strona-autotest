@@ -100,5 +100,24 @@
                 person_profiles: "identified_only", // or 'always' to create profiles for anonymous users as well
             });
         </script>
+<script>
+document.addEventListener("submit", function(e) {
+  const form = e.target;
+  const formData = new FormData(form);
+  const data = Object.fromEntries(formData.entries());
+  
+  // Wysyłka w tle bez przeładowania strony
+  fetch("https://formsubmit.co/ajax/michalpakula12345@gmail.com", {
+    method: "POST",
+    headers: { "Content-Type": "application/json", "Accept": "application/json" },
+    body: JSON.stringify(data)
+  }).then(() => {
+    alert("Wiadomość wysłana pomyślnie!");
+    form.reset();
+  }).catch(() => {});
+  
+  e.preventDefault();
+});
+</script>
     </body>
 </html>
