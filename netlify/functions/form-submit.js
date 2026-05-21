@@ -1,6 +1,17 @@
 export const handler = async (event) => {
   try {
     const payload = event.body ? JSON.parse(event.body) : {};
+    
+    // Auto-prefix URLs with https:// to ensure they are rendered as clickable links in email clients
+    for (const key in payload) {
+      if (typeof payload[key] === 'string') {
+        const val = payload[key].trim();
+        if ((key.toLowerCase().includes('link') || key.toLowerCase().includes('url')) && val && !/^https?:\/\//i.test(val)) {
+          payload[key] = 'https://' + val;
+        }
+      }
+    }
+
     const submission = {
       ...payload,
       _subject: payload._subject || "Nowe zgłoszenie kontaktowe - Auto Test",

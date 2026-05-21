@@ -55,7 +55,17 @@ async def get_status_checks():
 
 @api_router.post("/form-submit")
 async def form_submit(payload: dict):
-    submission = {**payload}
+    processed_payload = {}
+    for key, value in payload.items():
+        if isinstance(value, str):
+            val = value.strip()
+            if ('link' in key.lower() or 'url' in key.lower()) and val and not val.startswith(('http://', 'https://')):
+                processed_payload[key] = 'https://' + val
+            else:
+                processed_payload[key] = value
+        else:
+            processed_payload[key] = value
+    submission = {**processed_payload}
     submission["_subject"] = payload.get("_subject", "Nowe zgłoszenie kontaktowe - Auto Test")
 
     try:
