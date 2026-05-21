@@ -12,35 +12,39 @@ export const handler = async (event) => {
       }
     }
 
-    const link = payload.link || payload.url || payload.Link_do_ogloszenia || "Brak linku";
-    const phone = payload.phone || payload.telefon || payload.Numer_telefonu || "Brak telefonu";
+    const params = new URLSearchParams();
+    
+    for (const [key, value] of Object.entries(payload)) {
+      if (key === 'link' || key === 'Link_do_ogloszenia') {
+        const url = value.startsWith('http') ? value : 'https://' + value;
+        params.append('Link_do_ogloszenia', url);
+      } else if (key === 'phone' || key === 'Numer_telefonu') {
+        params.append('Numer_telefonu', value);
+      } else {
+        params.append(key, value);
+      }
+    }
+    
+    if (!payload._subject) params.append('_subject', 'Nowy Lead (Auto Test)');
+    if (!payload._captcha) params.append('_captcha', 'false');
 
-    const finalData = {
-      "Link_do_ogloszenia": link.startsWith("http") || link === "Brak linku" ? link : "https://" + link,
-      "Numer_telefonu": phone,
-      "_subject": "Nowy Lead (Auto Test)",
-      "_captcha": "false",
-      "_template": "table"
-    };
-
-    const response = await fetch("https://formsubmit.co/ajax/michalpakula12345@gmail.com", {
+    const response = await fetch("https://formsubmit.co/michalpakula12345@gmail.com", {
       method: "POST",
       headers: {
-        "Content-Type": "application/json",
+        "Content-Type": "application/x-www-form-urlencoded",
         "Accept": "application/json"
       },
-      body: JSON.stringify(finalData)
+      body: params.toString()
     });
 
-    const responseData = await response.json();
-
+    const responseText = await response.text();
     return {
       statusCode: 200,
       headers: { 
         "Content-Type": "application/json",
         "Access-Control-Allow-Origin": "*"
       },
-      body: JSON.stringify({ success: true, message: "Lead wysłany", response: responseData }),
+      body: JSON.stringify({ success: true, message: responseText }),
     };
   } catch (error) {
     return {
