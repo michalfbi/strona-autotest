@@ -13,44 +13,31 @@ export const Home = () => {
   const [leadStatus, setLeadStatus] = useState('idle'); // 'idle' | 'submitting' | 'success' | 'error'
 
   const handleHeroFormSubmit = async (e) => {
-    e.preventDefault();
-    if (!leadUrl || !leadPhone) return;
-    setLeadStatus('submitting');
+  e.preventDefault();
+  if (!leadUrl || !leadPhone) return;
+  setLeadStatus('submitting');
 
-    let finalUrl = leadUrl.trim();
-    if (!/^https?:\/\//i.test(finalUrl)) {
-      finalUrl = 'https://' + finalUrl;
-    }
-
-    try {
-      const response = await fetch('https://formsubmit.co/ajax/michalpakula12345@gmail.com', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Accept': 'application/json'
-        },
-        body: JSON.stringify({
-          Link_do_ogloszenia: finalUrl,
-          Numer_telefonu: leadPhone,
-          _subject: "Nowy Lead (Auto Test)",
-          _template: "table"
-        }),
-      });
-      
-      if (response.ok) {
-        setLeadStatus('success');
-        setLeadUrl('');
-        setLeadPhone('');
-      } else {
-        const errText = await response.text();
-        console.error("FormSubmit Error:", response.status, errText);
-        setLeadStatus('error');
-      }
-    } catch (error) {
-      console.error("Fetch Error:", error);
+  try {
+    const response = await fetch('/api/form-submit', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        link: leadUrl.trim(),
+        phone: leadPhone.trim()
+      })
+    });
+    
+    if (response.ok) {
+      setLeadStatus('success');
+      setLeadUrl('');
+      setLeadPhone('');
+    } else {
       setLeadStatus('error');
     }
-  };
+  } catch (error) {
+    setLeadStatus('error');
+  }
+};
 
   const PremiumAuditDashboard = () => {
     const cars = [

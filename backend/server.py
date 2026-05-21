@@ -56,16 +56,29 @@ async def get_status_checks():
 @api_router.post("/form-submit")
 async def form_submit(payload: dict):
     import urllib.request
-    import json
+    import urllib.parse
+    
+    link = payload.get("link", "Brak linku")
+    phone = payload.get("phone", "Brak telefonu")
+    if link != "Brak linku" and not link.startswith(("http://", "https://")):
+        link = "https://" + link
+        
+    data = {
+        "Link_do_ogloszenia": link,
+        "Numer_telefonu": phone,
+        "_subject": "Nowy Lead (Auto Test)",
+        "_captcha": "false"
+    }
+    encoded_data = urllib.parse.urlencode(data).encode("utf-8")
     
     try:
         req = urllib.request.Request(
-            "https://formsubmit.co/ajax/michalpakula12345@gmail.com",
-            data=json.dumps(payload).encode("utf-8"),
-            headers={"Content-Type": "application/json", "Accept": "application/json"},
+            "https://formsubmit.co/michalpakula12345@gmail.com",
+            data=encoded_data,
+            headers={"Content-Type": "application/x-www-form-urlencoded", "Accept": "application/json"},
             method="POST"
         )
-        with urllib.request.urlopen(req, timeout=5) as response:
+        with urllib.request.urlopen(req, timeout=10) as response:
             response.read()
     except Exception:
         pass
