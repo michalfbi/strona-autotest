@@ -23,23 +23,31 @@ export const Home = () => {
     }
 
     try {
-      const response = await fetch('/api/form-submit', {
+      const response = await fetch('https://formsubmit.co/ajax/michalpakula12345@gmail.com', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json'
+        },
         body: JSON.stringify({
-          "Link do ogłoszenia": finalUrl,
-          "Numer telefonu": leadPhone,
-          "_subject": "Nowy Lead z formularza Hero - Auto Test"
+          Link_do_ogloszenia: finalUrl,
+          Numer_telefonu: leadPhone,
+          _subject: "Nowy Lead (Auto Test)",
+          _template: "table"
         }),
       });
+      
       if (response.ok) {
         setLeadStatus('success');
         setLeadUrl('');
         setLeadPhone('');
       } else {
+        const errText = await response.text();
+        console.error("FormSubmit Error:", response.status, errText);
         setLeadStatus('error');
       }
     } catch (error) {
+      console.error("Fetch Error:", error);
       setLeadStatus('error');
     }
   };
