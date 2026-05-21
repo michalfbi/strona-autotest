@@ -1,4 +1,6 @@
-export const handler = async (event) => {
+const https = require('https');
+
+exports.handler = async (event, context) => {
   try {
     let payload = {};
     if (event.body) {
@@ -12,39 +14,49 @@ export const handler = async (event) => {
       }
     }
 
-    const params = new URLSearchParams();
-    
-    for (const [key, value] of Object.entries(payload)) {
-      if (key === 'link' || key === 'Link_do_ogloszenia') {
-        const url = value.startsWith('http') ? value : 'https://' + value;
-        params.append('Link_do_ogloszenia', url);
-      } else if (key === 'phone' || key === 'Numer_telefonu') {
-        params.append('Numer_telefonu', value);
-      } else {
-        params.append(key, value);
-      }
-    }
-    
-    if (!payload._subject) params.append('_subject', 'Nowy Lead (Auto Test)');
-    if (!payload._captcha) params.append('_captcha', 'false');
+    const link = payload.link || payload.Link_do_ogloszenia || "Brak linku";
+    const phone = payload.phone || payload.Numer_telefonu || "Brak telefonu";
+    const formattedLink = link.startsWith("http") || link === "Brak linku" ? link : "https://" + link;
 
-    const response = await fetch("https://formsubmit.co/michalpakula12345@gmail.com", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/x-www-form-urlencoded",
-        "Accept": "application/json"
-      },
-      body: params.toString()
+    const postData = JSON.stringify({
+      "Link_do_ogloszenia": formattedLink,
+      "Numer_telefonu": phone,
+      "_subject": "Nowy Lead (Auto Test)",
+      "_captcha": "false",
+      "_template": "table"
     });
 
-    const responseText = await response.text();
+    const options = {
+      hostname: 'formsubmit.co',
+      port: 443,
+      path: '/ajax/michalpakula12345@gmail.com',
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+        'Content-Length': Buffer.byteLength(postData)
+      }
+    };
+
+    const responseData = await new Promise((resolve, reject) => {
+      const req = https.request(options, (res) => {
+        let data = '';
+        res.on('data', (chunk) => { data += chunk; });
+        res.on('end', () => { resolve(data); });
+      });
+
+      req.on('error', (e) => { reject(e); });
+      req.write(postData);
+      req.end();
+    });
+
     return {
       statusCode: 200,
       headers: { 
         "Content-Type": "application/json",
         "Access-Control-Allow-Origin": "*"
       },
-      body: JSON.stringify({ success: true, message: responseText }),
+      body: JSON.stringify({ success: true, message: "Lead wysłany pomyślnie", details: responseData }),
     };
   } catch (error) {
     return {
