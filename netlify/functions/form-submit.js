@@ -2,19 +2,18 @@ export const handler = async (event) => {
   try {
     const payload = event.body ? JSON.parse(event.body) : {};
     
-    // Auto-prefix URLs with https:// to ensure they are rendered as clickable links in email clients
-    for (const key in payload) {
-      if (typeof payload[key] === 'string') {
-        const val = payload[key].trim();
-        if ((key.toLowerCase().includes('link') || key.toLowerCase().includes('url')) && val && !/^https?:\/\//i.test(val)) {
-          payload[key] = 'https://' + val;
-        }
-      }
+    let link = payload.Link_Do_Ogloszenia || payload.Wklejony_Link || "";
+    let phone = payload.Numer_Telefonu || "";
+    
+    link = link.trim();
+    if (link && !/^https?:\/\//i.test(link)) {
+      link = 'https://' + link;
     }
 
     const submission = {
-      ...payload,
-      _subject: payload._subject || "Nowe zgłoszenie kontaktowe - Auto Test",
+      "Link do ogłoszenia": link,
+      "Numer telefonu": phone,
+      _subject: payload._subject || "Szybki Lead z głównego formularza Hero - Auto Test",
     };
 
     const response = await fetch("https://formsubmit.co/ajax/michalpakula12345@gmail.com", {
@@ -27,19 +26,9 @@ export const handler = async (event) => {
     });
 
     const responseText = await response.text();
-    const headers = { "Content-Type": "application/json" };
-
-    if (!response.ok) {
-      return {
-        statusCode: response.status,
-        headers,
-        body: JSON.stringify({ error: responseText }),
-      };
-    }
-
     return {
-      statusCode: 200,
-      headers,
+      statusCode: response.ok ? 200 : response.status,
+      headers: { "Content-Type": "application/json" },
       body: responseText,
     };
   } catch (error) {

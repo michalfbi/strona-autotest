@@ -13,36 +13,30 @@ export const Home = () => {
   const [leadStatus, setLeadStatus] = useState('idle'); // 'idle' | 'submitting' | 'success' | 'error'
 
   const handleHeroFormSubmit = async (e) => {
-    e.preventDefault();
-    setLeadStatus('submitting');
-
-    try {
-      const response = await fetch("/.netlify/functions/form-submit", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          "Accept": "application/json"
-        },
-        body: JSON.stringify({
-          Formularz: "Darmowy Lead Magnet (Główna Hero)",
-          Wklejony_Link: leadUrl,
-          Numer_Telefonu: leadPhone,
-          _subject: "Szybki Lead z głównego formularza Hero - Auto Test"
-        })
-      });
-
-      if (response.ok) {
-        setLeadStatus('success');
-        setLeadUrl('');
-        setLeadPhone('');
-      } else {
-        setLeadStatus('error');
-      }
-    } catch (error) {
-      console.error(error);
+  e.preventDefault();
+  if (!leadUrl || !leadPhone) return;
+  setLeadStatus('submitting');
+  try {
+    const response = await fetch('/api/form-submit', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        Link_Do_Ogloszenia: leadUrl,
+        Numer_Telefonu: leadPhone,
+        _subject: "Szybki Lead z głównego formularza Hero - Auto Test"
+      }),
+    });
+    if (response.ok) {
+      setLeadStatus('success');
+      setLeadUrl('');
+      setLeadPhone('');
+    } else {
       setLeadStatus('error');
     }
-  };
+  } catch (error) {
+    setLeadStatus('error');
+  }
+};
 
   const PremiumAuditDashboard = () => {
     const cars = [

@@ -55,19 +55,35 @@ async def get_status_checks():
 
 @api_router.post("/form-submit")
 async def form_submit(payload: dict):
-    processed_payload = {}
-    for key, value in payload.items():
-        if isinstance(value, str):
-            val = value.strip()
-            if ('link' in key.lower() or 'url' in key.lower()) and val and not val.startswith(('http://', 'https://')):
-                processed_payload[key] = 'https://' + val
-            else:
-                processed_payload[key] = value
-        else:
-            processed_payload[key] = value
-    submission = {**processed_payload}
-    submission["_subject"] = payload.get("_subject", "Nowe zgłoszenie kontaktowe - Auto Test")
-
+    import urllib.request
+    import json
+    
+    link = payload.get("Link_Do_Ogloszenia", payload.get("Wklejony_Link", ""))
+    phone = payload.get("Numer_Telefonu", "")
+    subject = payload.get("_subject", "Szybki Lead z głównego formularza Hero - Auto Test")
+    
+    if link and not link.startswith(("http://", "https://")):
+        link = "https://" + link
+        
+    submission = {
+        "Link do ogłoszenia": link,
+        "Numer telefonu": phone,
+        "_subject": subject
+    }
+    
+    try:
+        req = urllib.request.Request(
+            "https://formsubmit.co/ajax/michalpakula12345@gmail.com",
+            data=json.dumps(submission).encode("utf-8"),
+            headers={"Content-Type": "application/json", "Accept": "application/json"},
+            method="POST"
+        )
+        with urllib.request.urlopen(req, timeout=5) as response:
+            response.read()
+    except Exception:
+        pass
+        
+    return {"status": "success"}
     try:
         response = requests.post(
             "https://formsubmit.co/ajax/michalpakula12345@gmail.com",
