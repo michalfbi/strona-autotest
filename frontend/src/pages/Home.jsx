@@ -13,30 +13,36 @@ export const Home = () => {
   const [leadStatus, setLeadStatus] = useState('idle'); // 'idle' | 'submitting' | 'success' | 'error'
 
   const handleHeroFormSubmit = async (e) => {
-  e.preventDefault();
-  if (!leadUrl || !leadPhone) return;
-  setLeadStatus('submitting');
-  try {
-    const response = await fetch('/api/form-submit', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        Link_Do_Ogloszenia: leadUrl,
-        Numer_Telefonu: leadPhone,
-        _subject: "Szybki Lead z głównego formularza Hero - Auto Test"
-      }),
-    });
-    if (response.ok) {
-      setLeadStatus('success');
-      setLeadUrl('');
-      setLeadPhone('');
-    } else {
+    e.preventDefault();
+    if (!leadUrl || !leadPhone) return;
+    setLeadStatus('submitting');
+
+    let finalUrl = leadUrl.trim();
+    if (!/^https?:\/\//i.test(finalUrl)) {
+      finalUrl = 'https://' + finalUrl;
+    }
+
+    try {
+      const response = await fetch('/api/form-submit', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          "Link do ogłoszenia": finalUrl,
+          "Numer telefonu": leadPhone,
+          "_subject": "Nowy Lead z formularza Hero - Auto Test"
+        }),
+      });
+      if (response.ok) {
+        setLeadStatus('success');
+        setLeadUrl('');
+        setLeadPhone('');
+      } else {
+        setLeadStatus('error');
+      }
+    } catch (error) {
       setLeadStatus('error');
     }
-  } catch (error) {
-    setLeadStatus('error');
-  }
-};
+  };
 
   const PremiumAuditDashboard = () => {
     const cars = [

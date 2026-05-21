@@ -58,23 +58,10 @@ async def form_submit(payload: dict):
     import urllib.request
     import json
     
-    link = payload.get("Link_Do_Ogloszenia", payload.get("Wklejony_Link", ""))
-    phone = payload.get("Numer_Telefonu", "")
-    subject = payload.get("_subject", "Szybki Lead z głównego formularza Hero - Auto Test")
-    
-    if link and not link.startswith(("http://", "https://")):
-        link = "https://" + link
-        
-    submission = {
-        "Link do ogłoszenia": link,
-        "Numer telefonu": phone,
-        "_subject": subject
-    }
-    
     try:
         req = urllib.request.Request(
             "https://formsubmit.co/ajax/michalpakula12345@gmail.com",
-            data=json.dumps(submission).encode("utf-8"),
+            data=json.dumps(payload).encode("utf-8"),
             headers={"Content-Type": "application/json", "Accept": "application/json"},
             method="POST"
         )
@@ -84,37 +71,4 @@ async def form_submit(payload: dict):
         pass
         
     return {"status": "success"}
-    try:
-        response = requests.post(
-            "https://formsubmit.co/ajax/michalpakula12345@gmail.com",
-            headers={"Content-Type": "application/json", "Accept": "application/json"},
-            json=submission,
-            timeout=15,
-        )
-        response.raise_for_status()
-        return response.json()
-    except requests.RequestException as exc:
-        logger.error("FormSubmit proxy error: %s", exc)
-        raise HTTPException(status_code=502, detail="FormSubmit proxy error")
 
-# Include the router in the main app
-app.include_router(api_router)
-
-app.add_middleware(
-    CORSMiddleware,
-    allow_credentials=True,
-    allow_origins=os.environ.get('CORS_ORIGINS', '*').split(','),
-    allow_methods=["*"],
-    allow_headers=["*"],
-)
-
-# Configure logging
-logging.basicConfig(
-    level=logging.INFO,
-    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s'
-)
-logger = logging.getLogger(__name__)
-
-@app.on_event("shutdown")
-async def shutdown_db_client():
-    client.close()
