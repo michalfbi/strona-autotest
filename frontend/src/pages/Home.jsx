@@ -1,15 +1,15 @@
 
     // Bezpieczny, uniwersalny skrypt wysyłki bez zależności zewnętrznych
-import { HomeSEOSections } from '../components/HomeSEOSections';
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { ArrowRight, CheckCircle, Zap, Shield, Search, FileText, Gauge, FileCheck, MapPin, Download, Star, AlertTriangle, Link2, Activity, Fingerprint, Car, Cpu } from "lucide-react";
+import { ArrowRight, CheckCircle, Zap, Shield, Search, FileText, Gauge, FileCheck, MapPin, Download, Star, AlertTriangle, Link2, Phone, Activity, Fingerprint, Car, Cpu } from "lucide-react";
 
 export const Home = () => {
   const navigate = useNavigate();
   const handleConsultationClick = () => navigate("/kontakt");
 
   const [leadUrl, setLeadUrl] = useState('');
+  const [leadPhone, setLeadPhone] = useState('');
   const [leadStatus, setLeadStatus] = useState('idle'); // 'idle' | 'submitting' | 'success' | 'error'
 
   const handleHeroFormSubmit = async (e) => {
@@ -26,6 +26,7 @@ export const Home = () => {
         body: JSON.stringify({
           Formularz: "Darmowy Lead Magnet (Główna Hero)",
           Wklejony_Link: leadUrl,
+          Numer_Telefonu: leadPhone,
           _subject: "Szybki Lead z głównego formularza Hero - Auto Test"
         })
       });
@@ -33,6 +34,7 @@ export const Home = () => {
       if (response.ok) {
         setLeadStatus('success');
         setLeadUrl('');
+        setLeadPhone('');
       } else {
         setLeadStatus('error');
       }
@@ -356,21 +358,36 @@ export const Home = () => {
                   <button onClick={() => setLeadStatus('idle')} className="mt-4 text-xs text-primary underline hover:text-white">Sprawdź kolejny link</button>
                 </div>
               ) : (
-                <form className="max-w-3xl mx-auto flex flex-col md:flex-row gap-4" onSubmit={handleHeroFormSubmit}>
-                  <div className="relative flex-grow">
-                    <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
-                      <Link2 className="h-5 w-5 text-muted" />
+                <form className="max-w-4xl mx-auto flex flex-col md:flex-row gap-4" onSubmit={handleHeroFormSubmit}>
+                  <div className="flex-grow flex flex-col sm:flex-row gap-4">
+                    <div className="relative w-full">
+                      <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                        <Link2 className="h-5 w-5 text-muted" />
+                      </div>
+                      <input 
+                        type="url" 
+                        required
+                        value={leadUrl}
+                        onChange={(e) => setLeadUrl(e.target.value)}
+                        placeholder="Link do ogłoszenia" 
+                        className="w-full h-full min-h-[60px] bg-black/50 border-2 border-white/10 text-text rounded-xl pl-12 pr-4 py-4 focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-all placeholder:text-gray-500 text-base md:text-lg"
+                      />
                     </div>
-                    <input 
-                      type="url" 
-                      required
-                      value={leadUrl}
-                      onChange={(e) => setLeadUrl(e.target.value)}
-                      placeholder="Wklej link do ogłoszenia (Otomoto, OLX...)" 
-                      className="w-full h-full min-h-[60px] bg-black/50 border-2 border-white/10 text-text rounded-xl pl-12 pr-4 py-4 focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-all placeholder:text-gray-500 text-base md:text-lg"
-                    />
+                    <div className="relative w-full sm:w-2/3">
+                      <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                        <Phone className="h-5 w-5 text-muted" />
+                      </div>
+                      <input 
+                        type="tel" 
+                        required
+                        value={leadPhone}
+                        onChange={(e) => setLeadPhone(e.target.value)}
+                        placeholder="Numer telefonu" 
+                        className="w-full h-full min-h-[60px] bg-black/50 border-2 border-white/10 text-text rounded-xl pl-12 pr-4 py-4 focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-all placeholder:text-gray-500 text-base md:text-lg"
+                      />
+                    </div>
                   </div>
-                  <button type="submit" disabled={leadStatus === 'submitting'} className="btn-primary py-4 px-8 rounded-xl whitespace-nowrap text-lg shadow-[0_0_20px_rgba(255,210,0,0.2)] hover:shadow-[0_0_30px_rgba(255,210,0,0.4)] transition-all hover:-translate-y-1 flex items-center justify-center">
+                  <button type="submit" disabled={leadStatus === 'submitting'} className="btn-primary py-4 px-8 rounded-xl whitespace-nowrap text-lg shadow-[0_0_20px_rgba(255,210,0,0.2)] hover:shadow-[0_0_30px_rgba(255,210,0,0.4)] transition-all hover:-translate-y-1 flex items-center justify-center shrink-0">
                     {leadStatus === 'submitting' ? "Wysyłanie..." : "Sprawdź za darmo"}
                   </button>
                 </form>
@@ -385,7 +402,7 @@ export const Home = () => {
           </div>
         </section>
       </div>
-      <HomeSEOSections />
+      
     </div>
   );
 };
