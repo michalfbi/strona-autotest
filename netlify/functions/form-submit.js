@@ -1,35 +1,54 @@
 export const handler = async (event) => {
   try {
-    const payload = event.body ? JSON.parse(event.body) : {};
-    const link = payload.link || "Brak linku";
-    const phone = payload.phone || "Brak telefonu";
+    let payload = {};
+    if (event.body) {
+      try {
+        payload = JSON.parse(event.body);
+      } catch (e) {
+        const params = new URLSearchParams(event.body);
+        for (const [key, value] of params.entries()) {
+          payload[key] = value;
+        }
+      }
+    }
 
-    // Zmiana na x-www-form-urlencoded wymusza na FormSubmit poprawne parsowanie pól
-    const params = new URLSearchParams();
-    params.append("Link_do_ogloszenia", link.startsWith("http") ? link : "https://" + link);
-    params.append("Numer_telefonu", phone);
-    params.append("_subject", "Nowy Lead (Auto Test)");
-    params.append("_captcha", "false");
+    const link = payload.link || payload.url || payload.Link_do_ogloszenia || "Brak linku";
+    const phone = payload.phone || payload.telefon || payload.Numer_telefonu || "Brak telefonu";
 
-    const response = await fetch("https://formsubmit.co/michalpakula12345@gmail.com", {
+    const finalData = {
+      "Link_do_ogloszenia": link.startsWith("http") || link === "Brak linku" ? link : "https://" + link,
+      "Numer_telefonu": phone,
+      "_subject": "Nowy Lead (Auto Test)",
+      "_captcha": "false",
+      "_template": "table"
+    };
+
+    const response = await fetch("https://formsubmit.co/ajax/michalpakula12345@gmail.com", {
       method: "POST",
       headers: {
-        "Content-Type": "application/x-www-form-urlencoded",
+        "Content-Type": "application/json",
         "Accept": "application/json"
       },
-      body: params.toString()
+      body: JSON.stringify(finalData)
     });
 
-    const responseText = await response.text();
+    const responseData = await response.json();
+
     return {
       statusCode: 200,
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ success: true, message: responseText }),
+      headers: { 
+        "Content-Type": "application/json",
+        "Access-Control-Allow-Origin": "*"
+      },
+      body: JSON.stringify({ success: true, message: "Lead wysłany", response: responseData }),
     };
   } catch (error) {
     return {
       statusCode: 500,
-      headers: { "Content-Type": "application/json" },
+      headers: { 
+        "Content-Type": "application/json",
+        "Access-Control-Allow-Origin": "*"
+      },
       body: JSON.stringify({ error: error.message }),
     };
   }
