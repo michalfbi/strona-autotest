@@ -83,16 +83,16 @@ export const Footer = () => {
                 </a>
                 
                 <a 
-                  href="mailto:kontakt@autotest.pl" 
+                  href="mailto:dual1518@gmail.com" 
                   className="flex items-center text-muted hover:text-primary transition-colors"
                 >
                   <Mail className="w-5 h-5 mr-3" />
-                  kontakt@autotest.pl
+                  dual1518@gmail.com
                 </a>
                 
                 <div className="flex items-start text-muted">
                   <MapPin className="w-5 h-5 mr-3 mt-0.5 flex-shrink-0" />
-                  <span>ul. Przykładowa 123<br />00-001 Warszawa</span>
+                  <span>Kielce</span>
                 </div>
               </div>
 
