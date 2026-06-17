@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Phone, Mail, MapPin, CheckCircle, ArrowRight } from 'lucide-react';
+import { Phone, Mail, MapPin, CheckCircle, ArrowRight, AlertCircle } from 'lucide-react';
 
 export const Contact = () => {
   const [formData, setFormData] = useState({ 
@@ -9,27 +9,123 @@ export const Contact = () => {
     message: '', 
     consent: false 
   });
-  const [status, setStatus] = useState('idle');
+  const [status, setStatus] = useState('idle'); // 'idle' | 'submitting' | 'success' | 'error'
+  const [errors, setErrors] = useState({});
+  const [errorMessage, setErrorMessage] = useState('');
+
+  // Funkcja walidacji email
+  const isValidEmail = (email) => {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(email);
+  };
+
+  // Funkcja walidacji telefonu (prosty format: minimum 9 cyfr)
+  const isValidPhone = (phone) => {
+    const phoneRegex = /^[\d\s()+-]{9,}$/;
+    return phoneRegex.test(phone);
+  };
+
+  // Walidacja formularza
+  const validateForm = () => {
+    const newErrors = {};
+
+    if (!formData.name.trim()) {
+      newErrors.name = 'Imię i nazwisko jest wymagane';
+    }
+
+    if (!formData.email.trim()) {
+      newErrors.email = 'Email jest wymagany';
+    } else if (!isValidEmail(formData.email)) {
+      newErrors.email = 'Proszę podać prawidłowy adres email';
+    }
+
+    if (!formData.phone.trim()) {
+      newErrors.phone = 'Numer telefonu jest wymagany';
+    } else if (!isValidPhone(formData.phone)) {
+      newErrors.phone = 'Numer telefonu powinien zawierać minimum 9 cyfr';
+    }
+
+    if (!formData.message.trim()) {
+      newErrors.message = 'Wiadomość jest wymagana';
+    } else if (formData.message.trim().length < 10) {
+      newErrors.message = 'Wiadomość powinna mieć minimum 10 znaków';
+    }
+
+    if (!formData.consent) {
+      newErrors.consent = 'Musisz wyrazić zgodę na przetwarzanie danych';
+    }
+
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setErrorMessage('');
+
+    // Walidacja
+    if (!validateForm()) {
+      setStatus('idle');
+      return;
+    }
+
     setStatus('submitting');
+
     try {
-      const response = await fetch("/.netlify/functions/form-submit", {
-        method: "POST",
-        headers: { "Content-Type": "application/json", "Accept": "application/json" },
-        body: JSON.stringify({ ...formData, _subject: "Nowe zgłoszenie kontaktowe - Auto Test" })
+      const response = await fetch('/.netlify/functions/form-submit', {
+        method: 'POST',
+        headers: { 
+          'Content-Type': 'application/json',
+          'Accept': 'application/json'
+        },
+        body: JSON.stringify({
+          name: formData.name.trim(),
+          email: formData.email.trim(),
+          phone: formData.phone.trim(),
+          message: formData.message.trim(),
+          _subject: 'Nowe zgłoszenie kontaktowe - Autotest'
+        })
       });
 
-      if (!response.ok) {
-        throw new Error('FormSubmit response not ok');
+      const data = await response.json();
+
+      if (!response.ok || !data.success) {
+        throw new Error(data.error || 'Błąd przy wysyłaniu formularza');
       }
 
+      // Sukces
       setFormData({ name: '', phone: '', email: '', message: '', consent: false });
+      setErrors({});
       setStatus('success');
+
+      // Resetuj status po 5 sekundach
+      setTimeout(() => {
+        setStatus('idle');
+      }, 5000);
     } catch (error) {
-      console.error(error);
+      console.error('Form submission error:', error);
       setStatus('error');
+      setErrorMessage(
+        error.message || 'Błąd podczas wysyłania formularza. Spróbuj ponownie za chwilę.'
+      );
+
+      // Resetuj status po 5 sekundach
+      setTimeout(() => {
+        setStatus('idle');
+        setErrorMessage('');
+      }, 5000);
+    }
+  };
+
+  const handleInputChange = (e) => {
+    const { name, value, type, checked } = e.target;
+    setFormData({
+      ...formData,
+      [name]: type === 'checkbox' ? checked : value
+    });
+    // Wyczyść błąd dla tego pola gdy użytkownik zacznie pisać
+    if (errors[name]) {
+      setErrors({ ...errors, [name]: '' });
     }
   };
 
@@ -44,7 +140,7 @@ export const Contact = () => {
           <CheckCircle className="w-16 h-16 text-green-500 mx-auto mb-6" />
           <h2 className="text-3xl md:text-5xl font-bold text-white mb-3">Dziękujemy!</h2>
           <p className="text-gray-400 text-lg mb-8 max-w-md">
-            Wiadomość została wysłana. Skontaktujemy się z Tobą wkrótce.
+            Wiadomość została wysłana pomyślnie. Skontaktujemy się z Tobą wkrótce.
           </p>
           <button 
             onClick={() => setStatus('idle')} 
@@ -144,21 +240,35 @@ export const Contact = () => {
           {/* Right Column - Contact Form */}
           <div className="bg-white/[0.02] border border-white/10 rounded-2xl p-8 md:p-12 backdrop-blur-sm">
             <form onSubmit={handleSubmit} className="space-y-6">
+              {/* Global Error Message */}
+              {errorMessage && (
+                <div className="p-4 bg-red-500/10 border border-red-500/30 rounded-lg flex items-start gap-3">
+                  <AlertCircle className="w-5 h-5 text-red-400 flex-shrink-0 mt-0.5" />
+                  <p className="text-red-400 text-sm">{errorMessage}</p>
+                </div>
+              )}
+
               {/* Name Input */}
               <div>
                 <label htmlFor="name" className="block text-sm font-semibold text-gray-300 mb-3">
                   Imię i nazwisko *
                 </label>
-                <input 
-                  id="name"
-                  name="name" 
-                  type="text"
-                  placeholder="Jan Kowalski" 
-                  required 
-                  value={formData.name} 
-                  onChange={(e) => setFormData({...formData, name: e.target.value})} 
-                  className="w-full px-4 py-3 bg-black/30 border-2 border-white/10 rounded-xl text-white placeholder:text-gray-500 focus:outline-none focus:border-[#00FFD5] focus:shadow-[0_0_20px_rgba(0,255,213,0.2)] transition-all duration-300"
-                />
+                <div>
+                  <input 
+                    id="name"
+                    name="name" 
+                    type="text"
+                    placeholder="Jan Kowalski" 
+                    value={formData.name} 
+                    onChange={handleInputChange}
+                    className={`w-full px-4 py-3 bg-black/30 border-2 rounded-xl text-white placeholder:text-gray-500 focus:outline-none transition-all duration-300 ${
+                      errors.name 
+                        ? 'border-red-500 focus:border-red-500 focus:shadow-[0_0_20px_rgba(239,68,68,0.2)]'
+                        : 'border-white/10 focus:border-[#00FFD5] focus:shadow-[0_0_20px_rgba(0,255,213,0.2)]'
+                    }`}
+                  />
+                  {errors.name && <p className="text-red-400 text-xs mt-2">{errors.name}</p>}
+                </div>
               </div>
 
               {/* Email Input */}
@@ -166,16 +276,22 @@ export const Contact = () => {
                 <label htmlFor="email" className="block text-sm font-semibold text-gray-300 mb-3">
                   Email *
                 </label>
-                <input 
-                  id="email"
-                  name="email" 
-                  type="email" 
-                  placeholder="jan@example.com" 
-                  required 
-                  value={formData.email} 
-                  onChange={(e) => setFormData({...formData, email: e.target.value})} 
-                  className="w-full px-4 py-3 bg-black/30 border-2 border-white/10 rounded-xl text-white placeholder:text-gray-500 focus:outline-none focus:border-[#00FFD5] focus:shadow-[0_0_20px_rgba(0,255,213,0.2)] transition-all duration-300"
-                />
+                <div>
+                  <input 
+                    id="email"
+                    name="email" 
+                    type="email" 
+                    placeholder="jan@example.com" 
+                    value={formData.email} 
+                    onChange={handleInputChange}
+                    className={`w-full px-4 py-3 bg-black/30 border-2 rounded-xl text-white placeholder:text-gray-500 focus:outline-none transition-all duration-300 ${
+                      errors.email 
+                        ? 'border-red-500 focus:border-red-500 focus:shadow-[0_0_20px_rgba(239,68,68,0.2)]'
+                        : 'border-white/10 focus:border-[#00FFD5] focus:shadow-[0_0_20px_rgba(0,255,213,0.2)]'
+                    }`}
+                  />
+                  {errors.email && <p className="text-red-400 text-xs mt-2">{errors.email}</p>}
+                </div>
               </div>
 
               {/* Phone Input */}
@@ -183,16 +299,22 @@ export const Contact = () => {
                 <label htmlFor="phone" className="block text-sm font-semibold text-gray-300 mb-3">
                   Telefon *
                 </label>
-                <input 
-                  id="phone"
-                  name="phone" 
-                  type="tel" 
-                  placeholder="+48 123 456 789" 
-                  required 
-                  value={formData.phone} 
-                  onChange={(e) => setFormData({...formData, phone: e.target.value})} 
-                  className="w-full px-4 py-3 bg-black/30 border-2 border-white/10 rounded-xl text-white placeholder:text-gray-500 focus:outline-none focus:border-[#00FFD5] focus:shadow-[0_0_20px_rgba(0,255,213,0.2)] transition-all duration-300"
-                />
+                <div>
+                  <input 
+                    id="phone"
+                    name="phone" 
+                    type="tel" 
+                    placeholder="+48 123 456 789" 
+                    value={formData.phone} 
+                    onChange={handleInputChange}
+                    className={`w-full px-4 py-3 bg-black/30 border-2 rounded-xl text-white placeholder:text-gray-500 focus:outline-none transition-all duration-300 ${
+                      errors.phone 
+                        ? 'border-red-500 focus:border-red-500 focus:shadow-[0_0_20px_rgba(239,68,68,0.2)]'
+                        : 'border-white/10 focus:border-[#00FFD5] focus:shadow-[0_0_20px_rgba(0,255,213,0.2)]'
+                    }`}
+                  />
+                  {errors.phone && <p className="text-red-400 text-xs mt-2">{errors.phone}</p>}
+                </div>
               </div>
 
               {/* Message Textarea */}
@@ -200,16 +322,22 @@ export const Contact = () => {
                 <label htmlFor="message" className="block text-sm font-semibold text-gray-300 mb-3">
                   Wiadomość *
                 </label>
-                <textarea 
-                  id="message"
-                  name="message" 
-                  placeholder="Opisz Twoją sprawę..." 
-                  required
-                  rows="5"
-                  value={formData.message} 
-                  onChange={(e) => setFormData({...formData, message: e.target.value})} 
-                  className="w-full px-4 py-3 bg-black/30 border-2 border-white/10 rounded-xl text-white placeholder:text-gray-500 focus:outline-none focus:border-[#00FFD5] focus:shadow-[0_0_20px_rgba(0,255,213,0.2)] transition-all duration-300 resize-none"
-                />
+                <div>
+                  <textarea 
+                    id="message"
+                    name="message" 
+                    placeholder="Opisz Twoją sprawę..." 
+                    rows="5"
+                    value={formData.message} 
+                    onChange={handleInputChange}
+                    className={`w-full px-4 py-3 bg-black/30 border-2 rounded-xl text-white placeholder:text-gray-500 focus:outline-none transition-all duration-300 resize-none ${
+                      errors.message 
+                        ? 'border-red-500 focus:border-red-500 focus:shadow-[0_0_20px_rgba(239,68,68,0.2)]'
+                        : 'border-white/10 focus:border-[#00FFD5] focus:shadow-[0_0_20px_rgba(0,255,213,0.2)]'
+                    }`}
+                  />
+                  {errors.message && <p className="text-red-400 text-xs mt-2">{errors.message}</p>}
+                </div>
               </div>
 
               {/* Consent Checkbox */}
@@ -218,40 +346,38 @@ export const Contact = () => {
                   id="consent"
                   type="checkbox" 
                   name="consent"
-                  required
                   checked={formData.consent} 
-                  onChange={(e) => setFormData({...formData, consent: e.target.checked})} 
-                  className="w-5 h-5 rounded border-2 border-white/10 bg-black/30 text-[#FFD200] cursor-pointer focus:outline-none focus:border-[#00FFD5] focus:ring-2 focus:ring-[#00FFD5]/30 transition-all mt-1 flex-shrink-0"
+                  onChange={handleInputChange}
+                  className={`w-5 h-5 rounded border-2 bg-black/30 text-[#FFD200] cursor-pointer focus:outline-none focus:ring-2 transition-all mt-1 flex-shrink-0 ${
+                    errors.consent
+                      ? 'border-red-500 focus:ring-red-500/30'
+                      : 'border-white/10 focus:border-[#00FFD5] focus:ring-[#00FFD5]/30'
+                  }`}
                 />
                 <label htmlFor="consent" className="text-sm text-gray-400 cursor-pointer">
-                  Zgadzam się na przetwarzanie moich danych osobowych i otrzymywanie informacji od Autotest
+                  Zgadzam się na przetwarzanie moich danych osobowych zgodnie z RODO i otrzymywanie informacji od Autotest *
                 </label>
               </div>
+              {errors.consent && <p className="text-red-400 text-xs">{errors.consent}</p>}
 
               {/* Submit Button */}
               <button 
                 type="submit" 
                 disabled={status === 'submitting'}
-                className="w-full py-4 px-6 bg-[#FFD200] text-black font-bold text-lg rounded-xl hover:shadow-[0_0_30px_rgba(255,210,0,0.3)] transition-all hover:-translate-y-1 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2 group"
+                className="w-full py-4 px-6 bg-[#FFD200] text-black font-bold text-lg rounded-xl transition-all flex items-center justify-center gap-2 group disabled:opacity-60 disabled:cursor-not-allowed hover:shadow-[0_0_30px_rgba(255,210,0,0.3)] hover:-translate-y-1 disabled:hover:shadow-none disabled:hover:translate-y-0"
               >
                 {status === 'submitting' ? (
                   <>
                     <div className="w-5 h-5 border-2 border-black/30 border-t-black rounded-full animate-spin"></div>
-                    Wysyłanie...
+                    <span>Wysyłanie...</span>
                   </>
                 ) : (
                   <>
-                    Wyślij wiadomość
+                    <span>Wyślij wiadomość</span>
                     <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
                   </>
                 )}
               </button>
-
-              {status === 'error' && (
-                <div className="p-4 bg-red-500/10 border border-red-500/30 rounded-lg text-red-400 text-sm">
-                  Błąd przy wysyłaniu. Spróbuj ponownie.
-                </div>
-              )}
             </form>
           </div>
         </div>
