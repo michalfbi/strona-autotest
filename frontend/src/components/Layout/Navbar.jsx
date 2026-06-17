@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
-import { Menu, X, Phone, ChevronDown, Info, Briefcase, FileText, ArrowRight } from 'lucide-react';
+import { Menu, X, Phone, ChevronDown, Info, ArrowRight } from 'lucide-react';
 
 export const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -29,9 +29,7 @@ export const Navbar = () => {
   ];
 
   const companyItems = [
-    { name: 'O nas', href: '/o-nas', description: 'Poznaj nasz zespół ekspertów', icon: Info },
-    { name: 'Case studies', href: '/case-studies', description: 'Zobacz nasze udane realizacje', icon: Briefcase },
-    { name: 'Blog', href: '/blog', description: 'Wiedza, poradniki i nowości', icon: FileText }
+    { name: 'O nas', href: '/o-nas', description: 'Poznaj nasz zespół ekspertów', icon: Info }
   ];
 
   const handleConsultationClick = () => {
