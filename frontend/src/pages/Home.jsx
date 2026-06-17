@@ -2,7 +2,7 @@
     // Bezpieczny, uniwersalny skrypt wysyłki bez zależności zewnętrznych
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { ArrowRight, CheckCircle, Zap, Shield, Search, FileText, Gauge, FileCheck, MapPin, Download, Star, AlertTriangle, Link2, Phone, Activity, Fingerprint, Car, Cpu } from "lucide-react";
+import { ArrowRight, CheckCircle, Zap, Shield, Search, FileText, Gauge, FileCheck, MapPin, Star, AlertTriangle, Link2, Phone, Activity, Fingerprint, Car, Cpu } from "lucide-react";
 
 export const Home = () => {
   const navigate = useNavigate();
@@ -257,9 +257,6 @@ export const Home = () => {
                   <button onClick={handleConsultationClick} className="group px-8 py-4 bg-[#FFD200] text-black font-black text-lg rounded-xl hover:shadow-[0_0_40px_rgba(255,210,0,0.3)] transition-all flex items-center justify-center gap-3">
                     Darmowa konsultacja
                     <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
-                  </button>
-                  <button className="px-8 py-4 bg-white/5 text-white font-semibold text-lg rounded-xl border border-white/10 hover:bg-white/10 transition-all flex items-center justify-center gap-2">
-                    <Download className="w-5 h-5" /> Wzór raportu
                   </button>
                 </div>
               </div>
