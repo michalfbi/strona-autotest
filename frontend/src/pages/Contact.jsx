@@ -72,25 +72,27 @@ export const Contact = () => {
     setStatus('submitting');
 
     try {
-      const response = await fetch('/.netlify/functions/form-submit', {
+      const body = new URLSearchParams();
+      body.append('form-name', 'contact');
+      body.append('name', formData.name.trim());
+      body.append('email', formData.email.trim());
+      body.append('phone', formData.phone.trim());
+      body.append('message', formData.message.trim());
+      body.append('consent', formData.consent ? 'Tak' : 'Nie');
+      body.append('_subject', 'Nowe zgłoszenie kontaktowe - Autotest');
+      body.append('bot-field', '');
+
+      const response = await fetch('/', {
         method: 'POST',
-        headers: { 
-          'Content-Type': 'application/json',
-          'Accept': 'application/json'
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded'
         },
-        body: JSON.stringify({
-          name: formData.name.trim(),
-          email: formData.email.trim(),
-          phone: formData.phone.trim(),
-          message: formData.message.trim(),
-          _subject: 'Nowe zgłoszenie kontaktowe - Autotest'
-        })
+        body: body.toString()
       });
 
-      const data = await response.json();
-
-      if (!response.ok || !data.success) {
-        throw new Error(data.error || 'Błąd przy wysyłaniu formularza');
+      if (!response.ok) {
+        const errorText = await response.text();
+        throw new Error(errorText || 'Błąd przy wysyłaniu formularza');
       }
 
       // Sukces
@@ -239,7 +241,11 @@ export const Contact = () => {
 
           {/* Right Column - Contact Form */}
           <div className="bg-white/[0.02] border border-white/10 rounded-2xl p-8 md:p-12 backdrop-blur-sm">
-            <form onSubmit={handleSubmit} className="space-y-6">
+            <form name="contact" method="POST" data-netlify="true" netlify-honeypot="bot-field" onSubmit={handleSubmit} className="space-y-6">
+              <input type="hidden" name="form-name" value="contact" />
+              <p className="hidden" style={{ display: 'none' }}>
+                <label>Don’t fill this out if you're human: <input name="bot-field" /></label>
+              </p>
               {/* Global Error Message */}
               {errorMessage && (
                 <div className="p-4 bg-red-500/10 border border-red-500/30 rounded-lg flex items-start gap-3">
