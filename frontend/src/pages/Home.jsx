@@ -12,6 +12,26 @@ export const Home = () => {
   const [leadPhone, setLeadPhone] = useState('');
   const [leadStatus, setLeadStatus] = useState('idle'); // 'idle' | 'submitting' | 'success' | 'error'
 
+  // VIN check state and validation
+  const [vin, setVin] = useState('');
+  const [vinTouched, setVinTouched] = useState(false);
+  const [vinValid, setVinValid] = useState(false);
+  const VIN_REGEX = /^[A-HJ-NPR-Z0-9]{17}$/i;
+
+  const handleVinChange = (e) => {
+    const value = e.target.value.toUpperCase();
+    setVin(value);
+    setVinValid(VIN_REGEX.test(value));
+  };
+
+  const handleVinBlur = () => setVinTouched(true);
+
+  const handleVinSubmit = (e) => {
+    e.preventDefault();
+    if (!vinValid) return;
+    console.log("Zapytanie dla VIN:", vin);
+  };
+
   const handleHeroFormSubmit = async (e) => {
   e.preventDefault();
   if (!leadUrl || !leadPhone) return;
@@ -264,6 +284,42 @@ export const Home = () => {
               <div className="w-full animate-in fade-in slide-in-from-right-8 duration-1000 delay-150">
                 <PremiumAuditDashboard />
               </div>
+            </div>
+          </div>
+        </section>
+
+        {/* VIN Check Section - inserted directly under Hero */}
+        <section className="py-12 relative overflow-hidden border-b border-white/10">
+          <div className="container max-w-4xl mx-auto px-4 sm:px-6">
+            <div className="bg-[#030303] rounded-2xl p-8 md:p-12 border border-white/6 shadow-[0_10px_40px_rgba(0,0,0,0.8)]">
+              <h3 className="text-2xl font-bold text-white mb-3">Sprawdź historię pojazdu po numerze VIN</h3>
+              <p className="text-sm text-gray-400 mb-6">Szybkie sprawdzenie numeru VIN przed zakupem raportu.</p>
+
+              <form onSubmit={handleVinSubmit} className="flex flex-col sm:flex-row items-center gap-4">
+                <div className="relative flex-1 w-full">
+                  <input
+                    type="text"
+                    inputMode="text"
+                    maxLength={17}
+                    value={vin}
+                    onChange={handleVinChange}
+                    onBlur={handleVinBlur}
+                    placeholder="Wpisz 17-znakowy numer VIN"
+                    className={`w-full min-h-[56px] px-4 pr-4 rounded-xl bg-[#0A0A0A] border-2 ${vinTouched && !vinValid ? 'border-red-500' : vinValid ? 'border-[#00FFD5]' : 'border-white/10'} text-white placeholder:text-gray-500 transition-all focus:outline-none`}
+                  />
+                  {!vinValid && vinTouched && (
+                    <p className="text-xs text-red-400 mt-2">Wymagane dokładnie 17 znaków</p>
+                  )}
+                </div>
+
+                <button
+                  type="submit"
+                  disabled={!vinValid}
+                  className={`shrink-0 px-6 py-4 rounded-xl font-bold text-black transition-all ${vinValid ? 'bg-[#00FFD5] shadow-[0_10px_30px_rgba(0,255,213,0.12)]' : 'bg-white/5 text-white opacity-50 cursor-not-allowed'}`}
+                >
+                  Sprawdź VIN
+                </button>
+              </form>
             </div>
           </div>
         </section>
