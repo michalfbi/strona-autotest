@@ -71,23 +71,27 @@ export const Contact = () => {
 
     setStatus('submitting');
 
+    // Helper to URL-encode payload for Netlify
+    const encode = (data) => Object.keys(data)
+      .map(key => encodeURIComponent(key) + '=' + encodeURIComponent(data[key]))
+      .join('&');
+
     try {
-      const body = new URLSearchParams();
-      body.append('form-name', 'contact');
-      body.append('name', formData.name.trim());
-      body.append('email', formData.email.trim());
-      body.append('phone', formData.phone.trim());
-      body.append('message', formData.message.trim());
-      body.append('consent', formData.consent ? 'Tak' : 'Nie');
-      body.append('_subject', 'Nowe zgłoszenie kontaktowe - Autotest');
-      body.append('bot-field', '');
+      const payload = {
+        'form-name': 'contact',
+        'Imię i Nazwisko': formData.name.trim(),
+        'Email': formData.email.trim(),
+        'Telefon': formData.phone.trim(),
+        'Wiadomość': formData.message.trim(),
+        'consent': formData.consent ? 'Tak' : 'Nie',
+        '_subject': 'Nowe zgłoszenie kontaktowe - Autotest',
+        'bot-field': ''
+      };
 
       const response = await fetch('/', {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/x-www-form-urlencoded'
-        },
-        body: body.toString()
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        body: encode(payload)
       });
 
       if (!response.ok) {
@@ -95,39 +99,42 @@ export const Contact = () => {
         throw new Error(errorText || 'Błąd przy wysyłaniu formularza');
       }
 
-      // Sukces
+      // Sukces — zresetuj stan
       setFormData({ name: '', phone: '', email: '', message: '', consent: false });
       setErrors({});
       setStatus('success');
 
       // Resetuj status po 5 sekundach
-      setTimeout(() => {
-        setStatus('idle');
-      }, 5000);
+      setTimeout(() => setStatus('idle'), 5000);
     } catch (error) {
       console.error('Form submission error:', error);
       setStatus('error');
-      setErrorMessage(
-        error.message || 'Błąd podczas wysyłania formularza. Spróbuj ponownie za chwilę.'
-      );
-
-      // Resetuj status po 5 sekundach
-      setTimeout(() => {
-        setStatus('idle');
-        setErrorMessage('');
-      }, 5000);
+      setErrorMessage(error.message || 'Błąd podczas wysyłania formularza. Spróbuj ponownie za chwilę.');
+      setTimeout(() => { setStatus('idle'); setErrorMessage(''); }, 5000);
     }
   };
 
   const handleInputChange = (e) => {
     const { name, value, type, checked } = e.target;
+
+    // Map visible form field names to internal state keys when necessary
+    const nameMap = {
+      'Imię i Nazwisko': 'name',
+      'Email': 'email',
+      'Telefon': 'phone',
+      'Wiadomość': 'message',
+      'consent': 'consent'
+    };
+
+    const stateKey = nameMap[name] || name;
+
     setFormData({
       ...formData,
-      [name]: type === 'checkbox' ? checked : value
+      [stateKey]: type === 'checkbox' ? checked : value
     });
     // Wyczyść błąd dla tego pola gdy użytkownik zacznie pisać
-    if (errors[name]) {
-      setErrors({ ...errors, [name]: '' });
+    if (errors[stateKey]) {
+      setErrors({ ...errors, [stateKey]: '' });
     }
   };
 
@@ -262,7 +269,7 @@ export const Contact = () => {
                 <div>
                   <input 
                     id="name"
-                    name="name" 
+                    name="Imię i Nazwisko" 
                     type="text"
                     placeholder="Jan Kowalski" 
                     value={formData.name} 
@@ -285,7 +292,7 @@ export const Contact = () => {
                 <div>
                   <input 
                     id="email"
-                    name="email" 
+                    name="Email" 
                     type="email" 
                     placeholder="jan@example.com" 
                     value={formData.email} 
@@ -308,7 +315,7 @@ export const Contact = () => {
                 <div>
                   <input 
                     id="phone"
-                    name="phone" 
+                    name="Telefon" 
                     type="tel" 
                     placeholder="+48 123 456 789" 
                     value={formData.phone} 
@@ -331,7 +338,7 @@ export const Contact = () => {
                 <div>
                   <textarea 
                     id="message"
-                    name="message" 
+                    name="Wiadomość" 
                     placeholder="Opisz Twoją sprawę..." 
                     rows="5"
                     value={formData.message} 
