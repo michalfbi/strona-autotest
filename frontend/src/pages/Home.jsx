@@ -32,6 +32,26 @@ export const Home = () => {
     console.log("Zapytanie dla VIN:", vin);
   };
 
+  // Report order form states (separate from other lead form)
+  const [reportLink, setReportLink] = useState('');
+  const [reportLinkTouched, setReportLinkTouched] = useState(false);
+  const [reportLinkValid, setReportLinkValid] = useState(false);
+  const LINK_REGEX = /^https?:\/\/.+/i;
+
+  const handleReportLinkChange = (e) => {
+    const v = e.target.value.trim();
+    setReportLink(v);
+    setReportLinkValid(LINK_REGEX.test(v));
+  };
+
+  const handleReportLinkBlur = () => setReportLinkTouched(true);
+
+  const handleReportSubmit = (e) => {
+    e.preventDefault();
+    if (!vinValid || !reportLinkValid) return;
+    console.log('Zamówienie Raportu VIN:', { vin, link: reportLink, price: 150 });
+  };
+
   const handleHeroFormSubmit = async (e) => {
   e.preventDefault();
   if (!leadUrl || !leadPhone) return;
@@ -288,38 +308,84 @@ export const Home = () => {
           </div>
         </section>
 
-        {/* VIN Check Section - inserted directly under Hero */}
-        <section className="py-12 relative overflow-hidden border-b border-white/10">
-          <div className="container max-w-4xl mx-auto px-4 sm:px-6">
-            <div className="bg-[#030303] rounded-2xl p-8 md:p-12 border border-white/6 shadow-[0_10px_40px_rgba(0,0,0,0.8)]">
-              <h3 className="text-2xl font-bold text-white mb-3">Sprawdź historię pojazdu po numerze VIN</h3>
-              <p className="text-sm text-gray-400 mb-6">Szybkie sprawdzenie numeru VIN przed zakupem raportu.</p>
+        {/* Raport VIN + Analiza Ekspercka - landing card replacing simple VIN form */}
+        <section className="py-20 relative overflow-hidden bg-zinc-950 border-b border-white/10">
+          <div className="absolute inset-0 pointer-events-none">
+            <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(255,210,0,0.02),transparent)]"></div>
+            <div className="absolute top-1/3 left-1/4 w-[600px] h-[600px] bg-[#FFD200] opacity-5 rounded-full blur-[120px]"></div>
+            <div className="absolute inset-0 bg-[linear-gradient(to_right,rgba(255,255,255,0.02)_1px,transparent_1px),linear-gradient(to_bottom,rgba(255,255,255,0.02)_1px,transparent_1px)] bg-[size:32px_32px]"></div>
+          </div>
 
-              <form onSubmit={handleVinSubmit} className="flex flex-col sm:flex-row items-center gap-4">
-                <div className="relative flex-1 w-full">
-                  <input
-                    type="text"
-                    inputMode="text"
-                    maxLength={17}
-                    value={vin}
-                    onChange={handleVinChange}
-                    onBlur={handleVinBlur}
-                    placeholder="Wpisz 17-znakowy numer VIN"
-                    className={`w-full min-h-[56px] px-4 pr-4 rounded-xl bg-[#0A0A0A] border-2 ${vinTouched && !vinValid ? 'border-red-500' : vinValid ? 'border-[#00FFD5]' : 'border-white/10'} text-white placeholder:text-gray-500 transition-all focus:outline-none`}
-                  />
-                  {!vinValid && vinTouched && (
-                    <p className="text-xs text-red-400 mt-2">Wymagane dokładnie 17 znaków</p>
-                  )}
+          <div className="container max-w-6xl mx-auto px-4 sm:px-6 relative z-10">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-start">
+              {/* Left copy */}
+              <div className="text-left">
+                <h2 className="text-3xl md:text-4xl font-extrabold text-white mb-4">Nie kupuj kota w worku. Raport historii + Analiza eksperta.</h2>
+                <p className="text-lg text-gray-300 mb-6">Suche dane to za mało. Za 150 PLN otrzymujesz pełny raport historii pojazdu (wypadki, kradzieże, przebieg) oraz autorską analizę ogłoszenia przez naszego rzeczoznawcę samochodowego. Wyłapiemy handlarskie sztuczki, ukryte wady na zdjęciach i powiemy Ci, czy to auto w ogóle warto jechać oglądać.</p>
+
+                <ul className="space-y-3 mb-6">
+                  <li className="flex items-start gap-3">
+                    <span className="mt-1"><CheckCircle className="w-5 h-5 text-[#FFD200]" /></span>
+                    <span className="text-gray-200">Pełny raport z bazy (CarVertical).</span>
+                  </li>
+                  <li className="flex items-start gap-3">
+                    <span className="mt-1"><CheckCircle className="w-5 h-5 text-[#FFD200]" /></span>
+                    <span className="text-gray-200">Weryfikacja zdjęć i opisu przez eksperta (Adama).</span>
+                  </li>
+                  <li className="flex items-start gap-3">
+                    <span className="mt-1"><CheckCircle className="w-5 h-5 text-[#FFD200]" /></span>
+                    <span className="text-gray-200">Ocena ryzyka i szacunek realnych kosztów startowych.</span>
+                  </li>
+                </ul>
+
+                <div className="inline-block px-4 py-2 rounded-full bg-white/5 border border-white/10 text-white font-bold">Cena: 150 PLN (Płatność online)</div>
+              </div>
+
+              {/* Right form card */}
+              <div>
+                <div className="bg-gradient-to-br from-[#0A0A0A]/90 to-[#050505]/90 border border-white/10 rounded-2xl p-6 md:p-8 backdrop-blur-md shadow-[0_20px_60px_rgba(0,0,0,0.8)]">
+                  <h4 className="text-xl font-bold text-white mb-4">Zamów Raport VIN + Analiza Ekspercka</h4>
+                  <p className="text-sm text-gray-400 mb-6">Wprowadź numer VIN i link do ogłoszenia. Nasz ekspert przygotuje dla Ciebie pełny raport.</p>
+
+                  <form onSubmit={handleReportSubmit} className="flex flex-col gap-4">
+                    <div>
+                      <label className="text-xs text-gray-300 mb-2 block">Numer VIN</label>
+                      <input
+                        type="text"
+                        inputMode="text"
+                        maxLength={17}
+                        value={vin}
+                        onChange={handleVinChange}
+                        onBlur={handleVinBlur}
+                        placeholder="Wpisz 17-znakowy numer VIN"
+                        className={`w-full min-h-[56px] px-4 py-3 rounded-xl bg-[#0A0A0A] border-2 ${vinTouched && !vinValid ? 'border-red-500' : vinValid ? 'border-[#FFD200]' : 'border-white/10'} text-white placeholder:text-gray-500 transition-all focus:outline-none`}
+                      />
+                      {vinTouched && !vinValid && <p className="text-red-500 text-sm mt-2">Wymagane dokładnie 17 znaków</p>}
+                    </div>
+
+                    <div>
+                      <label className="text-xs text-gray-300 mb-2 block">Link do ogłoszenia</label>
+                      <input
+                        type="url"
+                        value={reportLink}
+                        onChange={handleReportLinkChange}
+                        onBlur={handleReportLinkBlur}
+                        placeholder="Wklej link do ogłoszenia (Otomoto/OLX)"
+                        className={`w-full min-h-[56px] px-4 py-3 rounded-xl bg-[#0A0A0A] border-2 ${reportLinkTouched && !reportLinkValid ? 'border-red-500' : reportLinkValid ? 'border-[#FFD200]' : 'border-white/10'} text-white placeholder:text-gray-500 transition-all focus:outline-none`}
+                      />
+                      {reportLinkTouched && !reportLinkValid && <p className="text-red-500 text-sm mt-2">Wprowadź poprawny link (http/https)</p>}
+                    </div>
+
+                    <button
+                      type="submit"
+                      disabled={!vinValid || !reportLinkValid}
+                      className={`w-full mt-2 py-4 rounded-xl font-bold text-black transition-all ${vinValid && reportLinkValid ? 'bg-[#FFD200] shadow-[0_10px_30px_rgba(255,210,0,0.12)]' : 'bg-white/5 text-white opacity-50 pointer-events-none'}`}
+                    >
+                      Zamów Raport i Analizę - 150 zł
+                    </button>
+                  </form>
                 </div>
-
-                <button
-                  type="submit"
-                  disabled={!vinValid}
-                  className={`shrink-0 px-6 py-4 rounded-xl font-bold text-black transition-all ${vinValid ? 'bg-[#00FFD5] shadow-[0_10px_30px_rgba(0,255,213,0.12)]' : 'bg-white/5 text-white opacity-50 cursor-not-allowed'}`}
-                >
-                  Sprawdź VIN
-                </button>
-              </form>
+              </div>
             </div>
           </div>
         </section>
