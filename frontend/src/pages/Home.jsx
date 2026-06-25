@@ -326,11 +326,11 @@ export const Home = () => {
                 <ul className="space-y-3 mb-6">
                   <li className="flex items-start gap-3">
                     <span className="mt-1"><CheckCircle className="w-5 h-5 text-[#FFD200]" /></span>
-                    <span className="text-gray-200">Pełny raport z bazy (CarVertical).</span>
+                    <span className="text-gray-200">Pełny raport z bazy.</span>
                   </li>
                   <li className="flex items-start gap-3">
                     <span className="mt-1"><CheckCircle className="w-5 h-5 text-[#FFD200]" /></span>
-                    <span className="text-gray-200">Weryfikacja zdjęć i opisu przez eksperta (Adama).</span>
+                    <span className="text-gray-200">Weryfikacja zdjęć i opisu przez eksperta.</span>
                   </li>
                   <li className="flex items-start gap-3">
                     <span className="mt-1"><CheckCircle className="w-5 h-5 text-[#FFD200]" /></span>
