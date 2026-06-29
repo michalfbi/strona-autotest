@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 import { Shield, CheckCircle, FileText, AlertTriangle, ArrowRight, Phone, Search, Car, BadgePercent, TrendingUp, Clock } from 'lucide-react';
 
 export const VinReport = () => {
@@ -26,7 +27,6 @@ export const VinReport = () => {
         {/* Główna sekcja */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 mb-24">
           
-          {/* Kolumna lewa: Korzyści */}
           <div>
             <h1 className="text-4xl md:text-5xl font-black mb-4 leading-tight">
               Pełna weryfikacja pojazdu <span className="text-[#FFD200]">z Autotest</span>
@@ -52,7 +52,6 @@ export const VinReport = () => {
             </div>
           </div>
 
-          {/* Kolumna prawa: Formularz */}
           <div className="bg-[#0A0A0A] p-8 md:p-10 rounded-[2rem] border border-white/10 shadow-2xl h-fit">
             <h2 className="text-2xl font-bold mb-6">Zamów analizę – 150 PLN</h2>
             <form className="space-y-5" onSubmit={(e) => e.preventDefault()}>
@@ -91,7 +90,7 @@ export const VinReport = () => {
         </div>
 
         {/* Sekcja "Dlaczego warto" */}
-        <div className="pt-16 border-t border-white/10">
+        <div className="pt-16 border-t border-white/10 mb-20">
           <h2 className="text-3xl font-bold text-center mb-12">Dlaczego to najlepsza inwestycja przed zakupem auta?</h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             <div className="bg-[#0A0A0A] p-8 rounded-2xl border border-white/5">
@@ -110,6 +109,15 @@ export const VinReport = () => {
               <p className="text-gray-400 text-sm leading-relaxed">Ile warta jest Twoja sobota? Zamiast jeździć w ciemno przez pół Polski, sprawdzasz auto z domu. Oszczędzasz czas, paliwo i unikasz rozczarowań.</p>
             </div>
           </div>
+        </div>
+
+        {/* Sekcja dodatkowego CTA */}
+        <div className="mt-16 text-center bg-[#0A0A0A] p-12 rounded-3xl border border-white/5">
+          <h2 className="text-3xl font-bold mb-6">Potrzebujesz pomocy w oględzinach auta?</h2>
+          <p className="text-gray-400 mb-8 max-w-xl mx-auto">Jeśli chcesz, aby nasz ekspert sprawdził auto osobiście na miejscu, sprawdź naszą pełną ofertę i cennik.</p>
+          <Link to="/cennik" className="inline-flex items-center gap-2 px-8 py-4 bg-white/5 border border-white/10 hover:bg-[#FFD200] hover:text-black font-bold rounded-xl transition-all">
+            Zobacz pełny cennik <ArrowRight className="w-5 h-5" />
+          </Link>
         </div>
       </div>
     </div>
