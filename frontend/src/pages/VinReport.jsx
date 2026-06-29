@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Shield, CheckCircle, FileText, AlertTriangle, ArrowRight, Phone, Search, Car, HelpCircle, BadgePercent } from 'lucide-react';
+import { Shield, CheckCircle, FileText, AlertTriangle, ArrowRight, Phone, Search, Car, BadgePercent } from 'lucide-react';
 
 export const VinReport = () => {
   const [vin, setVin] = useState('');
@@ -11,6 +11,11 @@ export const VinReport = () => {
   const [linkTouched, setLinkTouched] = useState(false);
   const [linkValid, setLinkValid] = useState(false);
   const LINK_REGEX = /^https?:\/\/.+/i;
+
+  const [phone, setPhone] = useState('');
+  const [phoneTouched, setPhoneTouched] = useState(false);
+  const [phoneValid, setPhoneValid] = useState(false);
+  const PHONE_REGEX = /^[0-9+ ]{9,}$/;
 
   const [acceptTerms, setAcceptTerms] = useState(false);
   const [acceptPrivacy, setAcceptPrivacy] = useState(false);
@@ -26,6 +31,12 @@ export const VinReport = () => {
     const value = e.target.value;
     setLink(value);
     setLinkValid(LINK_REGEX.test(value));
+  };
+
+  const handlePhoneChange = (e) => {
+    const value = e.target.value;
+    setPhone(value);
+    setPhoneValid(PHONE_REGEX.test(value));
   };
 
   return (
@@ -44,7 +55,7 @@ export const VinReport = () => {
                 { icon: FileText, title: "Szczegółowy raport VIN", desc: "Kompletna historia serwisowa, szkody komunikacyjne i weryfikacja przebiegu." },
                 { icon: Search, title: "Analiza ogłoszenia", desc: "Nasz ekspert oceni, czy oferta jest rzetelna i czy w ogóle warto tracić czas na oględziny." },
                 { icon: BadgePercent, title: "Zniżka 20% na inspekcję", desc: "Jeśli zdecydujesz się na inspekcję na miejscu, otrzymasz od nas 20% zniżki na tę usługę." },
-                { icon: Phone, title: "Doradztwo telefoniczne", desc: "Zadzwoń do nas, omówimy wszystkie wątpliwości dotyczące znalezionego auta." },
+                { icon: Phone, title: "Zadzwonimy do Ciebie", desc: "Zostaw numer – sami zadzwonimy, aby omówić wyniki raportu i odpowiedzieć na Twoje pytania." },
                 { icon: Car, title: "Pomoc w dalszych poszukiwaniach", desc: "Jeśli auto okaże się nietrafione, pomożemy Ci w znalezieniu alternatywnych ofert." }
               ].map((item, i) => (
                 <div key={i} className="flex gap-4 p-4 rounded-xl bg-white/5 border border-white/5 hover:border-[#FFD200]/30 transition-colors">
@@ -70,6 +81,10 @@ export const VinReport = () => {
                 <label className="block text-xs font-bold text-gray-500 uppercase mb-2">Link do ogłoszenia</label>
                 <input type="url" onChange={handleLinkChange} onBlur={() => setLinkTouched(true)} className="w-full bg-black border border-white/10 p-4 rounded-xl text-white focus:border-[#FFD200] outline-none" placeholder="Wklej link (np. Otomoto, OLX)" />
               </div>
+              <div>
+                <label className="block text-xs font-bold text-gray-500 uppercase mb-2">Twój numer telefonu</label>
+                <input type="tel" onChange={handlePhoneChange} onBlur={() => setPhoneTouched(true)} className="w-full bg-black border border-white/10 p-4 rounded-xl text-white focus:border-[#FFD200] outline-none" placeholder="Wpisz numer telefonu" />
+              </div>
 
               <div className="space-y-4 py-4">
                 <label className="flex items-start gap-3 cursor-pointer">
@@ -78,12 +93,12 @@ export const VinReport = () => {
                 </label>
                 <label className="flex items-start gap-3 cursor-pointer">
                   <input type="checkbox" onChange={(e) => setAcceptPrivacy(e.target.checked)} className="mt-1 w-5 h-5 accent-[#FFD200]" />
-                  <span className="text-[11px] text-gray-400 leading-tight">Akceptuję politykę prywatności. Wyrażam zgodę na przetwarzanie moich danych (VIN, e-mail) w celu realizacji indywidualnej analizy pojazdu.</span>
+                  <span className="text-[11px] text-gray-400 leading-tight">Akceptuję politykę prywatności. Wyrażam zgodę na przetwarzanie moich danych (VIN, e-mail, telefon) w celu realizacji indywidualnej analizy pojazdu.</span>
                 </label>
               </div>
 
               <button 
-                disabled={!vinValid || !linkValid || !acceptTerms || !acceptPrivacy}
+                disabled={!vinValid || !linkValid || !phoneValid || !acceptTerms || !acceptPrivacy}
                 className="w-full py-5 bg-[#FFD200] text-black font-black rounded-xl hover:bg-yellow-500 transition-colors disabled:opacity-30 disabled:cursor-not-allowed flex justify-center items-center gap-2"
               >
                 Wykup analizę ekspercką - 150 PLN <ArrowRight className="w-5 h-5" />
