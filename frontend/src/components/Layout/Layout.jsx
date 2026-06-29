@@ -1,19 +1,11 @@
 import React from 'react';
 import { Navbar } from './Navbar';
-import { Footer } from './Footer';
-import { CommandPalette } from '../ui/CommandPalette';
-import { MobileDock } from '../ui/MobileDock';
 
 export const Layout = ({ children }) => {
   return (
-    <div className="min-h-screen bg-bg">
+    <div className="bg-[#050505] text-white">
       <Navbar />
-      <main className="pt-16">
-        {children}
-      </main>
-      <Footer />
-      <CommandPalette />
-      <MobileDock />
+      <main>{children}</main>
     </div>
   );
 };
