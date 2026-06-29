@@ -15,6 +15,42 @@ export const Contact = () => {
 
   // Funkcja walidacji email
   const isValidEmail = (email) => {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(email);
+  };
+
+  // Funkcja walidacji formularza
+  const validateForm = () => {
+    const newErrors = {};
+
+    if (!formData.name.trim()) {
+      newErrors.name = 'Imię i nazwisko jest wymagane';
+    }
+
+    if (!formData.email.trim()) {
+      newErrors.email = 'Email jest wymagany';
+    } else if (!isValidEmail(formData.email)) {
+      newErrors.email = 'Podaj poprawny adres email';
+    }
+
+    if (!formData.phone.trim()) {
+      newErrors.phone = 'Telefon jest wymagany';
+    }
+
+    if (!formData.message.trim()) {
+      newErrors.message = 'Wiadomość jest wymagana';
+    }
+
+    if (!formData.consent) {
+      newErrors.consent = 'Musisz wyrazić zgodę na przetwarzanie danych';
+    }
+
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
+
+  // Funkcja obsługi wysyłki formularza
+  const handleSubmit = async (e) => {
     e.preventDefault();
     setErrorMessage('');
 
@@ -26,10 +62,6 @@ export const Contact = () => {
 
     setStatus('submitting');
 
-    // Snapshot state for logging and mapping
-    const formState = { ...formData };
-    console.log('Dane przed wysyłką:', formState);
-
     // Helper to URL-encode payload for Netlify
     const encode = (data) => Object.keys(data)
       .map(key => encodeURIComponent(key) + '=' + encodeURIComponent(data[key]))
@@ -38,52 +70,6 @@ export const Contact = () => {
     try {
       // Mapuj dokładnie na nazwy pól oczekiwane przez Netlify (atrybut name w formularzu)
       const payload = {
-        'form-name': 'contact',
-        'Imię i Nazwisko': formState.name.trim(),
-        'Email': formState.email.trim(),
-        'Telefon': formState.phone.trim(),
-        'Wiadomość': formState.message.trim(),
-        'consent': formState.consent ? 'Tak' : 'Nie',
-        '_subject': 'Nowe zgłoszenie kontaktowe - Autotest',
-        'bot-field': ''
-      };
-
-      const response = await fetch('/', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-        body: encode(payload)
-      });
-
-      if (!response.ok) {
-        const errorText = await response.text();
-        throw new Error(errorText || 'Błąd przy wysyłaniu formularza');
-      }
-
-      // Sukces — zresetuj stan
-      setFormData({ name: '', phone: '', email: '', message: '', consent: false });
-      setErrors({});
-      setStatus('success');
-
-      // Resetuj status po 5 sekundach
-      setTimeout(() => setStatus('idle'), 5000);
-    } catch (error) {
-      console.error('Form submission error:', error);
-      setStatus('error');
-      setErrorMessage(error.message || 'Błąd podczas wysyłania formularza. Spróbuj ponownie za chwilę.');
-      setTimeout(() => { setStatus('idle'); setErrorMessage(''); }, 5000);
-    }
-    }
-
-    setStatus('submitting');
-
-    // Helper to URL-encode payload for Netlify
-    const encode = (data) => Object.keys(data)
-      .map(key => encodeURIComponent(key) + '=' + encodeURIComponent(data[key]))
-      .join('&');
-
-    try {
-      // Map internal React state to exact Netlify form field names
-      const formState = {
         'form-name': 'contact',
         'Imię i Nazwisko': formData.name.trim(),
         'Email': formData.email.trim(),
@@ -94,13 +80,10 @@ export const Contact = () => {
         'bot-field': ''
       };
 
-      // Logger przed wysyłką
-      console.log('Dane przed wysyłką:', formState);
-
       const response = await fetch('/', {
         method: 'POST',
         headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-        body: encode(formState)
+        body: encode(payload)
       });
 
       if (!response.ok) {
