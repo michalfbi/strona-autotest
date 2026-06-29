@@ -5,7 +5,7 @@ import { ScrollToTop } from "./components/ScrollToTop";
 import { Layout } from "./components/Layout/Layout";
 import { Home } from "./pages/Home";
 import { VinReport } from "./pages/VinReport";
-// ... reszta importów
+// ... import reszty stron (możesz dodać pozostałe w razie potrzeby)
 
 function App() {
   return (
@@ -16,7 +16,6 @@ function App() {
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/raport-vin" element={<VinReport />} />
-            {/* reszta tras */}
           </Routes>
         </Layout>
       </BrowserRouter>
