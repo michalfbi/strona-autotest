@@ -36,6 +36,8 @@ export const Home = () => {
   const [reportLink, setReportLink] = useState('');
   const [reportLinkTouched, setReportLinkTouched] = useState(false);
   const [reportLinkValid, setReportLinkValid] = useState(false);
+  const [acceptTerms, setAcceptTerms] = useState(false);
+  const [acceptPrivacy, setAcceptPrivacy] = useState(false);
   const LINK_REGEX = /^https?:\/\/.+/i;
 
   const handleReportLinkChange = (e) => {
@@ -48,7 +50,7 @@ export const Home = () => {
 
   const handleReportSubmit = (e) => {
     e.preventDefault();
-    if (!vinValid || !reportLinkValid) return;
+    if (!vinValid || !reportLinkValid || !acceptTerms || !acceptPrivacy) return;
     console.log('Zamówienie Raportu VIN:', { vin, link: reportLink, price: 150 });
   };
 
@@ -376,10 +378,35 @@ export const Home = () => {
                       {reportLinkTouched && !reportLinkValid && <p className="text-red-500 text-sm mt-2">Wprowadź poprawny link (http/https)</p>}
                     </div>
 
+                    <div className="flex flex-col gap-3 mt-2">
+                      <label className="flex items-start gap-3 cursor-pointer group">
+                        <input
+                          type="checkbox"
+                          checked={acceptTerms}
+                          onChange={(e) => setAcceptTerms(e.target.checked)}
+                          className="mt-0.5 w-4 h-4 rounded bg-[#0A0A0A] border-white/10 text-[#FFD200] focus:ring-[#FFD200] focus:ring-offset-0 focus:ring-1 cursor-pointer transition-colors"
+                        />
+                        <span className="text-[11px] text-gray-400 leading-tight group-hover:text-gray-300 transition-colors">
+                          Rozumiem i akceptuję Regulamin. Wyrażam zgodę na natychmiastowe wykonanie usługi cyfrowej (wygenerowanie raportu) i przyjmuję do wiadomości, że z tego tytułu tracę prawo do odstąpienia od umowy w ciągu 14 dni.
+                        </span>
+                      </label>
+                      <label className="flex items-start gap-3 cursor-pointer group">
+                        <input
+                          type="checkbox"
+                          checked={acceptPrivacy}
+                          onChange={(e) => setAcceptPrivacy(e.target.checked)}
+                          className="mt-0.5 w-4 h-4 rounded bg-[#0A0A0A] border-white/10 text-[#FFD200] focus:ring-[#FFD200] focus:ring-offset-0 focus:ring-1 cursor-pointer transition-colors"
+                        />
+                        <span className="text-[11px] text-gray-400 leading-tight group-hover:text-gray-300 transition-colors">
+                          Akceptuję Politykę Prywatności (RODO). Wyrażam zgodę na przekazanie moich danych osobowych (numeru VIN, adresu email) podmiotom trzecim (operatorowi płatności oraz API carVertical) w celu poprawnej realizacji zamówienia.
+                        </span>
+                      </label>
+                    </div>
+
                     <button
                       type="submit"
-                      disabled={!vinValid || !reportLinkValid}
-                      className={`w-full mt-2 py-4 rounded-xl font-bold text-black transition-all ${vinValid && reportLinkValid ? 'bg-[#FFD200] shadow-[0_10px_30px_rgba(255,210,0,0.12)]' : 'bg-white/5 text-white opacity-50 pointer-events-none'}`}
+                      disabled={!vinValid || !reportLinkValid || !acceptTerms || !acceptPrivacy}
+                      className={`w-full mt-4 py-4 rounded-xl font-bold text-black transition-all ${vinValid && reportLinkValid && acceptTerms && acceptPrivacy ? 'bg-[#FFD200] shadow-[0_10px_30px_rgba(255,210,0,0.12)]' : 'bg-white/5 text-white opacity-50 pointer-events-none'}`}
                     >
                       Zamów Raport i Analizę - 150 zł
                     </button>
