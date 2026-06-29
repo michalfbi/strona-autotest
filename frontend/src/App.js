@@ -1,45 +1,26 @@
 import React from "react";
 import "./App.css";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { ScrollToTop } from "./components/ScrollToTop";
 import { Layout } from "./components/Layout/Layout";
 import { Home } from "./pages/Home";
-import { CarPurchaseAssistance } from "./pages/CarPurchaseAssistance";
-import { Services } from "./pages/Services";
-import { ForBusiness } from "./pages/ForBusiness";
-import { CaseStudies } from "./pages/CaseStudies";
-import { Blog } from "./pages/Blog";
-import { About } from "./pages/About";
-import { Pricing } from "./pages/Pricing";
-import { Contact } from "./pages/Contact";
-import { CarPreparation } from "./pages/CarPreparation";
 import { VinReport } from "./pages/VinReport";
-import { CallPopup } from "./components/ui/CallPopup";
-import { Preloader } from "./components/ui/Preloader";
+// ... reszta importów
 
 function App() {
   return (
     <div className="App">
-      <Preloader />
       <BrowserRouter>
+        <ScrollToTop />
         <Layout>
           <Routes>
             <Route path="/" element={<Home />} />
-            <Route path="/pomoc-w-zakupie" element={<CarPurchaseAssistance />} />
-            <Route path="/uslugi" element={<Services />} />
-            <Route path="/dla-firm" element={<ForBusiness />} />
-            <Route path="/case-studies" element={<CaseStudies />} />
-            <Route path="/blog" element={<Blog />} />
-            <Route path="/o-nas" element={<About />} />
-            <Route path="/cennik" element={<Pricing />} />
-            <Route path="/kontakt" element={<Contact />} />
-            <Route path="/przygotowanie-do-sprzedazy" element={<CarPreparation />} />
             <Route path="/raport-vin" element={<VinReport />} />
+            {/* reszta tras */}
           </Routes>
         </Layout>
-        <CallPopup />
       </BrowserRouter>
     </div>
   );
 }
-
 export default App;
