@@ -12,6 +12,7 @@ import { About } from "./pages/About";
 import { Pricing } from "./pages/Pricing";
 import { Contact } from "./pages/Contact";
 import { CarPreparation } from "./pages/CarPreparation";
+import { VinReport } from "./pages/VinReport";
 import { CallPopup } from "./components/ui/CallPopup";
 import { Preloader } from "./components/ui/Preloader";
 
@@ -32,6 +33,7 @@ function App() {
             <Route path="/cennik" element={<Pricing />} />
             <Route path="/kontakt" element={<Contact />} />
             <Route path="/przygotowanie-do-sprzedazy" element={<CarPreparation />} />
+            <Route path="/raport-vin" element={<VinReport />} />
           </Routes>
         </Layout>
         <CallPopup />

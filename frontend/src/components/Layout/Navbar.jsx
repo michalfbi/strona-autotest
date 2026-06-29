@@ -8,7 +8,6 @@ export const Navbar = () => {
   const location = useLocation();
   const navigate = useNavigate();
 
-  // Detekcja scrolla dla zmiany stylu nawigacji
   useEffect(() => {
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 20);
@@ -17,12 +16,12 @@ export const Navbar = () => {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  // Zamknij menu mobilne przy zmianie podstrony
   useEffect(() => {
     setIsOpen(false);
   }, [location.pathname]);
 
   const mainNavigation = [
+    { name: 'Raport VIN', href: '/raport-vin' },
     { name: 'Usługi', href: '/uslugi' },
     { name: 'Cennik', href: '/cennik' },
     { name: 'Kontakt', href: '/kontakt' }
@@ -47,7 +46,6 @@ export const Navbar = () => {
       <div className="container max-w-[1500px] mx-auto px-4 sm:px-6">
         <div className="flex justify-between items-center">
           
-          {/* LOGO */}
           <Link 
             to="/" 
             className="group flex items-center gap-3 relative z-10"
@@ -65,7 +63,6 @@ export const Navbar = () => {
             </span>
           </Link>
 
-          {/* DESKTOP NAV */}
           <div className="hidden lg:flex items-center gap-8">
             <nav className="flex items-center gap-8">
               {mainNavigation.map((item) => {
@@ -79,7 +76,6 @@ export const Navbar = () => {
                     }`}
                   >
                     {item.name}
-                    {/* Animated Underline */}
                     <span className={`absolute bottom-0 left-1/2 -translate-x-1/2 h-[2px] bg-[#FFD200] transition-all duration-300 ${
                       isActive ? 'w-full' : 'w-0 hover:w-full'
                     }`}></span>
@@ -87,7 +83,6 @@ export const Navbar = () => {
                 );
               })}
               
-              {/* DROPDOWN (Firma) */}
               <div className="relative group">
                 <button className={`flex items-center gap-1 text-sm font-semibold tracking-wide py-2 transition-colors duration-300 ${
                   companyItems.some(item => location.pathname === item.href) ? 'text-[#FFD200]' : 'text-gray-300 group-hover:text-white'
@@ -95,16 +90,13 @@ export const Navbar = () => {
                   Firma
                   <ChevronDown className="w-4 h-4 transform group-hover:rotate-180 transition-transform duration-300" />
                   
-                  {/* Animated Underline for Dropdown Trigger */}
                   <span className={`absolute bottom-0 left-1/2 -translate-x-1/2 h-[2px] bg-[#FFD200] transition-all duration-300 ${
                     companyItems.some(item => location.pathname === item.href) ? 'w-full' : 'w-0 group-hover:w-full'
                   }`}></span>
                 </button>
 
-                {/* Dropdown Panel */}
                 <div className="absolute top-full left-1/2 -translate-x-1/2 pt-4 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 translate-y-2 group-hover:translate-y-0">
                   <div className="w-[320px] bg-[#0C0D10]/95 backdrop-blur-xl border border-white/10 rounded-2xl p-2 shadow-[0_20px_40px_rgba(0,0,0,0.7)] relative overflow-hidden">
-                    {/* Subtle glow inside dropdown */}
                     <div className="absolute top-0 right-0 w-32 h-32 bg-[#FFD200]/5 rounded-full blur-3xl"></div>
                     
                     {companyItems.map((item) => (
@@ -133,7 +125,6 @@ export const Navbar = () => {
 
             <div className="w-px h-6 bg-white/10"></div>
 
-            {/* CTA SEKCJA (Prawa strona) */}
             <div className="flex items-center gap-6">
               <a 
                 href="tel:+48690976790" 
@@ -157,7 +148,6 @@ export const Navbar = () => {
             </div>
           </div>
 
-          {/* MOBILE MENU TOGGLE */}
           <button
             onClick={() => setIsOpen(!isOpen)}
             className="lg:hidden relative z-50 p-2 rounded-lg bg-white/5 border border-white/10 text-gray-300 hover:text-white hover:bg-white/10 transition-colors"
@@ -167,7 +157,6 @@ export const Navbar = () => {
         </div>
       </div>
 
-      {/* MOBILE NAV OVERLAY */}
       <div className={`fixed inset-0 bg-[#050505]/95 backdrop-blur-2xl z-40 transition-all duration-500 lg:hidden ${
         isOpen ? 'opacity-100 visible' : 'opacity-0 invisible pointer-events-none'
       }`}>

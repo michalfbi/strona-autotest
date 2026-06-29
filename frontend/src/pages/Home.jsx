@@ -1,5 +1,3 @@
-
-    // Bezpieczny, uniwersalny skrypt wysyłki bez zależności zewnętrznych
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { ArrowRight, CheckCircle, Zap, Shield, Search, FileText, Gauge, FileCheck, MapPin, Star, AlertTriangle, Link2, Phone, Activity, Fingerprint, Car, Cpu } from "lucide-react";
@@ -10,76 +8,34 @@ export const Home = () => {
 
   const [leadUrl, setLeadUrl] = useState('');
   const [leadPhone, setLeadPhone] = useState('');
-  const [leadStatus, setLeadStatus] = useState('idle'); // 'idle' | 'submitting' | 'success' | 'error'
-
-  // VIN check state and validation
-  const [vin, setVin] = useState('');
-  const [vinTouched, setVinTouched] = useState(false);
-  const [vinValid, setVinValid] = useState(false);
-  const VIN_REGEX = /^[A-HJ-NPR-Z0-9]{17}$/i;
-
-  const handleVinChange = (e) => {
-    const value = e.target.value.toUpperCase();
-    setVin(value);
-    setVinValid(VIN_REGEX.test(value));
-  };
-
-  const handleVinBlur = () => setVinTouched(true);
-
-  const handleVinSubmit = (e) => {
-    e.preventDefault();
-    if (!vinValid) return;
-    console.log("Zapytanie dla VIN:", vin);
-  };
-
-  // Report order form states (separate from other lead form)
-  const [reportLink, setReportLink] = useState('');
-  const [reportLinkTouched, setReportLinkTouched] = useState(false);
-  const [reportLinkValid, setReportLinkValid] = useState(false);
-  const [acceptTerms, setAcceptTerms] = useState(false);
-  const [acceptPrivacy, setAcceptPrivacy] = useState(false);
-  const LINK_REGEX = /^https?:\/\/.+/i;
-
-  const handleReportLinkChange = (e) => {
-    const v = e.target.value.trim();
-    setReportLink(v);
-    setReportLinkValid(LINK_REGEX.test(v));
-  };
-
-  const handleReportLinkBlur = () => setReportLinkTouched(true);
-
-  const handleReportSubmit = (e) => {
-    e.preventDefault();
-    if (!vinValid || !reportLinkValid || !acceptTerms || !acceptPrivacy) return;
-    console.log('Zamówienie Raportu VIN:', { vin, link: reportLink, price: 150 });
-  };
+  const [leadStatus, setLeadStatus] = useState('idle');
 
   const handleHeroFormSubmit = async (e) => {
-  e.preventDefault();
-  if (!leadUrl || !leadPhone) return;
-  setLeadStatus('submitting');
+    e.preventDefault();
+    if (!leadUrl || !leadPhone) return;
+    setLeadStatus('submitting');
 
-  try {
-    const response = await fetch('/api/form-submit', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        link: leadUrl.trim(),
-        phone: leadPhone.trim()
-      })
-    });
-    
-    if (response.ok) {
-      setLeadStatus('success');
-      setLeadUrl('');
-      setLeadPhone('');
-    } else {
+    try {
+      const response = await fetch('/api/form-submit', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          link: leadUrl.trim(),
+          phone: leadPhone.trim()
+        })
+      });
+      
+      if (response.ok) {
+        setLeadStatus('success');
+        setLeadUrl('');
+        setLeadPhone('');
+      } else {
+        setLeadStatus('error');
+      }
+    } catch (error) {
       setLeadStatus('error');
     }
-  } catch (error) {
-    setLeadStatus('error');
-  }
-};
+  };
 
   const PremiumAuditDashboard = () => {
     const cars = [
@@ -310,7 +266,6 @@ export const Home = () => {
           </div>
         </section>
 
-        {/* Raport VIN + Analiza Ekspercka - landing card replacing simple VIN form */}
         <section className="py-20 relative overflow-hidden bg-zinc-950 border-b border-white/10">
           <div className="absolute inset-0 pointer-events-none">
             <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(255,210,0,0.02),transparent)]"></div>
@@ -319,8 +274,7 @@ export const Home = () => {
           </div>
 
           <div className="container max-w-6xl mx-auto px-4 sm:px-6 relative z-10">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-start">
-              {/* Left copy */}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
               <div className="text-left">
                 <h2 className="text-3xl md:text-4xl font-extrabold text-white mb-4">Nie kupuj kota w worku. Raport historii + Analiza eksperta.</h2>
                 <p className="text-lg text-gray-300 mb-6">Suche dane to za mało. Za 150 PLN otrzymujesz pełny raport historii pojazdu (wypadki, kradzieże, przebieg) oraz autorską analizę ogłoszenia przez naszego rzeczoznawcę samochodowego. Wyłapiemy handlarskie sztuczki, ukryte wady na zdjęciach i powiemy Ci, czy to auto w ogóle warto jechać oglądać.</p>
@@ -339,78 +293,20 @@ export const Home = () => {
                     <span className="text-gray-200">Ocena ryzyka i szacunek realnych kosztów startowych.</span>
                   </li>
                 </ul>
-
-                <div className="inline-block px-4 py-2 rounded-full bg-white/5 border border-white/10 text-white font-bold">Cena: 150 PLN (Płatność online)</div>
               </div>
 
-              {/* Right form card */}
               <div>
-                <div className="bg-gradient-to-br from-[#0A0A0A]/90 to-[#050505]/90 border border-white/10 rounded-2xl p-6 md:p-8 backdrop-blur-md shadow-[0_20px_60px_rgba(0,0,0,0.8)]">
-                  <h4 className="text-xl font-bold text-white mb-4">Zamów Raport VIN + Analiza Ekspercka</h4>
-                  <p className="text-sm text-gray-400 mb-6">Wprowadź numer VIN i link do ogłoszenia. Nasz ekspert przygotuje dla Ciebie pełny raport.</p>
-
-                  <form onSubmit={handleReportSubmit} className="flex flex-col gap-4">
-                    <div>
-                      <label className="text-xs text-gray-300 mb-2 block">Numer VIN</label>
-                      <input
-                        type="text"
-                        inputMode="text"
-                        maxLength={17}
-                        value={vin}
-                        onChange={handleVinChange}
-                        onBlur={handleVinBlur}
-                        placeholder="Wpisz 17-znakowy numer VIN"
-                        className={`w-full min-h-[56px] px-4 py-3 rounded-xl bg-[#0A0A0A] border-2 ${vinTouched && !vinValid ? 'border-red-500' : vinValid ? 'border-[#FFD200]' : 'border-white/10'} text-white placeholder:text-gray-500 transition-all focus:outline-none`}
-                      />
-                      {vinTouched && !vinValid && <p className="text-red-500 text-sm mt-2">Wymagane dokładnie 17 znaków</p>}
-                    </div>
-
-                    <div>
-                      <label className="text-xs text-gray-300 mb-2 block">Link do ogłoszenia</label>
-                      <input
-                        type="url"
-                        value={reportLink}
-                        onChange={handleReportLinkChange}
-                        onBlur={handleReportLinkBlur}
-                        placeholder="Wklej link do ogłoszenia (Otomoto/OLX)"
-                        className={`w-full min-h-[56px] px-4 py-3 rounded-xl bg-[#0A0A0A] border-2 ${reportLinkTouched && !reportLinkValid ? 'border-red-500' : reportLinkValid ? 'border-[#FFD200]' : 'border-white/10'} text-white placeholder:text-gray-500 transition-all focus:outline-none`}
-                      />
-                      {reportLinkTouched && !reportLinkValid && <p className="text-red-500 text-sm mt-2">Wprowadź poprawny link (http/https)</p>}
-                    </div>
-
-                    <div className="flex flex-col gap-3 mt-2">
-                      <label className="flex items-start gap-3 cursor-pointer group">
-                        <input
-                          type="checkbox"
-                          checked={acceptTerms}
-                          onChange={(e) => setAcceptTerms(e.target.checked)}
-                          className="mt-0.5 w-4 h-4 rounded bg-[#0A0A0A] border-white/10 text-[#FFD200] focus:ring-[#FFD200] focus:ring-offset-0 focus:ring-1 cursor-pointer transition-colors"
-                        />
-                        <span className="text-[11px] text-gray-400 leading-tight group-hover:text-gray-300 transition-colors">
-                          Rozumiem i akceptuję Regulamin. Wyrażam zgodę na natychmiastowe wykonanie usługi cyfrowej (wygenerowanie raportu) i przyjmuję do wiadomości, że z tego tytułu tracę prawo do odstąpienia od umowy w ciągu 14 dni.
-                        </span>
-                      </label>
-                      <label className="flex items-start gap-3 cursor-pointer group">
-                        <input
-                          type="checkbox"
-                          checked={acceptPrivacy}
-                          onChange={(e) => setAcceptPrivacy(e.target.checked)}
-                          className="mt-0.5 w-4 h-4 rounded bg-[#0A0A0A] border-white/10 text-[#FFD200] focus:ring-[#FFD200] focus:ring-offset-0 focus:ring-1 cursor-pointer transition-colors"
-                        />
-                        <span className="text-[11px] text-gray-400 leading-tight group-hover:text-gray-300 transition-colors">
-                          Akceptuję Politykę Prywatności (RODO). Wyrażam zgodę na przekazanie moich danych osobowych (numeru VIN, adresu email) podmiotom trzecim (operatorowi płatności oraz API carVertical) w celu poprawnej realizacji zamówienia.
-                        </span>
-                      </label>
-                    </div>
-
-                    <button
-                      type="submit"
-                      disabled={!vinValid || !reportLinkValid || !acceptTerms || !acceptPrivacy}
-                      className={`w-full mt-4 py-4 rounded-xl font-bold text-black transition-all ${vinValid && reportLinkValid && acceptTerms && acceptPrivacy ? 'bg-[#FFD200] shadow-[0_10px_30px_rgba(255,210,0,0.12)]' : 'bg-white/5 text-white opacity-50 pointer-events-none'}`}
-                    >
-                      Zamów Raport i Analizę - 150 zł
-                    </button>
-                  </form>
+                <div className="bg-gradient-to-br from-[#0A0A0A]/90 to-[#050505]/90 border border-white/10 rounded-2xl p-6 md:p-10 backdrop-blur-md shadow-[0_20px_60px_rgba(0,0,0,0.8)] text-center flex flex-col justify-center h-full">
+                  <Shield className="w-16 h-16 text-[#FFD200] mx-auto mb-6" />
+                  <h4 className="text-2xl font-bold text-white mb-4">Zamów Raport VIN + Analiza</h4>
+                  <p className="text-sm text-gray-400 mb-8">Zabezpiecz się przed kupnem auta z ukrytymi wadami prawnymi lub powypadkową historią.</p>
+                  
+                  <button
+                    onClick={() => navigate('/raport-vin')}
+                    className="w-full py-4 rounded-xl font-bold text-black transition-all bg-[#FFD200] shadow-[0_10px_30px_rgba(255,210,0,0.12)] hover:shadow-[0_15px_40px_rgba(255,210,0,0.2)] hover:-translate-y-1 flex items-center justify-center gap-2 text-lg"
+                  >
+                    Wykup Raport VIN i Analizę - 150 zł <ArrowRight className="w-5 h-5" />
+                  </button>
                 </div>
               </div>
             </div>
@@ -543,7 +439,6 @@ export const Home = () => {
           </div>
         </section>
       </div>
-      
     </div>
   );
 };
